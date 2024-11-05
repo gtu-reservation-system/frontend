@@ -1,0 +1,57 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState(''); 
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email) {
+      setError('Lütfen e-posta adresinizi girin.');
+      return;
+    }
+
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/forgot-password', {
+        email
+      });
+
+      if (response.status === 200) {
+        setMessage('E-posta gönderildi!');
+      }
+    } catch (error) {
+      console.error("Password reset request failed:", error);
+      setError('Şifre sıfırlama talebi sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+    }
+  };
+
+  return (
+    <div className="forgot-password">
+      <h2>Şifremi Unuttum</h2>
+      <form onSubmit={handleSubmit}>
+        {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
+
+        <div className="input-group">
+          <label htmlFor="email">E-posta adresiniz</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <button type="submit">Şifre sıfırlama talebi</button>
+      </form>
+    </div>
+  );
+};
+
+export default ForgotPassword;
+
