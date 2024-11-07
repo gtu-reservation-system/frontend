@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const OwnerProfile = ({ ownerData, onUpdate }) => {
@@ -11,12 +12,6 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
   const [maxCapacity, setMaxCapacity] = useState(ownerData.maxCapacity);
   const [operatingHours, setOperatingHours] = useState(ownerData.operatingHours);
   const [websiteLink, setWebsiteLink] = useState(ownerData.websiteLink || '');
-
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordMessage, setPasswordMessage] = useState('');
 
   useEffect(() => {
     const fetchOwnerData = async () => {
@@ -33,6 +28,7 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
         setOperatingHours(data.operatingHours);
         setWebsiteLink(data.websiteLink || '');
         setPhotos(data.photos || []);
+        const navigate = useNavigate();
       } catch (error) {
         console.error("Profil bilgileri alınırken bir hata oluştu:", error);
         alert('Profil bilgileri yüklenemedi.');
@@ -90,38 +86,8 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
       alert('Profil güncellenirken bir hata oluştu.');
     }
   };
-
-  const handlePasswordChange = async (e) => {
-    e.preventDefault();
-
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setPasswordError('Lütfen tüm alanları doldurun.');
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      setPasswordError('Yeni şifreler eşleşmiyor.');
-      return;
-    }
-
-    setPasswordError('');
-
-    try {
-      const response = await axios.put('http://localhost:8080/api/owners/change-password', {
-        currentPassword,
-        newPassword
-      });
-
-      if (response.status === 200) {
-        setPasswordMessage('Şifreniz başarıyla değiştirildi.');
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-      }
-    } catch (error) {
-      console.error("Şifre değişikliği sırasında hata:", error);
-      setPasswordError('Şifre değiştirilemedi. Lütfen mevcut şifrenizi kontrol edin.');
-    }
+  const handlePasswordChangeRedirect = () => {
+    navigate('/change-password');
   };
 
   return (
@@ -192,7 +158,7 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
             onChange={(e) => setWebsiteLink(e.target.value)} 
           />
         </div>
-        <button type="submit">Güncelle</button>
+        <button type="submit">Bilgileri güncelle</button>
       </form>
 
       <h3>Yüklenen fotoğraflar:</h3>
@@ -218,39 +184,11 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
 
       <h3>Fotoğraf yükle:</h3>
       <input type="file" multiple accept="image/*" onChange={handlePhotoChange} />
-
-      <h3>Şifre Değiştir</h3>
-      {passwordError && <p className="error-message">{passwordError}</p>}
-      {passwordMessage && <p className="success-message">{passwordMessage}</p>}
-      <form onSubmit={handlePasswordChange}>
-        <div>
-          <label>Mevcut Şifre:</label>
-          <input 
-            type="password" 
-            value={currentPassword} 
-            onChange={(e) => setCurrentPassword(e.target.value)} 
-          />
-        </div>
-        <div>
-          <label>Yeni Şifre:</label>
-          <input 
-            type="password" 
-            value={newPassword} 
-            onChange={(e) => setNewPassword(e.target.value)} 
-          />
-        </div>
-        <div>
-          <label>Yeni Şifreyi Onayla:</label>
-          <input 
-            type="password" 
-            value={confirmPassword} 
-            onChange={(e) => setConfirmPassword(e.target.value)} 
-          />
-        </div>
-        <button type="submit">Şifreyi Değiştir</button>
-      </form>
+      
+      <button onClick={handlePasswordChangeRedirect}>Şifre Değiştir</button>
     </div>
   );
 };
 
 export default OwnerProfile;
+
