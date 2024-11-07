@@ -6,11 +6,21 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email) {
       setError('Lütfen e-posta adresinizi girin.');
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      setError('Geçerli bir e-posta adresi girin.');
       return;
     }
 
@@ -54,4 +64,5 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
 
