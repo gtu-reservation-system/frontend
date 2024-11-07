@@ -11,6 +11,7 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:8080/api/users/login', formData);
 
       if (response.status === 200) {
+        
         navigate('/');
       }
     } catch (error) {

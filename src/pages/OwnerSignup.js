@@ -25,7 +25,7 @@ const OwnerSignup = () => {
       });
       formDataToSend.append('logo', formData.logo);
 
-      const response = await axios.post('http://localhost:8080/api/owners/signup', formDataToSend, {
+      const response = await axios.post('http://localhost:8080/api/restaurants', formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

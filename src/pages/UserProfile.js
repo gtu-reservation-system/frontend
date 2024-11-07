@@ -8,17 +8,19 @@ const UserProfile = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [userId, setUserId] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/users/profile');
+        const response = await axios.get(`http://localhost:8080/api/users/${userId}`); 
         const data = response.data;
 
         setFullName(data.fullName);
         setPhoneNumber(data.phoneNumber);
         setEmail(data.email);
+        setUserId(data.id);
       } catch (error) {
         console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
         setError('Kullanıcı verileri yüklenemedi.');
@@ -39,7 +41,7 @@ const UserProfile = () => {
     setError('');
 
     try {
-      const response = await axios.put('http://localhost:8080/api/users/profile', {
+      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, { 
         fullName,
         phoneNumber,
         email
