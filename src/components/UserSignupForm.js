@@ -34,6 +34,11 @@ const UserSignupForm = ({ onSubmit }) => {
       return;
     }
 
+    if (fullName.length > 30) {
+      alert("İsim 30 karakterden uzun olamaz.");
+      return;
+    }
+
     if (!isPhoneNumberValid(phoneNumber)) {
       setError('Geçerli bir telefon numarası girin (5-15 rakam).');
       return;

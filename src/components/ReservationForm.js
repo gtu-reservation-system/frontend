@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuests, terms }) => {
-  const [name, setName] = useState('');
+  const [fullName, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [guests, setGuests] = useState(1);
@@ -16,23 +16,38 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    if (!fullName || !date || !time || !guests) {
+      alert("Lütfen tüm alanları doldurun.");
+      return;
+    }
+  
+    if (guests > maxGuests) {
+      alert(`${maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.`);
+      return;
+    }
+  
+    if (hasAllergies && !allergens) {
+      alert("Lütfen alerji bilginizi girin.");
+      return;
+    }
+  
     if (!agreed) {
       alert("Lütfen şartları kabul edin.");
       return;
     }
-
+  
     try {
       const authResponse = await axios.get('/api/auth/check');
       const isAuthenticated = authResponse.data.isAuthenticated;
-
+  
       if (!isAuthenticated) {
         navigate('/login', { state: { from: `/reservation/${restaurantId}` } });
         return;
       }
-
+  
       const reservationData = {
-        name,
+        fullName,
         date,
         time,
         guests,
@@ -40,9 +55,9 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
         allergens: hasAllergies ? allergens : 'Yok',
         tag: selectedTag,
       };
-
+  
       onReserve(reservationData);
-
+  
       setName('');
       setDate('');
       setTime('');
@@ -56,13 +71,14 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
       alert("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Rezervasyon Yap</h2>
       <div>
         <label>İsim-Soyisim:</label>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="text" value={fullName} onChange={(e) => setName(e.target.value)} required />
       </div>
       <div>
         <label>Tarih:</label>
@@ -128,4 +144,3 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
 };
 
 export default ReservationForm;
-

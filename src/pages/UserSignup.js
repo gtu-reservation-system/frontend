@@ -8,7 +8,7 @@ const UserSignup = () => {
 
   const handleUserSignup = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/users/signup', formData);
+      const response = await axios.post('http://localhost:8080/api/users', formData);
 
       if (response.status === 201) { 
         navigate('/');

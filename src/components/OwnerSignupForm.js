@@ -45,6 +45,11 @@ const OwnerSignupForm = ({ onSubmit }) => {
        setError('Lütfen tüm zorunlu alanları doldurun');
        return;
     }
+
+    if (restaurantName.length > 30) {
+      alert("İsim 30 karakterden uzun olamaz.");
+      return;
+    }
  
     const phoneRegex = /^[0-9]{5,10}$/;
     if (!phoneRegex.test(phoneNumber)) {

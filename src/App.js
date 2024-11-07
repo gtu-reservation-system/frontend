@@ -14,8 +14,9 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import OwnerSignup from './pages/OwnerSignup';  
 import UserSignup from './pages/UserSignup';
-import UserProfile from './pages/UserProfile'; 
+import UserProfile from './pages/UserProfile';
 import OwnerProfile from './pages/OwnerProfile';
+import ChangePassword from './pages/ChangePassword';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +47,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<><Navbar /><Home /></>} />
+        <Route path="/" element={<><Navbar /><Restaurants /></>} />
         <Route path="/home" element={<><Navbar /><Home /></>} />
         <Route path="/restaurants" element={<><Navbar2 /><Restaurants /></>} />
         <Route path="/restaurants/:id" element={<><Navbar4 /><Restaurant /></>} /> 
@@ -56,6 +57,7 @@ const App = () => {
         <Route path="/signup/user" element={<><Navbar6 /><UserSignup /></>} />
         <Route path="/userProfile" element={<><Navbar7 /><UserProfile userData={userData} /></>} />
         <Route path="/ownerProfile" element={<><Navbar7 /><OwnerProfile ownerData={ownerData} /></>} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </Router>
   );

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const UserProfile = () => {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -54,30 +54,8 @@ const UserProfile = () => {
     }
   };
 
-  const handlePasswordChange = async (e) => {
-    e.preventDefault();
-
-    if (!newPassword || newPassword !== confirmPassword) {
-      setError('Şifreler eşleşmiyor veya boş.');
-      return;
-    }
-
-    setError('');
-
-    try {
-      const response = await axios.put('http://localhost:8080/api/users/change-password', {
-        newPassword
-      });
-
-      if (response.status === 200) {
-        setMessage('Şifreniz başarıyla değiştirildi. Bilgilendirme e-postası gönderildi.');
-        setNewPassword('');
-        setConfirmPassword('');
-      }
-    } catch (error) {
-      console.error("Şifre değişikliği sırasında hata:", error);
-      setError('Şifre değiştirilemedi. Lütfen mevcut şifrenizi kontrol edin.');
-    }
+  const handlePasswordChangeRedirect = () => {
+    navigate('/change-password');
   };
 
   return (
@@ -120,32 +98,10 @@ const UserProfile = () => {
         <button type="submit">Bilgileri Güncelle</button>
       </form>
 
-      <h3>Şifre Değiştir</h3>
-      <form onSubmit={handlePasswordChange}>
-        <div className="input-group">
-          <label htmlFor="newPassword">Yeni Şifre</label>
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="confirmPassword">Yeni Şifreyi Onayla</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Şifreyi Değiştir</button>
-      </form>
+      <button onClick={handlePasswordChangeRedirect}>Şifre Değiştir</button>
     </div>
   );
 };
 
 export default UserProfile;
+

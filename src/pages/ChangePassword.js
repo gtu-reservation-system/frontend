@@ -12,7 +12,7 @@ const ChangePassword = () => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumber = /\d/.test(password);
-    const isLongEnough = password.length >= 8;
+    const isLongEnough = password.length >= 8 || password.length <= 12;
     return hasUpperCase && hasLowerCase && hasNumber && isLongEnough;
   };
 
