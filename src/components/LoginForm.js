@@ -5,16 +5,35 @@ const LoginForm = ({ onSubmit }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const validateForm = () => {
     if (!emailOrPhone || !password) {
       setError('Lütfen tüm alanları doldurun.');
-      return;
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{5,10}$/;
+    
+    if (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone)) {
+      setError('Geçerli bir e-posta veya telefon numarası girin.');
+      return false;
+    }
+
+    if (password.length < 6 || password.length > 12) {
+      setError('Şifre 6 ile 12 karakter arasında olmalıdır.');
+      return false;
     }
 
     setError(''); 
-    onSubmit({ emailOrPhone, password }); 
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      onSubmit({ emailOrPhone, password });
+    }
   };
 
   return (
