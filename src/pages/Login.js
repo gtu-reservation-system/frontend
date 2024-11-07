@@ -8,7 +8,7 @@ const LoginPage = () => {
 
   const handleLogin = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/login', formData);
+      const response = await axios.post('http://localhost:8080/api/users/login', formData);
 
       if (response.status === 200) {
         navigate('/');

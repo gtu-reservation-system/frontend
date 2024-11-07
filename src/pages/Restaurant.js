@@ -13,7 +13,7 @@ const Restaurant = () => {
     const fetchRestaurantData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/restaurants/${id}`);
+        const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
         setRestaurant(response.data);
       } catch (err) {
         setError(err.response ? err.response.data.message : 'Restoran verileri alınamadı.');
