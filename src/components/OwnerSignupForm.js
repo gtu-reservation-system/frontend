@@ -18,10 +18,11 @@ const OwnerSignupForm = ({ onSubmit }) => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumber = /\d/.test(password);
-    const isLongEnough = password.length >= 8;
-    
-    return hasUpperCase && hasLowerCase && hasNumber && isLongEnough;
+    const isCorrectLength = password.length >= 8 && password.length <= 12;
+  
+    return hasUpperCase && hasLowerCase && hasNumber && isCorrectLength;
   };
+  
 
   const handlePhotosChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -39,28 +40,58 @@ const OwnerSignupForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+ 
     if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !numberOfTables || !maxCapacity || !operatingHours) {
-      setError('Lütfen tüm zorunlu alanları doldurun');
-      return;
+       setError('Lütfen tüm zorunlu alanları doldurun');
+       return;
     }
-
+ 
+    const phoneRegex = /^[0-9]{5,10}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+       setError('Geçerli bir telefon numarası girin.');
+       return;
+    }
+ 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+       setError('Geçerli bir e-posta adresi girin.');
+       return;
+    }
+ 
     if (!isPasswordStrong(password)) {
-      setError('Şifre zayıf. En az 8 karakter, bir büyük harf, bir küçük harf ve bir sayı içermelidir.');
-      setPassword(''); 
-      return;
+       setError('Şifre 8 ile 12 karakter arasında olmalıdır. Bir büyük harf, bir küçük harf ve bir sayı içermelidir.');
+       setPassword(''); 
+       return;
     }
-
+ 
+    const hoursRegex = /^\s*\d{1,2}\.\d{2}\s*-\s*\d{1,2}\.\d{2}\s*$/;
+    if (!hoursRegex.test(operatingHours)) {
+       setError('Geçerli bir çalışma saatleri formatı girin (ör. 09.00 - 22.00).');
+       return;
+    }
+ 
+    if (parseInt(numberOfTables) <= 0 || parseInt(maxCapacity) <= 0) {
+       setError('Masa sayısı ve maksimum kapasite pozitif bir sayı olmalıdır.');
+       return;
+    }
+ 
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    if (websiteLink && !urlRegex.test(websiteLink)) {
+       setError('Geçerli bir website linki girin.');
+       return;
+    }
+ 
     setError('');
     onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, numberOfTables, maxCapacity, operatingHours, websiteLink });
-  };
+ };
+ 
 
   return (
     <form onSubmit={handleSubmit} className="signup-form">
       {error && <p className="error-message">{error}</p>}
 
       <div className="input-group">
-        <label htmlFor="restaurantName">Restoran adı</label>
+        <label htmlFor="restaurantName">Restoran adı <span style={{ color: 'red' }}>*</span></label>
         <input
           type="text"
           id="restaurantName"
@@ -70,7 +101,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="address">Restoran adresi</label>
+        <label htmlFor="address">Restoran adresi <span style={{ color: 'red' }}>*</span></label>
         <input
           type="text"
           id="address"
@@ -80,7 +111,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="phoneNumber">Telefon numarası</label>
+        <label htmlFor="phoneNumber">Telefon numarası <span style={{ color: 'red' }}>*</span></label>
         <input
           type="tel"
           id="phoneNumber"
@@ -90,7 +121,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="email">E-posta</label>
+        <label htmlFor="email">E-posta <span style={{ color: 'red' }}>*</span></label>
         <input
           type="email"
           id="email"
@@ -100,7 +131,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="password">Şifre</label>
+        <label htmlFor="password">Şifre <span style={{ color: 'red' }}>*</span></label>
         <input
           type="password"
           id="password"
@@ -108,29 +139,30 @@ const OwnerSignupForm = ({ onSubmit }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-
       <div className="input-group">
-        <label htmlFor="numberOfTables">Masa sayısı</label>
+        <label htmlFor="numberOfTables">Masa sayısı <span style={{ color: 'red' }}>*</span></label>
         <input
           type="number"
           id="numberOfTables"
           value={numberOfTables}
+          min="1"
           onChange={(e) => setNumberOfTables(e.target.value)}
         />
       </div>
 
       <div className="input-group">
-        <label htmlFor="maxCapacity">Maksimum kapasite</label>
+        <label htmlFor="maxCapacity">Maksimum kapasite <span style={{ color: 'red' }}>*</span></label>
         <input
           type="number"
           id="maxCapacity"
           value={maxCapacity}
+          min="1"
           onChange={(e) => setMaxCapacity(e.target.value)}
         />
       </div>
 
       <div className="input-group">
-        <label htmlFor="operatingHours">Çalışma saatleri</label>
+        <label htmlFor="operatingHours">Çalışma saatleri <span style={{ color: 'red' }}>*</span></label>
         <input
           type="text"
           id="operatingHours"
@@ -141,7 +173,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="photos">Restoran fotoğrafları (en az 3 adet)</label>
+        <label htmlFor="photos">Restoran fotoğrafları (en az 3 adet) <span style={{ color: 'red' }}>*</span></label>
         <input
           type="file"
           id="photos"
@@ -152,7 +184,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="logo">Restoran logosu</label>
+        <label htmlFor="logo">Restoran logosu <span style={{ color: 'red' }}>*</span></label>
         <input
           type="file"
           id="logo"
@@ -162,7 +194,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="websiteLink">Website linki (opsiyonel)</label>
+        <label htmlFor="websiteLink">Website linki</label>
         <input
           type="url"
           id="websiteLink"

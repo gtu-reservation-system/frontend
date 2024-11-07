@@ -13,14 +13,14 @@ const LoginForm = ({ onSubmit }) => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{5,10}$/;
-    
+
     if (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone)) {
       setError('Geçerli bir e-posta veya telefon numarası girin.');
       return false;
     }
 
-    if (password.length < 6 || password.length > 12) {
-      setError('Şifre 6 ile 12 karakter arasında olmalıdır.');
+    if (password.length <= 8 || password.length >= 12) {
+      setError('Şifre 8 ile 12 karakter arasında olmalıdır.');
       return false;
     }
 
