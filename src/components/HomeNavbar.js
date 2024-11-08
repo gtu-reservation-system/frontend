@@ -42,9 +42,6 @@ const HomeNavbar = ({ isLoggedIn, role }) => {
         <button onClick={handleSearch} disabled={!searchQuery.trim()} className="search-button">
           Ara
         </button>
-        <button onClick={() => navigate('/restaurants')} className="nav-button">
-          Restoranlar
-        </button>
 
         {!isLoggedIn ? (
           <div 
@@ -76,7 +73,7 @@ const HomeNavbar = ({ isLoggedIn, role }) => {
         {!isLoggedIn ? (
           <button onClick={() => navigate('/login')} className="nav-button">Giriş Yap</button>
         ) : (
-          <button onClick={() => { /* Add logout logic */ }} className="nav-button">Çıkış Yap</button>
+          <button onClick={() => {  }} className="nav-button">Çıkış Yap</button>
         )}
       </nav>
     </div>
