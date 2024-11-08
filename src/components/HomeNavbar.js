@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomeNavbar.css';
+import './Navbar.css';
 
 const HomeNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');

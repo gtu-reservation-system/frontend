@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'; 
+import './Navbar.css';
 
 const ListNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -50,7 +51,7 @@ const ListNavbar = () => {
   };
 
   return (
-    <div className="list-navbar">
+    <div className="home-navbar">
       <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div> 
       <nav>
         <input

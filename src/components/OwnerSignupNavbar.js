@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Navbar.css';
 
 const OwnerSignupNavbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="owner-signup-navbar">
+    <nav className="home-navbar">
       <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div>
       <button onClick={() => navigate('/home')}>Ana Sayfa</button>
       <div>

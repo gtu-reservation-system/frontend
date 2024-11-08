@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Navbar.css';
 
 const LoginNavbar = () => {
   const navigate = useNavigate(); 
@@ -14,7 +15,7 @@ const LoginNavbar = () => {
   };
 
   return (
-    <div className="login-navbar">
+    <div className="home-navbar">
       <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div>
       <nav>
         <button onClick={() => navigate('/home')}>Ana Sayfa</button>
