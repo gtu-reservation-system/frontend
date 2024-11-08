@@ -8,7 +8,7 @@ const UserProfile = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [userId, setUserId] = useState(null); 
+  const [id, setUserId] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,10 +22,10 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (userId) {
+    if (id) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
+          const response = await axios.get(`http://localhost:8080/api/users/${id}`);
           const data = response.data;
 
           setFullName(data.fullName);
@@ -39,7 +39,7 @@ const UserProfile = () => {
 
       fetchUserData();
     }
-  }, [userId]);
+  }, [id]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ const UserProfile = () => {
     setError('');
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, {
+      const response = await axios.put(`http://localhost:8080/api/users/${id}`, {
         fullName,
         phoneNumber,
         email

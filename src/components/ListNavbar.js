@@ -64,7 +64,6 @@ const ListNavbar = () => {
         <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button>
         
         <button onClick={() => navigate('/home')}>Ana Sayfa</button>
-        <button onClick={() => navigate('/restaurants')}>Restoranlar</button>
 
         {!isLoggedIn ? (
           <div 

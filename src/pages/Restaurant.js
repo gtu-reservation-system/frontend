@@ -9,6 +9,8 @@ const Restaurant = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const ownerId = localStorage.getItem('ownerId');
+  
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
@@ -41,15 +43,18 @@ const Restaurant = () => {
     <div>
       <h1>{restaurant.name}</h1>
       <p>{restaurant.description}</p>
+      
       <ReservationForm
         onReserve={(data) => console.log('Reservation data:', data)}
         restaurantId={restaurant.id}
         availableTimeSlots={restaurant.availableTimeSlots}
         maxGuests={restaurant.maxGuests}
         terms={restaurant.terms}
+        ownerId={ownerId} 
       />
     </div>
   );
 };
 
 export default Restaurant;
+
