@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomeNavbar.css'; 
+import './HomeNavbar.css';
 
-const HomeNavbar = ({ isLoggedIn, role }) => {
+const HomeNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('role');
+
+    if (userId) {
+      setIsLoggedIn(true);
+      setRole(userRole); 
+    }
+  }, []);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -25,6 +37,14 @@ const HomeNavbar = ({ isLoggedIn, role }) => {
 
   const handleMouseLeave = () => {
     setShowDropdown(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    setIsLoggedIn(false);
+    setRole('');
+    navigate('/');
   };
 
   return (
@@ -73,7 +93,7 @@ const HomeNavbar = ({ isLoggedIn, role }) => {
         {!isLoggedIn ? (
           <button onClick={() => navigate('/login')} className="nav-button">Giriş Yap</button>
         ) : (
-          <button onClick={() => {  }} className="nav-button">Çıkış Yap</button>
+          <button onClick={handleLogout} className="nav-button">Çıkış Yap</button>
         )}
       </nav>
     </div>

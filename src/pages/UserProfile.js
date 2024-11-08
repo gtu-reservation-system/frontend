@@ -12,23 +12,34 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/users/${userId}`); 
-        const data = response.data;
-
-        setFullName(data.fullName);
-        setPhoneNumber(data.phoneNumber);
-        setEmail(data.email);
-        setUserId(data.id);
-      } catch (error) {
-        console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
-        setError('Kullanıcı verileri yüklenemedi.');
-      }
-    };
-
-    fetchUserData();
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      setError('User not logged in!');
+      return;
+    }
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
+          const data = response.data;
+
+          setFullName(data.fullName);
+          setPhoneNumber(data.phoneNumber);
+          setEmail(data.email);
+        } catch (error) {
+          console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
+          setError('Kullanıcı verileri yüklenemedi.');
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [userId]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -41,7 +52,7 @@ const UserProfile = () => {
     setError('');
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, { 
+      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, {
         fullName,
         phoneNumber,
         email
@@ -65,7 +76,7 @@ const UserProfile = () => {
       <h2>Profilim</h2>
       {error && <p className="error-message">{error}</p>}
       {message && <p className="success-message">{message}</p>}
-      
+
       <form onSubmit={handleUpdate}>
         <div className="input-group">
           <label htmlFor="fullName">İsim ve soyisim</label>
@@ -106,4 +117,5 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 

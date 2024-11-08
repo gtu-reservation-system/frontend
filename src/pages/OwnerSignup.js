@@ -30,6 +30,9 @@ const OwnerSignup = () => {
       });
 
       if (response.status === 201) {
+        localStorage.setItem('ownerId', response.data.id);
+        localStorage.setItem('role', 'owner'); 
+        
         navigate('/');
       }
     } catch (error) {
@@ -42,3 +45,5 @@ const OwnerSignup = () => {
 };
 
 export default OwnerSignup;
+
+
