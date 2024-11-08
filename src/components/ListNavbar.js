@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'; 
 
-const ListNavbar = ({ isLoggedIn, role }) => {
+const ListNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState('');
   const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId') || localStorage.getItem('ownerId');
+    const userRole = localStorage.getItem('role');
+
+    if (userId && userRole) {
+      setIsLoggedIn(true); 
+      setRole(userRole);   
+    }
+  }, []);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      navigate(`/restaurants?search=${searchQuery}`); 
+      navigate(`/restaurants?search=${searchQuery}`);
     }
   };
 
@@ -26,6 +38,15 @@ const ListNavbar = ({ isLoggedIn, role }) => {
 
   const handleMouseLeave = () => {
     setShowDropdown(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('ownerId');
+    localStorage.removeItem('role');
+    setIsLoggedIn(false);
+    setRole('');
+    navigate('/');  
   };
 
   return (
@@ -64,8 +85,10 @@ const ListNavbar = ({ isLoggedIn, role }) => {
           </button>
         )}
 
-        {!isLoggedIn && (
+        {!isLoggedIn ? (
           <button onClick={() => navigate('/login')}>Giriş Yap</button>
+        ) : (
+          <button onClick={handleLogout}>Çıkış Yap</button>
         )}
       </nav>
     </div>
