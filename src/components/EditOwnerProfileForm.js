@@ -28,17 +28,17 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
     setFormError(''); 
 
     if (!restaurantName || !address || !phoneNumber || !email || !numberOfTables || !maxCapacity) {
-      setFormError('Please fill out all required fields.');
+      setFormError('Lütfen tüm zorunlu alanları doldurun.');
       return;
     }
 
     if (!isPhoneNumberValid(phoneNumber)) {
-      setFormError('Please enter a valid phone number (5-15 digits).');
+      setFormError('Lütfen geçerli bir telefon numarası girin (5-15 haneli).');
       return;
     }
 
     if (!isEmailValid(email)) {
-      setFormError('Please enter a valid email address.');
+      setFormError('Lütfen geçerli bir e-posta adresi girin.');
       return;
     }
 
@@ -60,7 +60,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       {error && <p className="error-message">{error}</p>} 
       
       <div>
-        <label>Restaurant Name:</label>
+        <label>Restoran Adı:</label>
         <input
           type="text"
           value={restaurantName}
@@ -69,7 +69,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Restaurant Address:</label>
+        <label>Restoran Adresi:</label>
         <input
           type="text"
           value={address}
@@ -78,7 +78,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Phone Number:</label>
+        <label>Telefon Numarası:</label>
         <input
           type="tel"
           value={phoneNumber}
@@ -87,7 +87,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Email:</label>
+        <label>E-posta:</label>
         <input
           type="email"
           value={email}
@@ -96,7 +96,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Number of Tables:</label>
+        <label>Masa Sayısı:</label>
         <input
           type="number"
           value={numberOfTables}
@@ -105,7 +105,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Max Capacity:</label>
+        <label>Max Kapasite:</label>
         <input
           type="number"
           value={maxCapacity}
@@ -114,17 +114,17 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       <div>
-        <label>Operating Hours:</label>
+        <label>Çalışma Saatleri:</label>
         <input
           type="text"
           value={operatingHours}
           onChange={(e) => setOperatingHours(e.target.value)}
-          placeholder="Example: 09:00 - 22:00"
+          placeholder="Örnek: 09:00 - 22:00"
         />
       </div>
 
       <div>
-        <label>Website Link:</label>
+        <label>Web Sitesi Linki:</label>
         <input
           type="url"
           value={websiteLink}
@@ -132,7 +132,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
         />
       </div>
 
-      <button type="submit">Update Profile</button>
+      <button type="submit">Profili Güncelle</button>
     </form>
   );
 };

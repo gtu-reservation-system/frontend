@@ -11,7 +11,7 @@ const EditOwnerProfile = () => {
 
   useEffect(() => {
     if (!id) {
-      setError('Sahip giriş yapmamış!');
+      setError('Restoran sayfasına giriş yapılmamış!');
       return;
     }
 
@@ -40,7 +40,7 @@ const EditOwnerProfile = () => {
       formData.append('operatingHours', updatedData.operatingHours);
       formData.append('websiteLink', updatedData.websiteLink);
 
-      const response = await axios.put(`http://localhost:8080/api/restaurants${id}`, formData, {
+      const response = await axios.put(`http://localhost:8080/api/restaurants/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -54,6 +54,10 @@ const EditOwnerProfile = () => {
     }
   };
 
+  const handleViewProfile = () => {
+    navigate('/ownerProfile');
+  };
+
   return (
     <div className="edit-profile-page">
       <h1>Profili Düzenle</h1>
@@ -63,9 +67,13 @@ const EditOwnerProfile = () => {
         onSubmit={handleSubmit}
         error={error}
       />
+      <button onClick={handleViewProfile} className="view-profile-button">
+        Profili Görüntüle
+      </button>
     </div>
   );
 };
 
 export default EditOwnerProfile;
+
 

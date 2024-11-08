@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Navbar from './components/HomeNavbar';
 import Navbar2 from './components/ListNavbar';
 import Navbar3 from './components/LoginNavbar';
@@ -27,23 +27,48 @@ const App = () => {
   const [ownerData, setOwnerData] = useState(null); 
 
   useEffect(() => {
-    if (isLoggedIn) { 
-      if (role === 'owner') {
+    const savedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const savedRole = localStorage.getItem('role');
+
+    if (savedIsLoggedIn) {
+      setIsLoggedIn(savedIsLoggedIn);
+      setRole(savedRole);
+      if (savedRole === 'owner') {
+        const savedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
+        setOwnerData(savedOwnerData);
         window.location.href = '/ownerProfile';
-      } else if (role === 'user') {
+      } else if (savedRole === 'user') {
+        const savedUserData = JSON.parse(localStorage.getItem('userData'));
+        setUserData(savedUserData);
         window.location.href = '/userProfile';
       }
     }
-  }, [isLoggedIn, role]);
+  }, []);
 
   const handleLogin = (data) => {
     setIsLoggedIn(true);
     setRole(data.role);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('role', data.role);
+
     if (data.role === 'owner') {
       setOwnerData(data.ownerData);
+      localStorage.setItem('ownerData', JSON.stringify(data.ownerData));
     } else {
       setUserData(data.userData);
+      localStorage.setItem('userData', JSON.stringify(data.userData));
     }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setRole(null);
+    setUserData(null);
+    setOwnerData(null);
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('ownerData');
   };
 
   return (
@@ -58,7 +83,7 @@ const App = () => {
         <Route path="/signup/owner" element={<><Navbar5 /><OwnerSignup /></>} /> 
         <Route path="/signup/user" element={<><Navbar6 /><UserSignup /></>} />
         <Route path="/userProfile" element={<><Navbar7 /><UserProfile userData={userData} /></>} />
-        <Route path="/edit-user-profile" element={<EditUserProfile />} />
+        <Route path="/edit-userProfile" element={<EditUserProfile />} />
         <Route path="/ownerProfile" element={<><Navbar7 /><OwnerProfile ownerData={ownerData} /></>} />
         <Route path="/edit-ownerProfile" element={<EditProfile />} /> 
         <Route path="/change-password" element={<ChangePassword />} />
@@ -68,6 +93,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 

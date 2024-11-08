@@ -16,7 +16,7 @@ const EditUserProfile = () => {
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
-      setError('User not logged in!');
+      setError('Kullanıcı giriş yapmamış!');
       return;
     }
   }, []);
@@ -67,6 +67,10 @@ const EditUserProfile = () => {
     }
   };
 
+  const handleBackToProfile = () => {
+    navigate('/userProfile');
+  };
+
   return (
     <div className="edit-user-profile">
       <h2>Profilimi Düzenle</h2>
@@ -80,8 +84,12 @@ const EditUserProfile = () => {
         error={error}
         onSubmit={handleUpdate}
       />
+      <button onClick={handleBackToProfile} className="back-button">
+        Profili Görüntüle
+      </button>
     </div>
   );
 };
 
 export default EditUserProfile;
+

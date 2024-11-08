@@ -12,7 +12,7 @@ const OwnerProfile = () => {
 
   useEffect(() => {
     if (!id) {
-      setError('Sahip giriş yapmamış!');
+      setError('Restoran sayfasına giriş yapılmamış!');
       return;
     }
 
@@ -65,7 +65,7 @@ const OwnerProfile = () => {
 
   return (
     <div className="owner-profile">
-      <h1>Sahip Profili</h1>
+      <h1>Restoran Profili</h1>
       {error && <p className="error-message">{error}</p>} 
 
       <div>
@@ -80,7 +80,7 @@ const OwnerProfile = () => {
         
         {ownerData.photos && ownerData.photos.length > 0 && (
           <div className="photos">
-            <h3>Restaurant Fotoğrafları</h3>
+            <h3>Restoran Fotoğrafları</h3>
             <div className="photo-gallery">
               {ownerData.photos.map((photo, index) => (
                 <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />

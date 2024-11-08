@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPhoneNumber, setEmail, error, onSubmit }) => {
+const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPhoneNumber, setEmail, onSubmit }) => {
   const [formError, setFormError] = useState('');
 
   const isPhoneNumberValid = (phone) => {

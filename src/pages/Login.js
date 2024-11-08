@@ -11,8 +11,16 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:8080/api/users/login', formData);
 
       if (response.status === 200) {
-        
-        navigate('/');
+        const { userId, role } = response.data; 
+
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('role', role); 
+
+        if (role === 'owner') {
+          navigate('/ownerProfile');
+        } else {
+          navigate('/userProfile');
+        }
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -24,4 +32,5 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 

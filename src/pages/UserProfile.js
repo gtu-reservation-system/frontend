@@ -17,7 +17,7 @@ const UserProfile = () => {
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
-      setError('User not logged in!');
+      setError('Kullanıcı giriş yapmamış!');
       return;
     }
   }, []);
@@ -47,7 +47,7 @@ const UserProfile = () => {
   };
 
   const handleEditProfileRedirect = () => {
-    navigate('/edit-user-profile'); 
+    navigate('/edit-userProfile'); 
   };
 
   return (
