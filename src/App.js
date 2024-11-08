@@ -15,6 +15,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import OwnerSignup from './pages/OwnerSignup';  
 import UserSignup from './pages/UserSignup';
 import UserProfile from './pages/UserProfile';
+import EditUserProfile from './pages/EditUserProfile';
 import OwnerProfile from './pages/OwnerProfile';
 import ChangePassword from './pages/ChangePassword';
 import EditProfile from './pages/EditOwnerProfile'; 
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/signup/owner" element={<><Navbar5 /><OwnerSignup /></>} /> 
         <Route path="/signup/user" element={<><Navbar6 /><UserSignup /></>} />
         <Route path="/userProfile" element={<><Navbar7 /><UserProfile userData={userData} /></>} />
+        <Route path="/edit-user-profile" element={<EditUserProfile />} />
         <Route path="/ownerProfile" element={<><Navbar7 /><OwnerProfile ownerData={ownerData} /></>} />
         <Route path="/edit-ownerProfile" element={<EditProfile />} /> 
         <Route path="/change-password" element={<ChangePassword />} />

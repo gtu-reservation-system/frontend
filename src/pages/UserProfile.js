@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserProfileForm from '../components/EditUserProfileForm';
 
 const UserProfile = () => {
   const [fullName, setFullName] = useState('');
@@ -41,34 +42,12 @@ const UserProfile = () => {
     }
   }, [id]);
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-
-    if (!fullName || !phoneNumber || !email) {
-      setError('Lütfen tüm alanları doldurun.');
-      return;
-    }
-
-    setError('');
-
-    try {
-      const response = await axios.put(`http://localhost:8080/api/users/${id}`, {
-        fullName,
-        phoneNumber,
-        email
-      });
-
-      if (response.status === 200) {
-        setMessage('Profil bilgileri başarıyla güncellendi.');
-      }
-    } catch (error) {
-      console.error("Profil güncellenirken bir hata oluştu:", error);
-      setError('Profil güncellenirken bir hata oluştu.');
-    }
-  };
-
   const handlePasswordChangeRedirect = () => {
     navigate('/change-password');
+  };
+
+  const handleEditProfileRedirect = () => {
+    navigate('/edit-user-profile'); 
   };
 
   return (
@@ -77,45 +56,26 @@ const UserProfile = () => {
       {error && <p className="error-message">{error}</p>}
       {message && <p className="success-message">{message}</p>}
 
-      <form onSubmit={handleUpdate}>
-        <div className="input-group">
-          <label htmlFor="fullName">İsim ve soyisim</label>
-          <input
-            type="text"
-            id="fullName"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
+      <div className="profile-info">
+        <UserProfileForm
+          fullName={fullName}
+          phoneNumber={phoneNumber}
+          email={email}
+          setFullName={setFullName}
+          setPhoneNumber={setPhoneNumber}
+          setEmail={setEmail}
+          error={error}
+          onSubmit={() => {}}
+        />
+      </div>
 
-        <div className="input-group">
-          <label htmlFor="phoneNumber">Telefon numarası</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="email">E-posta</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Bilgileri Güncelle</button>
-      </form>
-
+      <button onClick={handleEditProfileRedirect}>Profilimi Düzenle</button>
       <button onClick={handlePasswordChangeRedirect}>Şifre Değiştir</button>
     </div>
   );
 };
 
 export default UserProfile;
+
 
 

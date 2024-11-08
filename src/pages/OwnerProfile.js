@@ -12,7 +12,7 @@ const OwnerProfile = () => {
 
   useEffect(() => {
     if (!id) {
-      setError('Owner not logged in!');
+      setError('Sahip giriş yapmamış!');
       return;
     }
 
@@ -21,8 +21,8 @@ const OwnerProfile = () => {
         const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
         setOwnerData(response.data);
       } catch (error) {
-        console.error("Error fetching profile data:", error);
-        setError('Error loading profile data');
+        console.error("Profil verileri alınırken hata oluştu:", error);
+        setError('Profil verileri yüklenemedi');
       }
     };
 
@@ -55,56 +55,55 @@ const OwnerProfile = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setOwnerData(response.data); 
-      setNewPhotos([]);
-      setLogo(null);
+      setNewPhotos([]); 
+      setLogo(null); 
     } catch (error) {
-      console.error("Error updating photos:", error);
-      setError('Error updating photos');
+      console.error("Fotoğraflar güncellenirken hata oluştu:", error);
+      setError('Fotoğraflar güncellenirken hata oluştu');
     }
   };
 
   return (
     <div className="owner-profile">
-      <h1>Owner Profile</h1>
-      {error && <p className="error-message">{error}</p>}
-      
+      <h1>Sahip Profili</h1>
+      {error && <p className="error-message">{error}</p>} 
+
       <div>
         <h2>{ownerData.restaurantName}</h2>
-        <p><strong>Address:</strong> {ownerData.address}</p>
-        <p><strong>Phone Number:</strong> {ownerData.phoneNumber}</p>
-        <p><strong>Email:</strong> {ownerData.email}</p>
-        <p><strong>Number of Tables:</strong> {ownerData.numberOfTables}</p>
-        <p><strong>Max Capacity:</strong> {ownerData.maxCapacity}</p>
-        <p><strong>Operating Hours:</strong> {ownerData.operatingHours}</p>
-        <p><strong>Website Link:</strong> <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a></p>
+        <p><strong>Adres:</strong> {ownerData.address}</p>
+        <p><strong>Telefon Numarası:</strong> {ownerData.phoneNumber}</p>
+        <p><strong>E-posta:</strong> {ownerData.email}</p>
+        <p><strong>Masaların Sayısı:</strong> {ownerData.numberOfTables}</p>
+        <p><strong>Max Kapasite:</strong> {ownerData.maxCapacity}</p>
+        <p><strong>Çalışma Saatleri:</strong> {ownerData.operatingHours}</p>
+        <p><strong>Web Sitesi Bağlantısı:</strong> <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a></p>
         
         {ownerData.photos && ownerData.photos.length > 0 && (
           <div className="photos">
-            <h3>Restaurant Photos</h3>
+            <h3>Restaurant Fotoğrafları</h3>
             <div className="photo-gallery">
               {ownerData.photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`Restaurant photo ${index + 1}`} className="restaurant-photo" />
+                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
               ))}
             </div>
           </div>
         )}
 
         <div>
-          <label>Upload New Photos:</label>
+          <label>Yeni Fotoğraflar Yükle:</label>
           <input type="file" multiple accept="image/*" onChange={handlePhotoChange} />
         </div>
         <div>
-          <label>Upload Logo:</label>
+          <label>Logo Yükle:</label>
           <input type="file" accept="image/*" onChange={handleLogoChange} />
         </div>
 
-        <button onClick={handleUpdatePhotos}>Update Photos</button>
+        <button onClick={handleUpdatePhotos}>Fotoğrafları Güncelle</button>
 
-        <button onClick={handleEditProfile}>Edit Profile</button> 
+        <button onClick={handleEditProfile}>Profili Düzenle</button> 
       </div>
     </div>
   );
 };
 
 export default OwnerProfile;
-

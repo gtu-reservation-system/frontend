@@ -11,7 +11,7 @@ const EditOwnerProfile = () => {
 
   useEffect(() => {
     if (!id) {
-      setError('Owner not logged in!');
+      setError('Sahip giriş yapmamış!');
       return;
     }
 
@@ -20,8 +20,8 @@ const EditOwnerProfile = () => {
         const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
         setOwnerData(response.data);
       } catch (error) {
-        console.error("Error fetching profile data:", error);
-        setError('Error loading profile data');
+        console.error("Profil verileri alınırken hata oluştu:", error);
+        setError('Profil verileri yüklenemedi');
       }
     };
 
@@ -45,12 +45,12 @@ const EditOwnerProfile = () => {
       });
 
       if (response.status === 200) {
-        alert('Profile updated successfully!');
-        navigate('/owner-profile');  
+        alert('Profil başarıyla güncellendi!');
+        navigate('/ownerProfile');  
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      setError('Error updating profile.');
+      console.error("Profil güncellenirken hata oluştu:", error);
+      setError('Profil güncellenirken hata oluştu.');
     }
   };
 
@@ -68,3 +68,4 @@ const EditOwnerProfile = () => {
 };
 
 export default EditOwnerProfile;
+
