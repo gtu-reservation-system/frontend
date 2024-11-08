@@ -12,6 +12,7 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
   const [maxCapacity, setMaxCapacity] = useState(ownerData.maxCapacity);
   const [operatingHours, setOperatingHours] = useState(ownerData.operatingHours);
   const [websiteLink, setWebsiteLink] = useState(ownerData.websiteLink || '');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOwnerData = async () => {
@@ -28,7 +29,6 @@ const OwnerProfile = ({ ownerData, onUpdate }) => {
         setOperatingHours(data.operatingHours);
         setWebsiteLink(data.websiteLink || '');
         setPhotos(data.photos || []);
-        const navigate = useNavigate();
       } catch (error) {
         console.error("Profil bilgileri alınırken bir hata oluştu:", error);
         alert('Profil bilgileri yüklenemedi.');
