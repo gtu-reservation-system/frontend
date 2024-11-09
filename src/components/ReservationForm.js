@@ -38,26 +38,25 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
     }
   
     try {
-      const authResponse = await axios.get('/api/auth/check');
+      const authResponse = await axios.get('http://localhost:8080/api/auth/check');
       const isAuthenticated = authResponse.data.isAuthenticated;
   
       if (!isAuthenticated) {
-        navigate('/login', { state: { from: `/reservation/${restaurantId}` } });
+        navigate('/login', { state: { from: `http://localhost:8080/reservation/${restaurantId}` } });
         return;
       }
   
+      const userId = authResponse.data.user.id;
+  
       const reservationData = {
-        fullName,
-        date,
-        time,
-        guests,
         restaurantId,
-        allergens: hasAllergies ? allergens : 'Yok',
-        tag: selectedTag,
+        userId,
+        reservationTime: `${date}T${time}`,
       };
   
-      onReserve(reservationData);
+      const response = await axios.post('http://localhost:8080/api/reservations', reservationData);
   
+      onReserve(reservationData);
       setName('');
       setDate('');
       setTime('');
@@ -66,13 +65,14 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
       setAllergens('');
       setSelectedTag('');
       setAgreed(false);
+  
+      alert("Rezervasyon başarılı!");
     } catch (error) {
-      console.error("Authentication error:", error);
+      console.error("Error creating reservation:", error);
       alert("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
   };
   
-
   return (
     <form onSubmit={handleSubmit}>
       <h2>Rezervasyon Yap</h2>
