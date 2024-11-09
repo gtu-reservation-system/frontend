@@ -8,7 +8,7 @@ const UserProfile = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
   const [id, setUserId] = useState(null); 
   const navigate = useNavigate();
 

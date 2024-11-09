@@ -63,7 +63,6 @@ const OwnerProfile = () => {
     }
   };
 
-  // Navigate to the OwnerReservations page
   const handleReservationsRedirect = () => {
     navigate('/owner-reservations');
   };

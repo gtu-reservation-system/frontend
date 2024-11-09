@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation(); 
+  const searchQuery = new URLSearchParams(location.search).get('search'); 
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/restaurants');
+        let url = 'http://localhost:8080/api/restaurants';
+        
+        if (searchQuery) {
+          url += `?search=${searchQuery}`;
+        }
+
+        const response = await axios.get(url);
         setRestaurants(response.data);
       } catch (error) {
         setError('Restaurants could not be loaded.');
@@ -20,7 +28,7 @@ const Restaurants = () => {
     };
 
     fetchRestaurants();
-  }, []);
+  }, [searchQuery]); 
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -34,11 +42,15 @@ const Restaurants = () => {
     <div>
       <h1>Restaurants</h1>
       <ul>
-        {restaurants.map((restaurant) => (
-          <li key={restaurant.id}>
-            <Link to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link>
-          </li>
-        ))}
+        {restaurants.length > 0 ? (
+          restaurants.map((restaurant) => (
+            <li key={restaurant.id}>
+              <Link to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link>
+            </li>
+          ))
+        ) : (
+          <p>No restaurants found matching your search.</p>
+        )}
       </ul>
     </div>
   );

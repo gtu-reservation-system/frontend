@@ -58,11 +58,11 @@ const ListNavbar = () => {
           type="text"
           placeholder="Restoran ara"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onChange={(e) => setSearchQuery(e.target.value)} 
+          onKeyPress={handleKeyPress} 
         />
-        <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button>
-        
+        <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button> 
+
         <button onClick={() => navigate('/home')}>Ana Sayfa</button>
 
         {!isLoggedIn ? (
@@ -96,5 +96,6 @@ const ListNavbar = () => {
 };
 
 export default ListNavbar;
+
 
 

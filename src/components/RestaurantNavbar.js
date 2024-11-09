@@ -29,7 +29,7 @@ const RestaurantNavbar = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      handleSearch(); 
     }
   };
 
@@ -58,11 +58,11 @@ const RestaurantNavbar = () => {
           type="text"
           placeholder="Restoran ara"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onChange={(e) => setSearchQuery(e.target.value)}  
+          onKeyPress={handleKeyPress}  
           aria-label="Restaurant search" 
         />
-        <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button>
+        <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button> 
         <button onClick={() => navigate('/home')}>Ana Sayfa</button> 
         <button onClick={() => navigate('/restaurants')}>Restoranlar</button> 
 
@@ -97,6 +97,7 @@ const RestaurantNavbar = () => {
 };
 
 export default RestaurantNavbar;
+
 
 
 

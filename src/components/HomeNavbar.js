@@ -15,7 +15,7 @@ const HomeNavbar = () => {
 
     if (userId) {
       setIsLoggedIn(true);
-      setRole(userRole); 
+      setRole(userRole);
     }
   }, []);
 
@@ -101,3 +101,4 @@ const HomeNavbar = () => {
 };
 
 export default HomeNavbar;
+
