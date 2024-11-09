@@ -16,9 +16,11 @@ import OwnerSignup from './pages/OwnerSignup';
 import UserSignup from './pages/UserSignup';
 import UserProfile from './pages/UserProfile';
 import EditUserProfile from './pages/EditUserProfile';
+import UserReservations from './pages/UserReservations';
 import OwnerProfile from './pages/OwnerProfile';
 import ChangePassword from './pages/ChangePassword';
 import EditProfile from './pages/EditOwnerProfile'; 
+import OwnerReservations from './pages/OwnerReservations';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -84,9 +86,11 @@ const App = () => {
         <Route path="/signup/user" element={<><Navbar6 /><UserSignup /></>} />
         <Route path="/userProfile" element={<><Navbar7 /><UserProfile userData={userData} /></>} />
         <Route path="/edit-userProfile" element={<EditUserProfile />} />
+        <Route path="/user-reservations" element={<UserReservations />} />
         <Route path="/ownerProfile" element={<><Navbar7 /><OwnerProfile ownerData={ownerData} /></>} />
         <Route path="/edit-ownerProfile" element={<EditProfile />} /> 
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/owner-reservations" element={<OwnerReservations />} />
       </Routes>
     </Router>
   );

@@ -4,7 +4,7 @@ import axios from 'axios';
 import UserProfileForm from '../components/EditUserProfileForm'; 
 
 const EditUserProfile = () => {
-  const [fullName, setFullName] = useState('');
+  const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -28,7 +28,7 @@ const EditUserProfile = () => {
           const response = await axios.get(`http://localhost:8080/api/users/${id}`);
           const data = response.data;
 
-          setFullName(data.fullName);
+          setName(data.name);
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
         } catch (error) {
@@ -44,7 +44,7 @@ const EditUserProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (!fullName || !phoneNumber || !email) {
+    if (!name || !phoneNumber || !email) {
       setError('Lütfen tüm alanları doldurun.');
       return;
     }
@@ -53,7 +53,7 @@ const EditUserProfile = () => {
 
     try {
       const response = await axios.put(`http://localhost:8080/api/users/${id}`, {
-        fullName,
+        name,
         phoneNumber,
         email
       });
@@ -75,10 +75,10 @@ const EditUserProfile = () => {
     <div className="edit-user-profile">
       <h2>Profilimi Düzenle</h2>
       <UserProfileForm
-        fullName={fullName}
+        name={name}
         phoneNumber={phoneNumber}
         email={email}
-        setFullName={setFullName}
+        setName={setName}
         setPhoneNumber={setPhoneNumber}
         setEmail={setEmail}
         error={error}

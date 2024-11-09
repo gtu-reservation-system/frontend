@@ -11,9 +11,9 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:8080/api/users/login', formData);
 
       if (response.status === 200) {
-        const { userId, role } = response.data; 
+        const { id, role } = response.data; 
 
-        localStorage.setItem('userId', userId);
+        localStorage.setItem('userId', id);
         localStorage.setItem('role', role); 
 
         if (role === 'owner') {

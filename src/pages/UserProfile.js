@@ -4,7 +4,7 @@ import axios from 'axios';
 import UserProfileForm from '../components/EditUserProfileForm';
 
 const UserProfile = () => {
-  const [fullName, setFullName] = useState('');
+  const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -29,7 +29,7 @@ const UserProfile = () => {
           const response = await axios.get(`http://localhost:8080/api/users/${id}`);
           const data = response.data;
 
-          setFullName(data.fullName);
+          setName(data.name);
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
         } catch (error) {
@@ -50,6 +50,10 @@ const UserProfile = () => {
     navigate('/edit-userProfile'); 
   };
 
+  const handleReservationsRedirect = () => {
+    navigate('/user-reservations');
+  };
+
   return (
     <div className="user-profile">
       <h2>Profilim</h2>
@@ -58,10 +62,10 @@ const UserProfile = () => {
 
       <div className="profile-info">
         <UserProfileForm
-          fullName={fullName}
+          name={name}
           phoneNumber={phoneNumber}
           email={email}
-          setFullName={setFullName}
+          setName={setName}
           setPhoneNumber={setPhoneNumber}
           setEmail={setEmail}
           error={error}
@@ -71,11 +75,13 @@ const UserProfile = () => {
 
       <button onClick={handleEditProfileRedirect}>Profilimi Düzenle</button>
       <button onClick={handlePasswordChangeRedirect}>Şifre Değiştir</button>
+      <button onClick={handleReservationsRedirect}>Rezervasyonlarım</button>
     </div>
   );
 };
 
 export default UserProfile;
+
 
 
 

@@ -7,8 +7,8 @@ const OwnerProfile = () => {
   const [error, setError] = useState(null);
   const [newPhotos, setNewPhotos] = useState([]);
   const [logo, setLogo] = useState(null);
-  const id = localStorage.getItem('ownerId'); 
-  const navigate = useNavigate(); 
+  const id = localStorage.getItem('ownerId');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
@@ -54,19 +54,24 @@ const OwnerProfile = () => {
       const response = await axios.put(`http://localhost:8080/api/restaurants/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setOwnerData(response.data); 
-      setNewPhotos([]); 
-      setLogo(null); 
+      setOwnerData(response.data);
+      setNewPhotos([]);
+      setLogo(null);
     } catch (error) {
       console.error("Fotoğraflar güncellenirken hata oluştu:", error);
       setError('Fotoğraflar güncellenirken hata oluştu');
     }
   };
 
+  // Navigate to the OwnerReservations page
+  const handleReservationsRedirect = () => {
+    navigate('/owner-reservations');
+  };
+
   return (
     <div className="owner-profile">
       <h1>Restoran Profili</h1>
-      {error && <p className="error-message">{error}</p>} 
+      {error && <p className="error-message">{error}</p>}
 
       <div>
         <h2>{ownerData.restaurantName}</h2>
@@ -77,7 +82,7 @@ const OwnerProfile = () => {
         <p><strong>Max Kapasite:</strong> {ownerData.maxCapacity}</p>
         <p><strong>Çalışma Saatleri:</strong> {ownerData.operatingHours}</p>
         <p><strong>Web Sitesi Bağlantısı:</strong> <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a></p>
-        
+
         {ownerData.photos && ownerData.photos.length > 0 && (
           <div className="photos">
             <h3>Restoran Fotoğrafları</h3>
@@ -99,8 +104,8 @@ const OwnerProfile = () => {
         </div>
 
         <button onClick={handleUpdatePhotos}>Fotoğrafları Güncelle</button>
-
-        <button onClick={handleEditProfile}>Profili Düzenle</button> 
+        <button onClick={handleEditProfile}>Profili Düzenle</button>
+        <button onClick={handleReservationsRedirect}>Rezervasyonlar</button>
       </div>
     </div>
   );
