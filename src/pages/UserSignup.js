@@ -11,15 +11,17 @@ const UserSignup = () => {
       const response = await axios.post('http://localhost:8080/api/users', formData);
 
       if (response.status === 201) {
-
-        localStorage.setItem('userId', response.data.id); 
-        localStorage.setItem('role', 'user');  
-        
+        localStorage.setItem('userId', response.data.id);
+        localStorage.setItem('role', 'user');
         navigate('/');
       }
     } catch (error) {
-      console.error("User signup failed:", error);
-      alert("Kayıt işlemi başarısız! Lütfen bilgilerinizi kontrol edin.");
+      if (error.response && error.response.status === 409) { 
+        alert("Bu e-posta ile bir hesap zaten var. Lütfen giriş yapın.");
+      } else {
+        console.error("User signup failed:", error);
+        alert("Kayıt işlemi başarısız! Lütfen bilgilerinizi kontrol edin.");
+      }
     }
   };
 
@@ -27,5 +29,6 @@ const UserSignup = () => {
 };
 
 export default UserSignup;
+
 
 

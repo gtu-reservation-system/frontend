@@ -32,12 +32,15 @@ const OwnerSignup = () => {
       if (response.status === 201) {
         localStorage.setItem('ownerId', response.data.id);
         localStorage.setItem('role', 'owner'); 
-        
         navigate('/');
       }
     } catch (error) {
-      console.error("Owner signup failed:", error);
-      alert("Kaydolma işlemi başarısız! Lütfen bilgilerinizi kontrol edin.");
+      if (error.response && error.response.status === 409) {
+        alert("Bu e-posta ile bir hesap zaten var. Lütfen giriş yapın.");
+      } else {
+        console.error("Owner signup failed:", error);
+        alert("Kaydolma işlemi başarısız! Lütfen bilgilerinizi kontrol edin.");
+      }
     }
   };
 
@@ -45,5 +48,3 @@ const OwnerSignup = () => {
 };
 
 export default OwnerSignup;
-
-
