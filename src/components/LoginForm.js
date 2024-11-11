@@ -19,7 +19,7 @@ const LoginForm = ({ onSubmit }) => {
       return false;
     }
 
-    if (password.length <= 8 || password.length >= 12) {
+    if (password.length < 8 || password.length > 12) {
       setError('Şifre 8 ile 12 karakter arasında olmalıdır.');
       return false;
     }
