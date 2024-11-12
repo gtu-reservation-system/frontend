@@ -1,0 +1,102 @@
+.signup-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh;
+    padding: 20px;
+  }
+  
+  .signup-page h1 {
+    font-size: 32px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .signup-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+  
+  .error-message {
+    color: #f44336;
+    font-size: 14px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .input-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: #333;
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .input-group input:focus {
+    border-color: #EB2930;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: white;
+    background-color: #EB2930;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #E22A20;
+  }
+  
+  @media (max-width: 600px) {
+    .signup-page {
+      padding: 15px;
+    }
+  
+    .signup-page h1 {
+      font-size: 28px;
+    }
+  
+    .input-group input {
+      font-size: 14px;
+    }
+  
+    button[type="submit"] {
+      font-size: 14px;
+    }
+  }

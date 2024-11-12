@@ -44,7 +44,22 @@ const OwnerSignup = () => {
     }
   };
 
-  return <OwnerSignupForm onSubmit={handleOwnerSignup} />;
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
+  return (
+    <div >
+    <h2 style={titleStyle}>Restoran Sahibi Kaydı</h2>
+    <OwnerSignupForm onSubmit={handleOwnerSignup} />
+    </div>
+  );
 };
 
 export default OwnerSignup;

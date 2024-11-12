@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './LoginForm.css'
 
 const OwnerSignupForm = ({ onSubmit }) => {
   const [restaurantName, setRestaurantName] = useState('');

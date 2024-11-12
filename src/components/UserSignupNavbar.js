@@ -1,13 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Navbar.css';
+import './UserSignupNavbar.css';
 
 const UserSignupNavbar = () => {
   const navigate = useNavigate();
 
   return (
     <nav className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div>
+      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+      <img src="/icon.png" alt="Logo" />
+        Rezerve
+      </div>
       <button onClick={() => navigate('/home')}>Ana Sayfa</button>
       <div>
         <button onClick={() => navigate('/signup/owner')}>Restoran Sahibi Kaydı</button>

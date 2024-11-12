@@ -1,0 +1,90 @@
+.home-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    border-bottom: 1px solid #E5E8EB;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .logo {
+    color: black;
+    font-size: 22px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .home-navbar > div {
+    display: flex;
+    gap: 16px;
+  }
+  
+  button {
+    font-size: 14px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    color: black;
+    padding: 8px 16px;
+    border: 1px solid #EDEDED;
+    border-radius: 12px;
+    background-color: #EDEDED;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #EB2930;
+    color: white;
+  }
+  
+  button.signup-button {
+    color: white;
+    background-color: #EB2930;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  
+  button.signup-button:hover {
+    background-color: #E22A20; 
+  }
+  
+  .signup-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #E5E8EB;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-item {
+    padding: 8px 16px;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    cursor: pointer;
+    background-color: #EDEDED;
+    border: none;
+    text-align: left;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #EB2930;
+    color: white;
+  }

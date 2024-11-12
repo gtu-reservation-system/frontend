@@ -16,20 +16,24 @@ const LoginNavbar = () => {
 
   return (
     <div className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div>
-      <nav>
-        <button onClick={() => navigate('/home')}>Ana Sayfa</button>
+      <div className="logo" onClick={() => navigate('/')}>
+      <img src="/icon.png" alt="Logo" />
+        Rezerve
+      </div>
+      
+      <nav className="navbar">
+        <button className="nav-button" onClick={() => navigate('/home')}>Ana Sayfa</button>
         
         <div 
           className="signup-container" 
           onMouseEnter={handleMouseEnter} 
           onMouseLeave={handleMouseLeave}
         >
-          <button>Kayıt Ol</button>
+          <button className="signup-button">Kayıt Ol</button>
           {showDropdown && (
             <div className="dropdown">
-              <button onClick={() => navigate('/signup/owner')}>Restoran Sahibi</button>
-              <button onClick={() => navigate('/signup/user')}>Kullanıcı</button>
+              <button className="dropdown-item" onClick={() => navigate('/signup/owner')}>Restoran Sahibi</button>
+              <button className="dropdown-item" onClick={() => navigate('/signup/user')}>Kullanıcı</button>
             </div>
           )}
         </div>
@@ -39,6 +43,3 @@ const LoginNavbar = () => {
 };
 
 export default LoginNavbar;
-
-
-

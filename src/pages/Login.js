@@ -28,7 +28,24 @@ const LoginPage = () => {
     }
   };
 
-  return <LoginForm onSubmit={handleLogin} />;
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
+  return (
+    <div className="main-content">
+      <div className="login-form-container">
+        <h2 style={titleStyle}>Giriş Yap</h2>
+        <LoginForm onSubmit={handleLogin} />
+      </div>
+    </div>
+  );
 };
 
 export default LoginPage;

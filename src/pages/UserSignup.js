@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserSignupForm from '../components/UserSignupForm';
+import './UserSignup.css';
 
 const UserSignup = () => {
   const navigate = useNavigate();
@@ -25,7 +26,22 @@ const UserSignup = () => {
     }
   };
 
-  return <UserSignupForm onSubmit={handleUserSignup} />;
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
+  return (
+    <div className="signup-page">
+      <h2 style={titleStyle}>Kullanıcı Kaydı</h2>
+        <UserSignupForm onSubmit={handleUserSignup} />
+    </div>
+  );
 };
 
 export default UserSignup;

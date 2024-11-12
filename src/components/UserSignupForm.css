@@ -1,0 +1,81 @@
+.signup-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .error-message {
+    color: #f44336;
+    font-size: 14px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  
+  .input-group input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .input-group input:focus {
+    border-color: #EB2930; 
+    box-shadow: 0 0 0 2px rgba(235, 41, 48, 0.3); 
+  }
+  
+  button[type="submit"] {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background-color: #EB2930;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #E22A20; 
+  }
+  
+  @media (max-width: 600px) {
+    .signup-form {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    .input-group input {
+      font-size: 14px;
+    }
+  
+    button[type="submit"] {
+      font-size: 14px;
+    }
+  }

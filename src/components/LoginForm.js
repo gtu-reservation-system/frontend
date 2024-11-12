@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './LoginForm.css'
 
 const LoginForm = ({ onSubmit }) => {
   const [emailOrPhone, setEmailOrPhone] = useState('');

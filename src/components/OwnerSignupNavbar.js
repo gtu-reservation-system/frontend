@@ -7,7 +7,9 @@ const OwnerSignupNavbar = () => {
 
   return (
     <nav className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Rezerve</div>
+      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+      <img src="/icon.png" alt="Logo" />
+        Rezerve</div>
       <button onClick={() => navigate('/home')}>Ana Sayfa</button>
       <div>
         <button onClick={() => navigate('/signup/user')}>Kullanıcı Kaydı</button>
