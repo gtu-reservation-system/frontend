@@ -54,8 +54,8 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
         reservationTime: `${date}T${time}`,
       };
   
-      const response = await axios.post('http://localhost:8080/api/reservations', reservationData);
-  
+      await axios.post('http://localhost:8080/api/reservations', reservationData);
+
       onReserve(reservationData);
       setName('');
       setDate('');

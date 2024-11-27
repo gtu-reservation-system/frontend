@@ -77,7 +77,9 @@ const OwnerProfile = () => {
         <p><strong>Adres:</strong> {ownerData.address}</p>
         <p><strong>Telefon Numarası:</strong> {ownerData.phoneNumber}</p>
         <p><strong>E-posta:</strong> {ownerData.email}</p>
-        <p><strong>Masaların Sayısı:</strong> {ownerData.numberOfTables}</p>
+        <p><strong>2 Kişilik Masalar:</strong> {ownerData.tablesForTwo}</p>
+        <p><strong>4 Kişilik Masalar:</strong> {ownerData.tablesForFour}</p>
+        <p><strong>6 Kişilik Masalar:</strong> {ownerData.tablesForSix}</p>
         <p><strong>Max Kapasite:</strong> {ownerData.maxCapacity}</p>
         <p><strong>Çalışma Saatleri:</strong> {ownerData.operatingHours}</p>
         <p><strong>Web Sitesi Bağlantısı:</strong> <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a></p>

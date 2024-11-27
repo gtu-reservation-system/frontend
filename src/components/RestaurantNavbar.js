@@ -52,7 +52,9 @@ const RestaurantNavbar = () => {
 
   return (
     <div className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')}>Rezerve</div> 
+      <div className="logo" onClick={() => navigate('/')}>
+      <img src="/icon.png" alt="Logo" />
+        Rezerve</div>
       <nav>
         <input
           type="text"
