@@ -38,6 +38,8 @@ const EditOwnerProfile = () => {
       formData.append('numberOfTables', updatedData.numberOfTables);
       formData.append('maxCapacity', updatedData.maxCapacity);
       formData.append('operatingHours', updatedData.operatingHours);
+      formData.append('additionalCondition', updatedData.additionalCondition);
+      formData.append('specialDays', updatedData.specialDays);
       formData.append('websiteLink', updatedData.websiteLink);
 
       const response = await axios.put(`http://localhost:8080/api/restaurants/${id}`, formData, {

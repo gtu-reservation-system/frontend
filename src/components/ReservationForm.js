@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuests, terms }) => {
+const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuests, terms, reservationTags }) => {
   const [fullName, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -11,7 +11,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
   const [allergens, setAllergens] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [agreed, setAgreed] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -32,7 +32,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
       return;
     }
   
-    if (!agreed) {
+    if (terms && !agreed) { 
       alert("Lütfen şartları kabul edin.");
       return;
     }
@@ -52,6 +52,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
         restaurantId,
         userId,
         reservationTime: `${date}T${time}`,
+        reservationTag: selectedTag,
       };
   
       await axios.post('http://localhost:8080/api/reservations', reservationData);
@@ -72,7 +73,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
       alert("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Rezervasyon Yap</h2>
@@ -121,24 +122,28 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
           <textarea value={allergens} onChange={(e) => setAllergens(e.target.value)} placeholder="Neye alerjiniz olduğunu belirtin" />
         </div>
       )}
-      <div>
-        <label>Rezervasyon Etiketi:</label>
+      {reservationTags && reservationTags.length > 0 && (
         <div>
-          {['Doğum Günü', 'Yıldönümü', 'İş Yemeği', 'Evlilik Teklifi'].map(tag => (
-            <label key={tag}>
-              <input type="radio" name="reservationTag" value={tag} checked={selectedTag === tag} onChange={() => setSelectedTag(tag)} />
-              {tag}
-            </label>
-          ))}
+          <label>Rezervasyon Etiketi:</label>
+          <div>
+            {reservationTags.map(tag => (
+              <label key={tag}>
+                <input type="radio" name="reservationTag" value={tag} checked={selectedTag === tag} onChange={() => setSelectedTag(tag)} />
+                {tag}
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} />
-          {terms}
-        </label>
-      </div>
-      <button type="submit" disabled={!agreed}>Rezervasyon Talebimi Gönder</button>
+      )}
+      {terms && ( 
+        <div>
+          <label>
+            <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} />
+            {terms}
+          </label>
+        </div>
+      )}
+      <button type="submit" disabled={!agreed && terms}>Rezervasyon Talebimi Gönder</button>
     </form>
   );
 };

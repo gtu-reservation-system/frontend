@@ -9,6 +9,9 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
   const [maxCapacity, setMaxCapacity] = useState(ownerData.maxCapacity || '');
   const [operatingHours, setOperatingHours] = useState(ownerData.operatingHours || '');
   const [websiteLink, setWebsiteLink] = useState(ownerData.websiteLink || '');
+  const [acceptConditions, setAcceptConditions] = useState(ownerData.acceptConditions || 'no');
+  const [additionalCondition, setAdditionalCondition] = useState(ownerData.additionalCondition || '');
+  const [specialDays, setSpecialDays] = useState(ownerData.specialDays || 'no');
 
   const [formError, setFormError] = useState('');
 
@@ -51,6 +54,9 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       maxCapacity,
       operatingHours,
       websiteLink,
+      additionalCondition,
+      specialDays,
+      acceptConditions,
     });
   };
 
@@ -122,7 +128,7 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
           placeholder="Örnek: 09:00 - 22:00"
         />
       </div>
-
+      
       <div>
         <label>Web Sitesi Linki:</label>
         <input
@@ -132,11 +138,69 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
         />
       </div>
 
+      <div>
+        <label>Şartlarınız var mı?</label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="acceptConditions"
+              value="yes"
+              checked={acceptConditions === 'yes'}
+              onChange={() => setAcceptConditions('yes')}
+            />
+            Evet
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="acceptConditions"
+              value="no"
+              checked={acceptConditions === 'no'}
+              onChange={() => setAcceptConditions('no')}
+            />
+            Hayır
+          </label>
+        </div>
+      </div>
+
+      {acceptConditions === 'yes' && (
+        <div>
+          <label>Şartlarınız:</label>
+          <input
+            type="text"
+            value={additionalCondition}
+            onChange={(e) => setAdditionalCondition(e.target.value)}
+          />
+        </div> )}
+
+      <div>
+        <label>Özel Gün Rezervasyonları:</label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="specialDays"
+              value="yes"
+              onChange={() => setSpecialDays('yes')}
+            />
+            Evet
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="specialDays"
+              value="no"
+              onChange={() => setSpecialDays('no')}
+            />
+            Hayır
+          </label>
+        </div>
+      </div>
+
       <button type="submit">Profili Güncelle</button>
     </form>
   );
 };
 
 export default EditOwnerProfileForm;
-
-

@@ -61,6 +61,7 @@ const Restaurant = () => {
         availableTimeSlots={restaurant.availableTimeSlots}
         maxGuests={restaurant.maxGuests}
         terms={restaurant.terms}
+        reservationTags={restaurant.reservationTags} 
         ownerId={ownerId}
       />
     </div>

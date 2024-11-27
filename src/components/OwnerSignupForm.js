@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LoginForm.css';
+import './LoginForm.css'
 
 const OwnerSignupForm = ({ onSubmit }) => {
   const [restaurantName, setRestaurantName] = useState('');
@@ -7,14 +7,15 @@ const OwnerSignupForm = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
-  const [tablesForTwo, setTablesForTwo] = useState('');
-  const [tablesForFour, setTablesForFour] = useState('');
-  const [tablesForSix, setTablesForSix] = useState('');
+  const [numberOfTables, setNumberOfTables] = useState('');
   const [maxCapacity, setMaxCapacity] = useState('');
   const [operatingHours, setOperatingHours] = useState('');
   const [photos, setPhotos] = useState([]);
   const [logo, setLogo] = useState(null);
-  const [websiteLink, setWebsiteLink] = useState('');
+  const [websiteLink, setWebsiteLink] = useState(''); 
+  const [acceptConditions, setAcceptConditions] = useState(null);
+  const [specialDays, setSpecialDays] = useState(null);
+  const [additionalCondition, setAdditionalCondition] = useState('');
   const [error, setError] = useState('');
 
   const isPasswordStrong = (password) => {
@@ -22,9 +23,10 @@ const OwnerSignupForm = ({ onSubmit }) => {
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumber = /\d/.test(password);
     const isCorrectLength = password.length >= 8 && password.length <= 12;
-
+  
     return hasUpperCase && hasLowerCase && hasNumber && isCorrectLength;
   };
+  
 
   const handlePhotosChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -42,55 +44,58 @@ const OwnerSignupForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !tablesForTwo || !tablesForFour || !tablesForSix || !maxCapacity || !operatingHours) {
-      setError('Lütfen tüm zorunlu alanları doldurun');
-      return;
+ 
+    if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !numberOfTables 
+        || !maxCapacity || !operatingHours || acceptConditions === null || specialDays === null) {
+       setError('Lütfen tüm zorunlu alanları doldurun');
+       return;
     }
 
     if (restaurantName.length > 30) {
-      alert('İsim 30 karakterden uzun olamaz.');
+      alert("İsim 30 karakterden uzun olamaz.");
       return;
     }
-
+ 
     const phoneRegex = /^[0-9]{5,10}$/;
     if (!phoneRegex.test(phoneNumber)) {
-      setError('Geçerli bir telefon numarası girin.');
-      return;
+       setError('Geçerli bir telefon numarası girin.');
+       return;
     }
-
+ 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Geçerli bir e-posta adresi girin.');
-      return;
+       setError('Geçerli bir e-posta adresi girin.');
+       return;
     }
-
+ 
     if (!isPasswordStrong(password)) {
-      setError('Şifre 8 ile 12 karakter arasında olmalıdır. Bir büyük harf, bir küçük harf ve bir sayı içermelidir.');
-      setPassword('');
-      return;
+       setError('Şifre 8 ile 12 karakter arasında olmalıdır. Bir büyük harf, bir küçük harf ve bir sayı içermelidir.');
+       setPassword(''); 
+       return;
     }
-
+ 
     const hoursRegex = /^\s*\d{1,2}\.\d{2}\s*-\s*\d{1,2}\.\d{2}\s*$/;
     if (!hoursRegex.test(operatingHours)) {
-      setError('Geçerli bir çalışma saatleri formatı girin (ör. 09.00 - 22.00).');
-      return;
+       setError('Geçerli bir çalışma saatleri formatı girin (ör. 09.00 - 22.00).');
+       return;
     }
-
-    if (parseInt(tablesForTwo) < 0 || parseInt(tablesForFour) < 0 || parseInt(tablesForSix) < 0 || parseInt(maxCapacity) <= 0) {
-      setError('Masa sayıları ve maksimum kapasite pozitif bir sayı olmalıdır.');
-      return;
+ 
+    if (parseInt(numberOfTables) <= 0 || parseInt(maxCapacity) <= 0) {
+       setError('Masa sayısı ve maksimum kapasite pozitif bir sayı olmalıdır.');
+       return;
     }
-
+ 
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (websiteLink && !urlRegex.test(websiteLink)) {
-      setError('Geçerli bir website linki girin.');
-      return;
+       setError('Geçerli bir website linki girin.');
+       return;
     }
-
+ 
     setError('');
-    onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, tablesForTwo, tablesForFour, tablesForSix, maxCapacity, operatingHours, websiteLink });
-  };
+    onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, numberOfTables, maxCapacity, operatingHours, websiteLink, acceptConditions,specialDays,
+              additionalCondition: acceptConditions === 'yes' ? additionalCondition : '', });
+ };
+ 
 
   return (
     <form onSubmit={handleSubmit} className="signup-form">
@@ -147,35 +152,13 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="tablesForTwo">2 Kişilik Masa Sayısı <span style={{ color: 'red' }}>*</span></label>
+        <label htmlFor="numberOfTables">Masa sayısı <span style={{ color: 'red' }}>*</span></label>
         <input
           type="number"
-          id="tablesForTwo"
-          value={tablesForTwo}
-          min="0"
-          onChange={(e) => setTablesForTwo(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label htmlFor="tablesForFour">4 Kişilik Masa Sayısı <span style={{ color: 'red' }}>*</span></label>
-        <input
-          type="number"
-          id="tablesForFour"
-          value={tablesForFour}
-          min="0"
-          onChange={(e) => setTablesForFour(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label htmlFor="tablesForSix">6 Kişilik Masa Sayısı <span style={{ color: 'red' }}>*</span></label>
-        <input
-          type="number"
-          id="tablesForSix"
-          value={tablesForSix}
-          min="0"
-          onChange={(e) => setTablesForSix(e.target.value)}
+          id="numberOfTables"
+          value={numberOfTables}
+          min="1"
+          onChange={(e) => setNumberOfTables(e.target.value)}
         />
       </div>
 
@@ -199,6 +182,74 @@ const OwnerSignupForm = ({ onSubmit }) => {
           onChange={(e) => setOperatingHours(e.target.value)}
           placeholder="Örnek: 09.00 - 22.00"
         />
+      </div>
+
+        <div className="input-group">
+          <label htmlFor="acceptConditions">
+            Şartlarınız var mı? <span style={{ color: 'red' }}>*</span>
+          </label>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="acceptConditions"
+              value="yes"
+              checked={acceptConditions === 'yes'}
+              onChange={() => setAcceptConditions('yes')}
+            />
+            Evet
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="acceptConditions"
+              value="no"
+              checked={acceptConditions === 'no'}
+              onChange={() => setAcceptConditions('no')}
+            />
+            Hayır
+          </label>
+        </div>
+        {acceptConditions === 'yes' && (
+          <div>
+            <label htmlFor="additionalCondition">Şartlarınızı belirtin:</label>
+            <input
+              type="text"
+              id="additionalCondition"
+              value={additionalCondition}
+              onChange={(e) => setAdditionalCondition(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="specialDays">
+          Özel gün rezervasyonları alıyor musunuz?{' '}
+          <span style={{ color: 'red' }}>*</span>
+        </label>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="specialDays"
+              value="yes"
+              checked={specialDays === 'yes'}
+              onChange={() => setSpecialDays('yes')}
+            />
+            Evet
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="specialDays"
+              value="no"
+              checked={specialDays === 'no'}
+              onChange={() => setSpecialDays('no')}
+            />
+            Hayır
+          </label>
+        </div>
       </div>
 
       <div className="input-group">
