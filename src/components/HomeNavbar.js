@@ -7,17 +7,31 @@ const HomeNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
+    const storedDarkMode = localStorage.getItem('darkMode');
 
     if (userId) {
       setIsLoggedIn(true);
       setRole(userRole);
     }
+
+    if (storedDarkMode === 'true') {
+      setIsDarkMode(true);
+      document.body.classList.add('dark-mode');
+    }
   }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', newDarkMode);
+  };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -50,8 +64,9 @@ const HomeNavbar = () => {
   return (
     <div className="home-navbar">
       <div className="logo" onClick={() => navigate('/')}>
-      <img src="/icon.png" alt="Logo" />
-        Rezerve</div>
+        <img src={isDarkMode ? "/dark-icon.png" : "/icon.png"} />
+        Rezerve
+      </div>
       <nav className="navbar">
         <input
           type="text"
@@ -64,11 +79,19 @@ const HomeNavbar = () => {
         <button onClick={handleSearch} disabled={!searchQuery.trim()} className="search-button">
           Ara
         </button>
+        
+        {/* Dark Mode Toggle */}
+        <button 
+          onClick={toggleDarkMode} 
+          className="nav-button dark-mode-toggle"
+        >
+          {isDarkMode ? 'Aydınlık Moda Geç' : 'Karanlık Moda Geç'}
+        </button>
 
         {!isLoggedIn ? (
-          <div 
-            onMouseEnter={handleMouseEnter} 
-            onMouseLeave={handleMouseLeave} 
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className="signup-container"
           >
             <button className="signup-button">Kayıt Ol</button>
@@ -84,14 +107,14 @@ const HomeNavbar = () => {
             )}
           </div>
         ) : (
-          <button 
+          <button
             onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}
             className="nav-button"
           >
             Profil
           </button>
         )}
-
+        
         {!isLoggedIn ? (
           <button onClick={() => navigate('/login')} className="nav-button">Giriş Yap</button>
         ) : (
@@ -103,4 +126,3 @@ const HomeNavbar = () => {
 };
 
 export default HomeNavbar;
-

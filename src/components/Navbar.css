@@ -1,10 +1,24 @@
-.home-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 40px;
-  border-bottom: 1px solid #E5E8EB;
-  background-color: white;
+:root {
+  /* Light mode colors */
+  --navbar-bg-color: white;
+  --navbar-text-color: black;
+  --navbar-border-color: #E5E8EB;
+  --navbar-input-bg: #EDEDED;
+  --navbar-input-text: #737373;
+  --navbar-button-bg: #EDEDED;
+  --navbar-button-text: black;
+  --signup-button-bg: #EB2930;
+  --signup-button-text: white;
+  --dropdown-bg: white;
+  --dropdown-hover-bg: #EB2930;
+}
+
+.dark-mode {
+  /* Dark mode colors */
+  --navbar-bg-color: #210916; /* Dark background */
+  --navbar-border-color: #8b1a2c;
+  --navbar-button-bg: #e8a229;
+  --navbar-button-text: #F9FAFB;
 }
 
 .home-navbar {
@@ -12,120 +26,43 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 40px;
-  border-bottom: 1px solid #E5E8EB;
-  background-color: white;
+  border-bottom: 1px solid var(--navbar-border-color);
+  background-color: var(--navbar-bg-color);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
+
+.dark-mode .home-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  border-bottom: 1px solid var(--navbar-border-color);
+  background-color: var(--navbar-bg-color);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
 
 .logo {
-  color: black;
+  color: var(--navbar-text-color);
   font-size: 18px;
   font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 700;
+  height: 30px;
+  width: auto;
   cursor: pointer;
+  transition: color 0.3s;
 }
 
-.navbar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.search-input {
-  width: 300px;
-  padding: 8px;
-  border: 1px solid #EDEDED;
-  border-radius: 12px;
-  font-size: 16px;
-  color: #737373;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  
-  
-}
-
-.search-button {
-  font-size: 14px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 500;
-  color: black;
-  padding: 8px 12px;
-  border: none;
-  background-color: #EDEDED;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.search-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.nav-button {
-  font-size: 14px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 500;
-  color: black;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 12px;
-  background: #EDEDED;
-  cursor: pointer;
-}
-
-.signup-button {
+.dark-mode .logo {
   color: white;
-  background-color: #EB2930;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.signup-container {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #E5E8EB;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown-item {
-  padding: 8px 16px;
-  color: black;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  cursor: pointer;
-  background-color: #EDEDED;
-  border: none;
-  text-align: left;
-}
-
-.dropdown-item:hover {
-  background-color: #EB2930;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
 .logo img {
-  height: 40px;
-  width: auto;
+  filter: var(--logo-filter, none); /* Optional: adjust logo color in dark mode */
+}
+
+.dark-mode .logo img {
+  /* Optional: invert logo color in dark mode */
+   filter: invert(1) brightness(2); 
 }
 
 .navbar {
@@ -137,23 +74,26 @@
 .search-input {
   width: 300px;
   padding: 8px;
-  border: 1px solid #EDEDED;
+  border: 1px solid var(--navbar-border-color);
   border-radius: 12px;
   font-size: 16px;
-  color: #737373;
+  color: var(--navbar-input-text);
+  background-color: var(--navbar-input-bg);
   font-family: 'Be Vietnam Pro', sans-serif;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .search-button {
   font-size: 14px;
   font-family: 'Be Vietnam Pro', sans-serif;
   font-weight: 500;
-  color: black;
+  color: var(--navbar-button-text);
   padding: 8px 12px;
   border: none;
-  background-color: #EDEDED;
+  background-color: var(--navbar-button-bg);
   border-radius: 12px;
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .search-button:disabled {
@@ -165,17 +105,18 @@
   font-size: 14px;
   font-family: 'Be Vietnam Pro', sans-serif;
   font-weight: 500;
-  color: black;
+  color: var(--navbar-button-text);
   padding: 8px 12px;
   border: none;
   border-radius: 12px;
-  background: #EDEDED;
+  background: var(--navbar-button-bg);
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .signup-button {
-  color: white;
-  background-color: #EB2930;
+  color: var(--signup-button-text);
+  background-color: var(--signup-button-bg);
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 700;
@@ -183,6 +124,7 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .signup-container {
@@ -194,26 +136,34 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
-  border: 1px solid #E5E8EB;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--navbar-border-color);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .dropdown-item {
   padding: 8px 16px;
-  color: black;
+  color: var(--navbar-text-color);
   font-size: 14px;
   font-weight: 500;
   font-family: 'Be Vietnam Pro', sans-serif;
   cursor: pointer;
-  background-color: #EDEDED;
+  background-color: var(--navbar-button-bg);
   border: none;
   text-align: left;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .dropdown-item:hover {
-  background-color: #EB2930;
+  background-color: var(--dropdown-hover-bg);
+}
+
+/* Dark mode specific hover states if needed */
+.dark-mode .nav-button:hover,
+.dark-mode .search-button:hover {
+  background-color: #4A5568; /* Slightly lighter background on hover */
 }
