@@ -28,6 +28,7 @@ const EditUserProfile = () => {
           const response = await axios.get(`http://localhost:8080/api/users/${id}`);
           const data = response.data;
 
+          console.log(data.name);
           setName(data.name);
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
