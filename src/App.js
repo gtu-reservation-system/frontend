@@ -62,17 +62,6 @@ const App = () => {
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setRole(null);
-    setUserData(null);
-    setOwnerData(null);
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('role');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('ownerData');
-  };
-
   return (
     <Router>
       <Routes>
