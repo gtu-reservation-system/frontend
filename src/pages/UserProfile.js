@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import UserProfileForm from '../components/EditUserProfileForm';
 
 const UserProfile = () => {
   const [name, setName] = useState('');
@@ -61,17 +60,12 @@ const UserProfile = () => {
       {message && <p className="success-message">{message}</p>}
 
       <div className="profile-info">
-        <UserProfileForm
-          name={name}
-          phoneNumber={phoneNumber}
-          email={email}
-          setName={setName}
-          setPhoneNumber={setPhoneNumber}
-          setEmail={setEmail}
-          error={error}
-          onSubmit={() => {}}
-        />
+        <h3>Kullanıcı Bilgileri</h3>
+        <p><strong>Ad:</strong> {name}</p>
+        <p><strong>Telefon:</strong> {phoneNumber}</p>
+        <p><strong>E-posta:</strong> {email}</p>
       </div>
+
 
       <button onClick={handleEditProfileRedirect}>Profilimi Düzenle</button>
       <button onClick={handlePasswordChangeRedirect}>Şifre Değiştir</button>

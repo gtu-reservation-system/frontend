@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPhoneNumber, setEmail, onSubmit }) => {
+const EditUserProfileForm = ({ name, phoneNumber, email, setName, setPhoneNumber, setEmail, onSubmit }) => {
   const [formError, setFormError] = useState('');
 
   const isPhoneNumberValid = (phone) => {
@@ -16,12 +16,12 @@ const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPho
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!fullName || !phoneNumber || !email) {
+    if (!name || !phoneNumber || !email) {
       setFormError('Lütfen tüm alanları doldurun');
       return;
     }
 
-    if (fullName.length > 30) {
+    if (name.length > 30) {
       setFormError("İsim 30 karakterden uzun olamaz.");
       return;
     }
@@ -37,7 +37,7 @@ const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPho
     }
 
     setFormError('');
-    onSubmit({ fullName, phoneNumber, email });
+    onSubmit({ name, phoneNumber, email });
   };
 
   return (
@@ -45,12 +45,12 @@ const EditUserProfileForm = ({ fullName, phoneNumber, email, setFullName, setPho
       {formError && <p className="error-message">{formError}</p>}
       
       <div className="input-group">
-        <label htmlFor="fullName">İsim ve soyisim</label>
+        <label htmlFor="name">İsim ve soyisim</label>
         <input
           type="text"
-          id="fullName"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 

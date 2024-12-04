@@ -7,7 +7,9 @@ const OwnerSignupForm = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
-  const [numberOfTables, setNumberOfTables] = useState('');
+  const [twoPersonTables, setTwoPersonTables] = useState('');
+  const [fourPersonTables, setFourPersonTables] = useState('');
+  const [sixPersonTables, setSixPersonTables] = useState('');
   const [maxCapacity, setMaxCapacity] = useState('');
   const [operatingHours, setOperatingHours] = useState('');
   const [photos, setPhotos] = useState([]);
@@ -45,8 +47,8 @@ const OwnerSignupForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
  
-    if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !numberOfTables 
-        || !maxCapacity || !operatingHours || acceptConditions === null || specialDays === null) {
+    if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !twoPersonTables 
+        || !fourPersonTables || !sixPersonTables || !maxCapacity || !operatingHours || acceptConditions === null || specialDays === null) {
        setError('Lütfen tüm zorunlu alanları doldurun');
        return;
     }
@@ -80,10 +82,10 @@ const OwnerSignupForm = ({ onSubmit }) => {
        return;
     }
  
-    if (parseInt(numberOfTables) <= 0 || parseInt(maxCapacity) <= 0) {
-       setError('Masa sayısı ve maksimum kapasite pozitif bir sayı olmalıdır.');
-       return;
-    }
+    if (parseInt(twoPersonTables) <= 0 || parseInt(fourPersonTables) <= 0 || parseInt(sixPersonTables) <= 0) {
+      setError('Masa sayısı sıfırdan küçük olamaz.');
+      return;
+   }
  
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (websiteLink && !urlRegex.test(websiteLink)) {
@@ -92,7 +94,8 @@ const OwnerSignupForm = ({ onSubmit }) => {
     }
  
     setError('');
-    onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, numberOfTables, maxCapacity, operatingHours, websiteLink, acceptConditions,specialDays,
+    onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, twoPersonTables, fourPersonTables, sixPersonTables, 
+              maxCapacity, operatingHours, websiteLink, acceptConditions,specialDays,
               additionalCondition: acceptConditions === 'yes' ? additionalCondition : '', });
  };
  
@@ -152,13 +155,35 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="numberOfTables">Masa sayısı <span style={{ color: 'red' }}>*</span></label>
+        <label htmlFor="twoPersonTables">2 kişilik masa sayısı <span style={{ color: 'red' }}>*</span></label>
         <input
           type="number"
-          id="numberOfTables"
-          value={numberOfTables}
+          id="twoPersonTables"
+          value={twoPersonTables}
           min="1"
-          onChange={(e) => setNumberOfTables(e.target.value)}
+          onChange={(e) => setTwoPersonTables(e.target.value)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="fourPersonTables">4 kişilik masa sayısı <span style={{ color: 'red' }}>*</span></label>
+        <input
+          type="number"
+          id="fourPersonTables"
+          value={fourPersonTables}
+          min="1"
+          onChange={(e) => setFourPersonTables(e.target.value)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="sixPersonTables">6 kişilik masa sayısı <span style={{ color: 'red' }}>*</span></label>
+        <input
+          type="number"
+          id="sixPersonTables"
+          value={sixPersonTables}
+          min="1"
+          onChange={(e) => setSixPersonTables(e.target.value)}
         />
       </div>
 
