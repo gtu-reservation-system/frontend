@@ -29,9 +29,9 @@ const OwnerSignup = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         localStorage.setItem('ownerId', response.data.id);
-        localStorage.setItem('role', 'owner'); 
+        localStorage.setItem('role', response.data.role); 
         navigate('/');
       }
     } catch (error) {

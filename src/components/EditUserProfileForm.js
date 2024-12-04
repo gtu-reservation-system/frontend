@@ -15,31 +15,31 @@ const EditUserProfileForm = ({ name, phoneNumber, email, setName, setPhoneNumber
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!name || !phoneNumber || !email) {
       setFormError('Lütfen tüm alanları doldurun');
       return;
     }
-
+  
     if (name.length > 30) {
-      setFormError("İsim 30 karakterden uzun olamaz.");
+      setFormError('İsim 30 karakterden uzun olamaz.');
       return;
     }
-
+  
     if (!isPhoneNumberValid(phoneNumber)) {
       setFormError('Geçerli bir telefon numarası girin (5-15 rakam).');
       return;
     }
-
+  
     if (!isEmailValid(email)) {
       setFormError('Geçerli bir e-posta adresi girin.');
       return;
     }
-
+  
     setFormError('');
-    onSubmit({ name, phoneNumber, email });
+    onSubmit(e); 
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
       {formError && <p className="error-message">{formError}</p>}

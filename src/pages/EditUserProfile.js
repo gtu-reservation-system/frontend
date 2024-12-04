@@ -7,6 +7,7 @@ const EditUserProfile = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -28,10 +29,10 @@ const EditUserProfile = () => {
           const response = await axios.get(`http://localhost:8080/api/users/${id}`);
           const data = response.data;
 
-          console.log(data.name);
           setName(data.name);
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
+          setPassword(data.password);
         } catch (error) {
           console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
           setError('Kullanıcı verileri yüklenemedi.');
@@ -44,29 +45,28 @@ const EditUserProfile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
+  
     if (!name || !phoneNumber || !email) {
       setError('Lütfen tüm alanları doldurun.');
       return;
     }
-
+  
     setError('');
-
+  
     try {
       const response = await axios.put(`http://localhost:8080/api/users/${id}`, {
-        name,
-        phoneNumber,
-        email
+        name, phoneNumber, email, password,
       });
-
+  
       if (response.status === 200) {
         navigate('/userProfile');
       }
     } catch (error) {
-      console.error("Profil güncellenirken bir hata oluştu:", error);
+      console.error('Profil güncellenirken bir hata oluştu:', error);
       setError('Profil güncellenirken bir hata oluştu.');
     }
   };
+  
 
   const handleBackToProfile = () => {
     navigate('/userProfile');

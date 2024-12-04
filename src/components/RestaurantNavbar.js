@@ -83,7 +83,7 @@ const RestaurantNavbar = () => {
             )}
           </div>
         ) : (
-          <button onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}>
+          <button onClick={() => navigate(role === 'USER' ? '/userProfile' : '/ownerProfile')}>
             <FontAwesomeIcon icon={faUser} /> Profil
           </button>
         )}

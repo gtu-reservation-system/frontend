@@ -16,10 +16,10 @@ const LoginPage = () => {
         localStorage.setItem('userId', id);
         localStorage.setItem('role', role); 
 
-        if (role === 'owner') {
-          navigate('/ownerProfile');
-        } else {
+        if (role === 'USER') {
           navigate('/userProfile');
+        } else {
+          navigate('/ownerProfile');
         }
       }
     } catch (error) {

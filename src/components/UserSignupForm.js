@@ -41,7 +41,7 @@ const UserSignupForm = ({ onSubmit }) => {
     }
 
     if (!isPhoneNumberValid(phoneNumber)) {
-      setError('Geçerli bir telefon numarası girin (5-15 rakam).');
+      setError('Geçerli bir telefon numarası girin.');
       return;
     }
 

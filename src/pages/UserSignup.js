@@ -11,15 +11,13 @@ const UserSignup = () => {
     try {
       const response = await axios.post('http://localhost:8080/api/users', formData);
 
-      console.log('Response Status:', response.status);
-
       if (response.status === 200) {
         alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');
         setTimeout(() => navigate('/login'), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status === 500) {
-        alert('Bu e-posta ile bir hesap zaten var. Lütfen giriş yapın.');
+        alert('Bu e-posta veya telefon numarası ile bir hesap zaten var. Lütfen giriş yapın.');
       } else {
         console.error('Kayıt işlemi başarısız:', error);
         alert('Kayıt işlemi başarısız! Lütfen bilgilerinizi kontrol edin.');

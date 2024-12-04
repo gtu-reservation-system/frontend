@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/HomeNavbar';
 import Navbar2 from './components/ListNavbar';
 import Navbar3 from './components/LoginNavbar';
@@ -30,11 +31,9 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    // Check login status
     const savedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const savedRole = localStorage.getItem('role');
     
-    // Check dark mode
     const storedDarkMode = localStorage.getItem('darkMode');
     if (storedDarkMode === 'true') {
       setIsDarkMode(true);
@@ -44,14 +43,13 @@ const App = () => {
     if (savedIsLoggedIn) {
       setIsLoggedIn(savedIsLoggedIn);
       setRole(savedRole);
+
       if (savedRole === 'owner') {
         const savedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
         setOwnerData(savedOwnerData);
-        window.location.href = '/ownerProfile';
       } else if (savedRole === 'user') {
         const savedUserData = JSON.parse(localStorage.getItem('userData'));
         setUserData(savedUserData);
-        window.location.href = '/userProfile';
       }
     }
   }, []);
@@ -61,12 +59,13 @@ const App = () => {
     setRole(data.role);
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('role', data.role);
-    if (data.role === 'owner') {
-      setOwnerData(data.ownerData);
-      localStorage.setItem('ownerData', JSON.stringify(data.ownerData));
-    } else {
+
+    if (data.role === 'USER') {
       setUserData(data.userData);
       localStorage.setItem('userData', JSON.stringify(data.userData));
+    } else {
+      setOwnerData(data.ownerData);
+      localStorage.setItem('ownerData', JSON.stringify(data.ownerData));
     }
   };
 
@@ -77,7 +76,6 @@ const App = () => {
     localStorage.setItem('darkMode', newDarkMode);
   };
 
-  // Wrap each navbar with dark mode props
   const withDarkMode = (NavbarComponent) => {
     return (props) => (
       <NavbarComponent 
@@ -88,7 +86,6 @@ const App = () => {
     );
   };
 
-  // Create wrapped navbar components
   const WrappedNavbar = withDarkMode(Navbar);
   const WrappedNavbar2 = withDarkMode(Navbar2);
   const WrappedNavbar3 = withDarkMode(Navbar3);
@@ -108,13 +105,63 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup/owner" element={<><WrappedNavbar5 /><OwnerSignup /></>} />
         <Route path="/signup/user" element={<><WrappedNavbar6 /><UserSignup /></>} />
-        <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile userData={userData} /></>} />
-        <Route path="/edit-userProfile" element={<EditUserProfile />} />
-        <Route path="/user-reservations" element={<UserReservations />} />
-        <Route path="/ownerProfile" element={<><WrappedNavbar7 /><OwnerProfile ownerData={ownerData}/></>} />
-        <Route path="/edit-ownerProfile" element={<EditProfile />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/owner-reservations" element={<OwnerReservations />} />
+
+        <Route 
+          path="/userProfile" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <><WrappedNavbar7 /><UserProfile userData={userData} /></>
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/edit-userProfile" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <EditUserProfile />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/user-reservations" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <UserReservations />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/ownerProfile" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <><WrappedNavbar7 /><OwnerProfile ownerData={ownerData} /></>
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/edit-ownerProfile" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <EditProfile />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/change-password" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <ChangePassword />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/owner-reservations" 
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <OwnerReservations />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
     </Router>
   );
