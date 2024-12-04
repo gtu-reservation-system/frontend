@@ -15,10 +15,12 @@
 
 .dark-mode {
   /* Dark mode colors */
-  --navbar-bg-color: #210916; /* Dark background */
-  --navbar-border-color: #8b1a2c;
+  --navbar-bg-color: #0e1026; /* Dark background */
+  --navbar-border-color: #e4a85b;
   --navbar-button-bg: #e8a229;
   --navbar-button-text: #F9FAFB;
+  --signup-button-bg: #2d21d4;
+
 }
 
 .home-navbar {
