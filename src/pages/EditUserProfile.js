@@ -7,7 +7,6 @@ const EditUserProfile = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ const EditUserProfile = () => {
           setName(data.name);
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
-          setPassword(data.password);
         } catch (error) {
           console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
           setError('Kullanıcı verileri yüklenemedi.');
@@ -55,7 +53,7 @@ const EditUserProfile = () => {
   
     try {
       const response = await axios.put(`http://localhost:8080/api/users/${id}`, {
-        name, phoneNumber, email, password,
+        name, phoneNumber, email
       });
   
       if (response.status === 200) {
