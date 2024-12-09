@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/HomeNavbar';
 import Navbar2 from './components/ListNavbar';
 import Navbar3 from './components/LoginNavbar';
@@ -33,7 +32,6 @@ const App = () => {
   useEffect(() => {
     const savedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const savedRole = localStorage.getItem('role');
-    
     const storedDarkMode = localStorage.getItem('darkMode');
     if (storedDarkMode === 'true') {
       setIsDarkMode(true);
@@ -78,10 +76,10 @@ const App = () => {
 
   const withDarkMode = (NavbarComponent) => {
     return (props) => (
-      <NavbarComponent 
-        {...props} 
-        isDarkMode={isDarkMode} 
-        toggleDarkMode={toggleDarkMode} 
+      <NavbarComponent
+        {...props}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
       />
     );
   };
@@ -105,63 +103,13 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup/owner" element={<><WrappedNavbar5 /><OwnerSignup /></>} />
         <Route path="/signup/user" element={<><WrappedNavbar6 /><UserSignup /></>} />
-
-        <Route 
-          path="/userProfile" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <><WrappedNavbar7 /><UserProfile userData={userData} /></>
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/edit-userProfile" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <EditUserProfile />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/user-reservations" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <UserReservations />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/ownerProfile" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <><WrappedNavbar7 /><OwnerProfile ownerData={ownerData} /></>
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/edit-ownerProfile" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <EditProfile />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/change-password" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <ChangePassword />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/owner-reservations" 
-          element={
-            <PrivateRoute isLoggedIn={isLoggedIn}>
-              <OwnerReservations />
-            </PrivateRoute>
-          } 
-        />
+        <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile userData={userData} /></>} />
+        <Route path="/edit-userProfile" element={<EditUserProfile />} />
+        <Route path="/user-reservations" element={<UserReservations /> } />
+        <Route path="/ownerProfile" element={<><WrappedNavbar7 /><OwnerProfile ownerData={ownerData} /></> } />
+        <Route path="/edit-ownerProfile" element={<EditProfile /> } />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/owner-reservations" element={<OwnerReservations />} />
       </Routes>
     </Router>
   );
