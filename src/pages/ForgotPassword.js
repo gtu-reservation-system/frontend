@@ -40,9 +40,19 @@ const ForgotPassword = () => {
     }
   };
 
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
   return (
     <div className="forgot-password">
-      <h2>Şifremi Unuttum</h2>
+      <h2 style = {titleStyle}>Şifremi Unuttum</h2>
       <form onSubmit={handleSubmit}>
         {error && <p className="error-message">{error}</p>}
         {message && <p className="success-message">{message}</p>}

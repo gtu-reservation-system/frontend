@@ -1,0 +1,178 @@
+
+.sidebar {
+    width: 320px;
+    height: 740px;
+    padding: 16px;
+    background: white;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.sidebar-menu {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-item {
+    align-self: stretch;
+    padding: 8px 12px;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-item-active {
+    background: #F2E8E8;
+    border-radius: 12px;
+}
+
+.sidebar-item-text {
+    color: #1C0F0D;
+    font-size: 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.profile-section {
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.profile-image {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-name {
+    color: #1C0F0D;
+    font-size: 22px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+.profile-email {
+    color: #99594D;
+    font-size: 16px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.edit-profile-btn {
+    flex: 1;
+    height: 40px;
+    padding: 0 16px;
+    background: #F2E8E8;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1C0F0D;
+    font-size: 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 700;
+}
+
+.logout-btn {
+    flex: 1;
+    height: 40px;
+    padding: 0 16px;
+    background: #ED3812;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 700;
+}
+
+.comments-header {
+    align-self: stretch;
+    height: 60px;
+    padding: 20px 16px 12px;
+    color: #1C0F0D;
+    font-size: 22px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+.comment-item {
+    align-self: stretch;
+    padding: 8px 16px;
+    background: white;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-details {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.comment-image {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+}
+
+.comment-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comment-restaurant {
+    color: #1C0F0D;
+    font-size: 16px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.comment-date {
+    color: #99594D;
+    font-size: 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+    line-height: 21px;
+}
+
+.comment-rating {
+    color: #1C0F0D;
+    font-size: 16px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+    line-height: 24px;
+}

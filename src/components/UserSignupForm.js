@@ -60,7 +60,7 @@ const UserSignupForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="signup-form">
+    <form onSubmit={handleSubmit} className="form">
       {error && <p className="error-message">{error}</p>}
 
       <div className="input-group">

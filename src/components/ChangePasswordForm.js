@@ -43,7 +43,7 @@ const ChangePasswordForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="change-password-form">
+    <form onSubmit={handleSubmit} className="form">
       {error && <p className="error-message">{error}</p>}
 
       <div className="input-group">

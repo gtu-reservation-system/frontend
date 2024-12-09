@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ChangePasswordForm from '../components/ChangePasswordForm';
+import '../components/UserSignupForm.css'
 
 const ChangePassword = () => {
   const [message, setMessage] = useState('');
@@ -19,9 +20,19 @@ const ChangePassword = () => {
     }
   };
 
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
   return (
     <div className="change-password-page">
-      <h2>Şifre Değiştir</h2>
+      <h2 style={titleStyle}>Şifre Değiştir</h2>
       {error && <p className="error-message">{error}</p>}
       {message && <p className="success-message">{message}</p>}
       

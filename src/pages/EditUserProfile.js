@@ -71,9 +71,19 @@ const EditUserProfile = () => {
     navigate('/userProfile');
   };
 
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px'
+  };
+
   return (
     <div className="edit-user-profile">
-      <h2>Profilimi Düzenle</h2>
+      <h2 style ={titleStyle}>Profilimi Düzenle</h2>
       <UserProfileForm
         name={name}
         phoneNumber={phoneNumber}
