@@ -108,7 +108,7 @@ const HomeNavbar = () => {
           </div>
         ) : (
           <button
-            onClick={() => navigate(role === 'USER' ? '/userProfile' : '/ownerProfile')}
+            onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}
             className="nav-button"
           >
             Profil
