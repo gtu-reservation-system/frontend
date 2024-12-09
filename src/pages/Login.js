@@ -16,7 +16,7 @@ const LoginPage = () => {
         localStorage.setItem('userId', id);
         localStorage.setItem('role', role); 
 
-        if (role === 'USER') {
+        if (role === 'user') {
           navigate('/userProfile');
         } else {
           navigate('/ownerProfile');
