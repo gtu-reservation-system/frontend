@@ -58,7 +58,7 @@ const App = () => {
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('role', data.role);
 
-    if (data.role === 'USER') {
+    if (data.role === 'user') {
       setUserData(data.userData);
       localStorage.setItem('userData', JSON.stringify(data.userData));
     } else {
