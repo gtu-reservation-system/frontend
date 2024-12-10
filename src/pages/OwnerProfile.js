@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const OwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
   const [error, setError] = useState(null);
-  const [newPhotos, setNewPhotos] = useState([]);
-  const [logo, setLogo] = useState(null);
   const id = localStorage.getItem('ownerId');
   const navigate = useNavigate();
 
@@ -33,36 +31,6 @@ const OwnerProfile = () => {
     navigate('/edit-ownerProfile');
   };
 
-  const handlePhotoChange = (e) => {
-    setNewPhotos([...e.target.files]);
-  };
-
-  const handleLogoChange = (e) => {
-    setLogo(e.target.files[0]);
-  };
-
-  const handleUpdatePhotos = async () => {
-    const formData = new FormData();
-    newPhotos.forEach((photo, index) => {
-      formData.append(`photos[${index}]`, photo);
-    });
-    if (logo) {
-      formData.append('logo', logo);
-    }
-
-    try {
-      const response = await axios.put(`http://localhost:8080/api/restaurants/${id}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      setOwnerData(response.data);
-      setNewPhotos([]);
-      setLogo(null);
-    } catch (error) {
-      console.error("Fotoğraflar güncellenirken hata oluştu:", error);
-      setError('Fotoğraflar güncellenirken hata oluştu');
-    }
-  };
-
   const handleReservationsRedirect = () => {
     navigate('/owner-reservations');
   };
@@ -77,34 +45,44 @@ const OwnerProfile = () => {
         <p><strong>Adres:</strong> {ownerData.address}</p>
         <p><strong>Telefon Numarası:</strong> {ownerData.phoneNumber}</p>
         <p><strong>E-posta:</strong> {ownerData.email}</p>
-        <p><strong>Masaların Sayısı:</strong> {ownerData.numberOfTables}</p>
+        <p><strong>2 Kişilik Masa Sayısı:</strong> {ownerData.twoPersonTables}</p>
+        <p><strong>4 Kişilik Masa Sayısı:</strong> {ownerData.fourPersonTables}</p>
+        <p><strong>6 Kişilik Masa Sayısı:</strong> {ownerData.sixPersonTables}</p>
         <p><strong>Max Kapasite:</strong> {ownerData.maxCapacity}</p>
         <p><strong>Çalışma Saatleri:</strong> {ownerData.operatingHours}</p>
         <p><strong>Şartlar:</strong> {ownerData.additionalCondition}</p>
-        <p><strong>Özel Günler:</strong> {ownerData.specialDays}</p>
-        <p><strong>Web Sitesi Bağlantısı:</strong> <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a></p>
+        <p><strong>Özel Günler:</strong> {ownerData.specialDays?.join(', ')}</p>
+        <p><strong>Etiketler:</strong> {ownerData.tags ? ownerData.tags.join(', ') : 'Etiketler bulunmamaktadır'}</p>
+        <div>
+        <p><strong>Web Sitesi Bağlantısı:</strong> {ownerData.websiteLink ? (
+          <a href={ownerData.websiteLink} target="_blank" rel="noopener noreferrer">{ownerData.websiteLink}</a>
+        ) : (
+          'Web sitesi bulunmamaktadır'
+        )}</p>
+      </div>  
 
-        {ownerData.photos && ownerData.photos.length > 0 && (
-          <div className="photos">
-            <h3>Restoran Fotoğrafları</h3>
-            <div className="photo-gallery">
-              {ownerData.photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
-              ))}
-            </div>
-          </div>
+        <div>
+        <p><strong>Logo:</strong></p>
+        {ownerData.logo ? (
+          <img src={ownerData.logo} alt="Restoran Logo" className="restaurant-logo" />
+        ) : (
+          <p>Logo bulunmamaktadır</p>
         )}
+      </div>
 
-        <div>
-          <label>Yeni Fotoğraflar Yükle:</label>
-          <input type="file" multiple accept="image/*" onChange={handlePhotoChange} />
-        </div>
-        <div>
-          <label>Logo Yükle:</label>
-          <input type="file" accept="image/*" onChange={handleLogoChange} />
-        </div>
+      <div>
+        <p><strong>Fotoğraflar:</strong></p>
+        {ownerData.photos && ownerData.photos.length > 0 ? (
+          <div className="photo-gallery">
+            {ownerData.photos.map((photo, index) => (
+              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
+            ))}
+          </div>
+        ) : (
+          <p>Fotoğraflar bulunmamaktadır</p>
+        )}
+      </div>  
 
-        <button onClick={handleUpdatePhotos}>Fotoğrafları Güncelle</button>
         <button onClick={handleEditProfile}>Profili Düzenle</button>
         <button onClick={handleReservationsRedirect}>Rezervasyonlar</button>
       </div>

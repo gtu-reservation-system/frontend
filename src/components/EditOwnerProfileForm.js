@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 
-const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
-  const [restaurantName, setRestaurantName] = useState(ownerData.restaurantName || '');
-  const [address, setAddress] = useState(ownerData.address || '');
-  const [phoneNumber, setPhoneNumber] = useState(ownerData.phoneNumber || '');
-  const [email, setEmail] = useState(ownerData.email || '');
-  const [numberOfTables, setNumberOfTables] = useState(ownerData.numberOfTables || '');
-  const [maxCapacity, setMaxCapacity] = useState(ownerData.maxCapacity || '');
-  const [operatingHours, setOperatingHours] = useState(ownerData.operatingHours || '');
-  const [websiteLink, setWebsiteLink] = useState(ownerData.websiteLink || '');
-  const [acceptConditions, setAcceptConditions] = useState(ownerData.acceptConditions || 'no');
-  const [additionalCondition, setAdditionalCondition] = useState(ownerData.additionalCondition || '');
-  const [specialDays, setSpecialDays] = useState(ownerData.specialDays || 'no');
-
+const EditOwnerProfileForm = ({ restaurantName, address, phoneNumber, email, twoPersonTables, fourPersonTables, sixPersonTables, operatingHours,
+  websiteLink, acceptConditions, additionalCondition, specialDays, tags, photos, logo, setRestaurantName, setAddress, setPhoneNumber, setEmail,
+  setTwoPersonTables, setFourPersonTables,setSixPersonTables, setOperatingHours, setWebsiteLink, setAcceptConditions, setAdditionalCondition,
+  setSpecialDays, setTags, setPhotos, setLogo, onSubmit }) => {
   const [formError, setFormError] = useState('');
 
   const isPhoneNumberValid = (phone) => {
@@ -25,121 +16,158 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
     return emailRegex.test(email);
   };
 
+  const isHoursValid = (operatingHours) => {
+    const hoursRegex = /^\s*\d{1,2}\.\d{2}\s*-\s*\d{1,2}\.\d{2}\s*$/;
+    return hoursRegex.test(operatingHours);
+  };
+
+  const isUrlValid = (websiteLink) => {
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    return urlRegex.test(websiteLink);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setFormError(''); 
+    if (!restaurantName || !phoneNumber || !email || !address || !twoPersonTables || !fourPersonTables || !sixPersonTables || !operatingHours 
+      || !acceptConditions == null || photos.length < 3|| !logo) {
+      setFormError('Lütfen tüm alanları doldurun.');
+      return;
+    }
 
-    if (!restaurantName || !address || !phoneNumber || !email || !numberOfTables || !maxCapacity) {
-      setFormError('Lütfen tüm zorunlu alanları doldurun.');
+    if (restaurantName.length > 50) {
+      setFormError('Restoran adı 50 karakterden uzun olamaz.');
       return;
     }
 
     if (!isPhoneNumberValid(phoneNumber)) {
-      setFormError('Lütfen geçerli bir telefon numarası girin (5-15 haneli).');
+      setFormError('Geçerli bir telefon numarası girin.');
       return;
     }
 
     if (!isEmailValid(email)) {
-      setFormError('Lütfen geçerli bir e-posta adresi girin.');
+      setFormError('Geçerli bir e-posta adresi girin.');
+      return;
+    }
+    if (!isHoursValid(operatingHours)) {
+      setFormError('Geçerli bir çalışma saatleri formatı girin (ör. 09.00 - 22.00).');
       return;
     }
 
-    onSubmit({
-      restaurantName,
-      address,
-      phoneNumber,
-      email,
-      numberOfTables,
-      maxCapacity,
-      operatingHours,
-      websiteLink,
-      additionalCondition,
-      specialDays,
-      acceptConditions,
-    });
+    if (
+      parseInt(twoPersonTables) <= 0 ||
+      parseInt(fourPersonTables) <= 0 ||
+      parseInt(sixPersonTables) <= 0
+    ) {
+      setFormError('Masa sayısı sıfırdan küçük olamaz.');
+      return;
+    }
+
+    if (!isUrlValid(websiteLink)) {
+      setFormError('Geçerli bir website linki girin.');
+      return;
+    }
+
+    setFormError('');
+    onSubmit(e); 
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {formError && <p className="error-message">{formError}</p>} 
-      {error && <p className="error-message">{error}</p>} 
-      
-      <div>
-        <label>Restoran Adı:</label>
+      {formError && <p className="error-message">{formError}</p>}
+
+      <div className="input-group">
+        <label htmlFor="restaurantName">Restoran Adı</label>
         <input
           type="text"
+          id="restaurantName"
           value={restaurantName}
           onChange={(e) => setRestaurantName(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Restoran Adresi:</label>
+      <div className="input-group">
+        <label htmlFor="address">Restoran Adresi</label>
         <input
           type="text"
+          id="address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Telefon Numarası:</label>
+      <div className="input-group">
+        <label htmlFor="phoneNumber">Telefon Numarası</label>
         <input
           type="tel"
+          id="phoneNumber"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>E-posta:</label>
+      <div className="input-group">
+        <label htmlFor="email">E-posta</label>
         <input
           type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Masa Sayısı:</label>
+      <div className="input-group">
+        <label htmlFor="twoPersonTables">2 Kişilik Masa Sayısı</label>
         <input
           type="number"
-          value={numberOfTables}
-          onChange={(e) => setNumberOfTables(e.target.value)}
+          id="twoPersonTables"
+          value={twoPersonTables}
+          onChange={(e) => setTwoPersonTables(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Max Kapasite:</label>
+      <div className="input-group">
+        <label htmlFor="fourPersonTables">4 Kişilik Masa Sayısı</label>
         <input
           type="number"
-          value={maxCapacity}
-          onChange={(e) => setMaxCapacity(e.target.value)}
+          id="fourPersonTables"
+          value={fourPersonTables}
+          onChange={(e) => setFourPersonTables(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Çalışma Saatleri:</label>
+      <div className="input-group">
+        <label htmlFor="sixPersonTables">6 Kişilik Masa Sayısı</label>
+        <input
+          type="number"
+          id="sixPersonTables"
+          value={sixPersonTables}
+          onChange={(e) => setSixPersonTables(e.target.value)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="operatingHours">Çalışma Saatleri</label>
         <input
           type="text"
+          id="operatingHours"
           value={operatingHours}
           onChange={(e) => setOperatingHours(e.target.value)}
-          placeholder="Örnek: 09:00 - 22:00"
         />
       </div>
-      
-      <div>
-        <label>Web Sitesi Linki:</label>
+
+      <div className="input-group">
+        <label htmlFor="websiteLink">Web Sitesi Linki</label>
         <input
           type="url"
+          id="websiteLink"
           value={websiteLink}
           onChange={(e) => setWebsiteLink(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Şartlarınız var mı?</label>
+      <div className="input-group">
+        <label>Şartlarınızı Kabul Ediyor Musunuz?</label>
         <div>
           <label>
             <input
@@ -165,37 +193,56 @@ const EditOwnerProfileForm = ({ ownerData, onSubmit, error }) => {
       </div>
 
       {acceptConditions === 'yes' && (
-        <div>
-          <label>Şartlarınız:</label>
+        <div className="input-group">
+          <label htmlFor="additionalCondition">Şartlarınız</label>
           <input
             type="text"
+            id="additionalCondition"
             value={additionalCondition}
             onChange={(e) => setAdditionalCondition(e.target.value)}
           />
-        </div> )}
-
-      <div>
-        <label>Özel Gün Rezervasyonları:</label>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="specialDays"
-              value="yes"
-              onChange={() => setSpecialDays('yes')}
-            />
-            Evet
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="specialDays"
-              value="no"
-              onChange={() => setSpecialDays('no')}
-            />
-            Hayır
-          </label>
         </div>
+      )}
+
+      <div className="input-group">
+        <label htmlFor="specialDays">Özel Günler</label>
+        <input
+          type="text"
+          id="specialDays"
+          value={specialDays.join(', ')}
+          onChange={(e) => setSpecialDays(e.target.value.split(', '))}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="tags">Etiketler</label>
+        <input
+          type="text"
+          id="tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="photos">Restoran Fotoğrafları</label>
+        <input
+          type="file"
+          id="photos"
+          accept="image/*"
+          multiple
+          onChange={(e) => setPhotos(e.target.files)}
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="logo">Restoran Logosu</label>
+        <input
+          type="file"
+          id="logo"
+          accept="image/*"
+          onChange={(e) => setLogo(e.target.files[0])}
+        />
       </div>
 
       <button type="submit">Profili Güncelle</button>
