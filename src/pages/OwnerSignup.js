@@ -52,17 +52,26 @@ const OwnerSignup = () => {
       formData.photos.forEach((photo, index) => {
         formDataToSend.append(`photos[${index}]`, photo);
       });
-      formDataToSend.append('logo', formData.logo);
+      formDataToSend.append('logoPhotoPath', formData.logo);
 
       formDataToSend.append(
         'additionalCondition',
         formData.acceptConditions === 'yes' ? formData.additionalCondition : ''
       );
 
-      formDataToSend.append('specialDays', JSON.stringify(formData.specialDays));
+      formDataToSend.append('birthdayParty', formData.specialDays.includes('doğum günü'));
+      formDataToSend.append('anniversary', formData.specialDays.includes('yıldönümü'));
+      formDataToSend.append('jobMeeting', formData.specialDays.includes('iş yemeği'));
+      formDataToSend.append('proposal', formData.specialDays.includes('evlilik teklifi'));
       
       const tagsArray = formData.tags.split(',').map(tag => tag.trim());
       formDataToSend.append('tags', JSON.stringify(tagsArray));
+
+
+      for (let pair of formDataToSend.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+      
 
       const response = await axios.post('http://localhost:8080/api/restaurants', formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
