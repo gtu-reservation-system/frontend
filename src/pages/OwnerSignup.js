@@ -9,84 +9,57 @@ const OwnerSignup = () => {
   const handleOwnerSignup = async (formData) => {
     try {
       const formDataToSend = new FormData();
-
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('phoneNumber', formData.phoneNumber);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('password', formData.password);
-      formDataToSend.append('address', formData.address);
-      formDataToSend.append('operatingHours', formData.operatingHours);
-      formDataToSend.append('websiteLink', formData.websiteLink);
-
+  
+      const restaurantData = {
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        password: formData.password,
+        address: formData.address,
+        operatingHours: formData.operatingHours,
+        websiteLink: formData.websiteLink,
+        additionalCondition:
+        formData.acceptConditions === 'yes' ? formData.additionalCondition : '',
+        birthdayParty: formData.specialDays.includes('doğum günü'),
+        anniversary: formData.specialDays.includes('yıldönümü'),
+        jobMeeting: formData.specialDays.includes('iş yemeği'),
+        proposal: formData.specialDays.includes('evlilik teklifi'),
+        tags: formData.tags.split(',').map((tag) => tag.trim()),
+      };
+  
       const tables = [];
-
-      for (let i = 0; i < parseInt(formData.twoPersonTables); i++) {
-        tables.push({
-          name: `Table ${i + 1}`,
-          available: true,
-          capacity: 2,
-          restaurant_id: 1,
-        });
-      }
-
-      for (let i = 0; i < parseInt(formData.fourPersonTables); i++) {
-        tables.push({
-          name: `Table ${i + 1}`,
-          available: true,
-          capacity: 4,
-          restaurant_id: 1,
-        });
-      }
-
-      for (let i = 0; i < parseInt(formData.sixPersonTables); i++) {
-        tables.push({
-          name: `Table ${i + 1}`,
-          available: true,
-          capacity: 6,
-          restaurant_id: 1,
-        });
-      }
-
-      formDataToSend.append('tables', JSON.stringify(tables));
-
-      formData.photos.forEach((photo, index) => {
-        formDataToSend.append(`photos[${index}]`, photo);
+      let tableIndex = 1;
+      ['twoPersonTables', 'fourPersonTables', 'sixPersonTables'].forEach((type, index) => {
+        const capacity = [2, 4, 6][index];
+        for (let i = 0; i < parseInt(formData[type]); i++) {
+          tables.push({
+            name: `Table ${tableIndex++}`,
+            available: true,
+            capacity: capacity,
+          });
+        }
       });
-      formDataToSend.append('logoPhotoPath', formData.logo);
-
-      formDataToSend.append(
-        'additionalCondition',
-        formData.acceptConditions === 'yes' ? formData.additionalCondition : ''
-      );
-
-      formDataToSend.append('birthdayParty', formData.specialDays.includes('doğum günü'));
-      formDataToSend.append('anniversary', formData.specialDays.includes('yıldönümü'));
-      formDataToSend.append('jobMeeting', formData.specialDays.includes('iş yemeği'));
-      formDataToSend.append('proposal', formData.specialDays.includes('evlilik teklifi'));
-      
-      const tagsArray = formData.tags.split(',').map(tag => tag.trim());
-      formDataToSend.append('tags', JSON.stringify(tagsArray));
-
-
-      for (let pair of formDataToSend.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+      restaurantData.tables = tables;
+  
+      formDataToSend.append('restaurant', JSON.stringify(restaurantData));
+  
+      if (formData.logo) {
+        formDataToSend.append('logoPhoto', formData.logo);
       }
-      
+  
+      formData.photos.forEach((photo) => {
+        formDataToSend.append('photos', photo);
+      });
 
       const response = await axios.post('http://localhost:8080/api/restaurants', formDataToSend, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+  
       if (response.status === 200) {
-
-        const restaurantId = response.data.id;
-
-        tables.forEach(table => {
-          table.restaurant_id = restaurantId; 
-        });
-
         localStorage.setItem('ownerId', response.data.id);
         localStorage.setItem('role', response.data.role);
+  
         navigate('/login');
       }
     } catch (error) {
@@ -98,7 +71,7 @@ const OwnerSignup = () => {
       }
     }
   };
-
+  
   const titleStyle = {
     fontSize: '32px',
     fontWeight: 'bold',
