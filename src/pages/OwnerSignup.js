@@ -10,13 +10,14 @@ const OwnerSignup = () => {
     try {
       const formDataToSend = new FormData();
 
-      formDataToSend.append('restaurantName', formData.restaurantName);
+      formDataToSend.append('name', formData.restaurantName);
       formDataToSend.append('phoneNumber', formData.phoneNumber);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('password', formData.password);
       formDataToSend.append('address', formData.address);
-      formDataToSend.append('numberOfTables', formData.numberOfTables);
-      formDataToSend.append('maxCapacity', formData.maxCapacity);
+      formDataToSend.append('twoPersonTables', formData.twoPersonTables);
+      formDataToSend.append('fourPersonTables', formData.fourPersonTables);
+      formDataToSend.append('sixPersonTables', formData.sixPersonTables);
       formDataToSend.append('operatingHours', formData.operatingHours);
       formDataToSend.append('websiteLink', formData.websiteLink);
 
@@ -25,14 +26,14 @@ const OwnerSignup = () => {
       });
       formDataToSend.append('logo', formData.logo);
 
-      const response = await axios.post('http://localhost:8080/api/restaurants', formDataToSend, {
+      const response = await axios.post('http://localhost:8080/api/users', formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       if (response.status === 200) {
         localStorage.setItem('ownerId', response.data.id);
         localStorage.setItem('role', response.data.role); 
-        navigate('/');
+        navigate('/login');
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -56,7 +57,7 @@ const OwnerSignup = () => {
 
   return (
     <div >
-    <h2 style={titleStyle}>Restoran Sahibi Kaydı</h2>
+    <h2 style={titleStyle}>Restoran Kaydı</h2>
     <OwnerSignupForm onSubmit={handleOwnerSignup} />
     </div>
   );

@@ -10,7 +10,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
   const [twoPersonTables, setTwoPersonTables] = useState('');
   const [fourPersonTables, setFourPersonTables] = useState('');
   const [sixPersonTables, setSixPersonTables] = useState('');
-  const [maxCapacity, setMaxCapacity] = useState('');
   const [operatingHours, setOperatingHours] = useState('');
   const [photos, setPhotos] = useState([]);
   const [logo, setLogo] = useState(null);
@@ -29,7 +28,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
     return hasUpperCase && hasLowerCase && hasNumber && isCorrectLength;
   };
   
-
   const handlePhotosChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     if (selectedFiles.length < 3) {
@@ -48,7 +46,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
     e.preventDefault();
  
     if (!restaurantName || !phoneNumber || !email || !password || !address || photos.length < 3 || !logo || !twoPersonTables 
-        || !fourPersonTables || !sixPersonTables || !maxCapacity || !operatingHours || acceptConditions === null || specialDays === null) {
+        || !fourPersonTables || !sixPersonTables || !operatingHours || acceptConditions === null || specialDays === null) {
        setError('Lütfen tüm zorunlu alanları doldurun');
        return;
     }
@@ -95,7 +93,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
  
     setError('');
     onSubmit({ restaurantName, phoneNumber, email, password, address, photos, logo, twoPersonTables, fourPersonTables, sixPersonTables, 
-              maxCapacity, operatingHours, websiteLink, acceptConditions,specialDays,
+               operatingHours, websiteLink, acceptConditions, specialDays,
               additionalCondition: acceptConditions === 'yes' ? additionalCondition : '', });
  };
  
@@ -184,17 +182,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
           value={sixPersonTables}
           min="1"
           onChange={(e) => setSixPersonTables(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label htmlFor="maxCapacity">Maksimum kapasite <span style={{ color: 'red' }}>*</span></label>
-        <input
-          type="number"
-          id="maxCapacity"
-          value={maxCapacity}
-          min="1"
-          onChange={(e) => setMaxCapacity(e.target.value)}
         />
       </div>
 
