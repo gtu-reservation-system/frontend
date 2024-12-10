@@ -41,7 +41,7 @@ const OwnerProfile = () => {
       {error && <p className="error-message">{error}</p>}
 
       <div>
-        <h2>{ownerData.restaurantName}</h2>
+        <h2>{ownerData.name}</h2>
         <p><strong>Adres:</strong> {ownerData.address}</p>
         <p><strong>Telefon Numarası:</strong> {ownerData.phoneNumber}</p>
         <p><strong>E-posta:</strong> {ownerData.email}</p>

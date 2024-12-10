@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './LoginForm.css';
 
 const OwnerSignupForm = ({ onSubmit }) => {
-  const [restaurantName, setRestaurantName] = useState('');
+  const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +54,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
     e.preventDefault();
 
     if (
-      !restaurantName ||
+      !name ||
       !phoneNumber ||
       !email ||
       !password ||
@@ -71,7 +71,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
       return;
     }
 
-    if (restaurantName.length > 50) {
+    if (name.length > 50) {
       alert('İsim 50 karakterden uzun olamaz.');
       return;
     }
@@ -119,7 +119,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
 
     setError('');
     onSubmit({
-      restaurantName,
+      name,
       phoneNumber,
       email,
       password,
@@ -143,12 +143,12 @@ const OwnerSignupForm = ({ onSubmit }) => {
       {error && <p className="error-message">{error}</p>}
 
       <div className="input-group">
-        <label htmlFor="restaurantName">Restoran adı <span style={{ color: 'red' }}>*</span></label>
+        <label htmlFor="name">Restoran adı <span style={{ color: 'red' }}>*</span></label>
         <input
           type="text"
-          id="restaurantName"
-          value={restaurantName}
-          onChange={(e) => setRestaurantName(e.target.value)}
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 

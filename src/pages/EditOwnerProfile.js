@@ -32,7 +32,7 @@ const EditOwnerProfile = () => {
     try {
       const formData = new FormData();
 
-      formData.append('restaurantName', updatedData.restaurantName);
+      formData.append('name', updatedData.name);
       formData.append('address', updatedData.address);
       formData.append('phoneNumber', updatedData.phoneNumber);
       formData.append('email', updatedData.email);

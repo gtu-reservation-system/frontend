@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const EditOwnerProfileForm = ({ restaurantName, address, phoneNumber, email, twoPersonTables, fourPersonTables, sixPersonTables, operatingHours,
-  websiteLink, acceptConditions, additionalCondition, specialDays, tags, photos, logo, setRestaurantName, setAddress, setPhoneNumber, setEmail,
+const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTables, fourPersonTables, sixPersonTables, operatingHours,
+  websiteLink, acceptConditions, additionalCondition, specialDays, tags, photos, logo, setName, setAddress, setPhoneNumber, setEmail,
   setTwoPersonTables, setFourPersonTables,setSixPersonTables, setOperatingHours, setWebsiteLink, setAcceptConditions, setAdditionalCondition,
   setSpecialDays, setTags, setPhotos, setLogo, onSubmit }) => {
   const [formError, setFormError] = useState('');
@@ -29,13 +29,13 @@ const EditOwnerProfileForm = ({ restaurantName, address, phoneNumber, email, two
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!restaurantName || !phoneNumber || !email || !address || !twoPersonTables || !fourPersonTables || !sixPersonTables || !operatingHours 
+    if (!name || !phoneNumber || !email || !address || !twoPersonTables || !fourPersonTables || !sixPersonTables || !operatingHours 
       || !acceptConditions == null || photos.length < 3|| !logo) {
       setFormError('Lütfen tüm alanları doldurun.');
       return;
     }
 
-    if (restaurantName.length > 50) {
+    if (name.length > 50) {
       setFormError('Restoran adı 50 karakterden uzun olamaz.');
       return;
     }
@@ -77,12 +77,12 @@ const EditOwnerProfileForm = ({ restaurantName, address, phoneNumber, email, two
       {formError && <p className="error-message">{formError}</p>}
 
       <div className="input-group">
-        <label htmlFor="restaurantName">Restoran Adı</label>
+        <label htmlFor="name">Restoran Adı</label>
         <input
           type="text"
-          id="restaurantName"
-          value={restaurantName}
-          onChange={(e) => setRestaurantName(e.target.value)}
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 

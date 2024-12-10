@@ -10,7 +10,7 @@ const OwnerSignup = () => {
     try {
       const formDataToSend = new FormData();
 
-      formDataToSend.append('name', formData.restaurantName);
+      formDataToSend.append('name', formData.name);
       formDataToSend.append('phoneNumber', formData.phoneNumber);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('password', formData.password);
@@ -25,7 +25,7 @@ const OwnerSignup = () => {
           name: `Table ${i + 1}`,
           available: true,
           capacity: 2,
-          restaurant_id: 0,
+          restaurant_id: 1,
         });
       }
 
@@ -34,7 +34,7 @@ const OwnerSignup = () => {
           name: `Table ${i + 1}`,
           available: true,
           capacity: 4,
-          restaurant_id: 0,
+          restaurant_id: 1,
         });
       }
 
@@ -43,7 +43,7 @@ const OwnerSignup = () => {
           name: `Table ${i + 1}`,
           available: true,
           capacity: 6,
-          restaurant_id: 0,
+          restaurant_id: 1,
         });
       }
 
