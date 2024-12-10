@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 const HomeNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,11 +110,9 @@ const HomeNavbar = () => {
             )}
           </div>
         ) : (
-          <button
-            onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}
-            className="nav-button"
-          >
-            Profil
+          <button onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}
+            className="nav-button" >
+            <FontAwesomeIcon icon={faUser} />
           </button>
         )}
         

@@ -105,7 +105,7 @@ const UserProfile = () => {
           <div className="profile-section">
             <div className="profile-info">
               <img 
-                src="https://via.placeholder.com/128" 
+                src="wizard.jpg" 
                 alt="Profile" 
                 className="profile-image" 
               />
@@ -120,12 +120,6 @@ const UserProfile = () => {
                 onClick={handleEditProfileRedirect}
               >
                 Edit profile
-              </button>
-              <button 
-                className="logout-btn" 
-                onClick={handleLogout}
-              >
-                Log out
               </button>
             </div>
           </div>

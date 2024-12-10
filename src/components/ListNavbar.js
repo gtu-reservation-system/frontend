@@ -83,7 +83,7 @@ const ListNavbar = () => {
           </div>
         ) : (
           <button onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}>
-            <FontAwesomeIcon icon={faUser} /> Profil
+            <FontAwesomeIcon icon={faUser} />
           </button>
         )}
 
