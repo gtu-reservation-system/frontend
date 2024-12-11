@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ChangePasswordForm from '../components/ChangePasswordForm';
 import '../components/UserSignupForm.css'
-import ProfileNavbar from '../components/ProfileNavbar';
+import UserProfileNavbar from '../components/UserProfileNavbar';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -45,7 +45,7 @@ const ChangePassword = () => {
   return (
     <div className="page-container">
       {/* Add HomeNavbar here */}
-      <ProfileNavbar />
+      <UserProfileNavbar />
       
       <div style={{ display: 'flex' }}>
         <div className="sidebar">

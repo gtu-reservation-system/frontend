@@ -6,7 +6,8 @@ import Navbar3 from './components/LoginNavbar';
 import Navbar4 from './components/RestaurantNavbar';
 import Navbar5 from './components/OwnerSignupNavbar';
 import Navbar6 from './components/UserSignupNavbar';
-import Navbar7 from './components/ProfileNavbar';
+import Navbar7 from './components/UserProfileNavbar';
+import Navbar8 from './components/OwnerProfileNavbar';
 import Home from './pages/Home';
 import Restaurants from './pages/List';
 import Restaurant from './pages/Restaurant';
@@ -91,6 +92,7 @@ const App = () => {
   const WrappedNavbar5 = withDarkMode(Navbar5);
   const WrappedNavbar6 = withDarkMode(Navbar6);
   const WrappedNavbar7 = withDarkMode(Navbar7);
+  const WrappedNavbar8 = withDarkMode(Navbar8);
 
   return (
     <Router>
@@ -106,7 +108,7 @@ const App = () => {
         <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile userData={userData} /></>} />
         <Route path="/edit-userProfile" element={<EditUserProfile />} />
         <Route path="/user-reservations" element={<UserReservations /> } />
-        <Route path="/ownerProfile" element={<><WrappedNavbar7 /><OwnerProfile ownerData={ownerData} /></> } />
+        <Route path="/ownerProfile" element={<><WrappedNavbar8 /><OwnerProfile ownerData={ownerData} /></> } />
         <Route path="/edit-ownerProfile" element={<EditOwnerProfile /> } />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/owner-reservations" element={<OwnerReservations />} />

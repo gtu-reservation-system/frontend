@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-const ProfileNavbar = () => {
+const UserProfileNavbar = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem('role');
 
@@ -18,14 +18,14 @@ const ProfileNavbar = () => {
       <img src="/icon.png" alt="Logo" />
         Rezerve</div>
       <nav>
-        {role !== 'owner' && <button onClick={() => navigate('/home')}>Ana Sayfa</button>}
+        {<button onClick={() => navigate('/home')}>Ana Sayfa</button>}
         <button onClick={handleLogout}>Çıkış Yap</button>
       </nav>
     </div>
   );
 };
 
-export default ProfileNavbar;
+export default UserProfileNavbar;
 
 
 
