@@ -7,8 +7,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (formData) => {
+
+    console.log (formData);
     try {
-      const response = await axios.post('http://localhost:8080/api/users/login', formData);
+      const response = await axios.post('http://localhost:8080/api/restaurants/login', formData);
+
+      // api/restaurants/login
 
       if (response.status === 200) {
         const { id, role } = response.data; 

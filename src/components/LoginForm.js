@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './LoginForm.css'
 
 const LoginForm = ({ onSubmit }) => {
-  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const validateForm = () => {
-    if (!emailOrPhone || !password) {
+    if (!email || !password) {
       setError('Lütfen tüm alanları doldurun.');
       return false;
     }
@@ -15,7 +15,7 @@ const LoginForm = ({ onSubmit }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{5,10}$/;
 
-    if (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone)) {
+    if (!emailRegex.test(email) && !phoneRegex.test(email)) {
       setError('Geçerli bir e-posta veya telefon numarası girin.');
       return false;
     }
@@ -33,7 +33,7 @@ const LoginForm = ({ onSubmit }) => {
     e.preventDefault();
 
     if (validateForm()) {
-      onSubmit({ emailOrPhone, password });
+      onSubmit({ email, password });
     }
   };
 
@@ -42,12 +42,12 @@ const LoginForm = ({ onSubmit }) => {
       {error && <p className="error-message">{error}</p>} 
 
       <div className="input-group">
-        <label htmlFor="emailOrPhone">E-posta veya telefon numarası</label>
+        <label htmlFor="email">E-posta veya telefon numarası</label>
         <input
           type="text"
-          id="emailOrPhone"
-          value={emailOrPhone}
-          onChange={(e) => setEmailOrPhone(e.target.value)}
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 

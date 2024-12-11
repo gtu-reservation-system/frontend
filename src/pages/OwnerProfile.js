@@ -48,7 +48,6 @@ const OwnerProfile = () => {
         <p><strong>2 Kişilik Masa Sayısı:</strong> {ownerData.twoPersonTables}</p>
         <p><strong>4 Kişilik Masa Sayısı:</strong> {ownerData.fourPersonTables}</p>
         <p><strong>6 Kişilik Masa Sayısı:</strong> {ownerData.sixPersonTables}</p>
-        <p><strong>Max Kapasite:</strong> {ownerData.maxCapacity}</p>
         <p><strong>Çalışma Saatleri:</strong> {ownerData.operatingHours}</p>
         <p><strong>Şartlar:</strong> {ownerData.additionalCondition}</p>
         <p><strong>Özel Günler:</strong> {ownerData.specialDays?.join(', ')}</p>
