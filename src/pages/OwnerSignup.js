@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OwnerSignupForm from '../components/OwnerSignupForm';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const OwnerSignup = () => {
   const navigate = useNavigate();
 
@@ -51,7 +53,7 @@ const OwnerSignup = () => {
         formDataToSend.append('photos', photo);
       });
 
-      const response = await axios.post('http://localhost:8080/api/restaurants', formDataToSend, {
+      const response = await axios.post(`${API_BASE_URL}/api/restaurants`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );

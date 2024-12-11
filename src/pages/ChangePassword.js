@@ -5,6 +5,8 @@ import ChangePasswordForm from '../components/ChangePasswordForm';
 import '../components/UserSignupForm.css'
 import ProfileNavbar from '../components/ProfileNavbar';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const ChangePassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -12,7 +14,7 @@ const ChangePassword = () => {
 
   const handlePasswordChange = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/change-password', formData);
+      const response = await axios.post(`${API_BASE_URL}/api/change-password`, formData);
       if (response.status === 200) {
         setMessage('Şifreniz başarıyla değiştirildi!');
       }

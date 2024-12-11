@@ -3,6 +3,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const UserReservations = () => {
   const [pastReservations, setPastReservations] = useState([]);
   const [pendingReservations, setPendingReservations] = useState([]);
@@ -14,7 +16,7 @@ const UserReservations = () => {
     const fetchReservations = async () => {
       const userId = localStorage.getItem('userId');
       try {
-        const response = await axios.get(`http://localhost:8080/api/reservations/user/${userId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/reservations/user/${userId}`);
         const reservations = response.data;
 
         const now = moment();

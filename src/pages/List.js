@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const Restaurants = () => {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        let url = 'http://localhost:8080/api/restaurants';
+        let url = `${API_BASE_URL}/api/restaurants`;
         
         if (searchQuery) {
           url += `?search=${searchQuery}`;

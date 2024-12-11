@@ -4,6 +4,8 @@ import axios from 'axios';
 import './UserProfile.css'; 
 import './Home.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const UserProfile = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -27,7 +29,7 @@ const UserProfile = () => {
     if (id) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/users/${id}`);
+          const response = await axios.get(`${API_BASE_URL}/api/users/${id}`);
           const data = response.data;
           setName(data.name);
           setPhoneNumber(data.phoneNumber);
@@ -40,7 +42,7 @@ const UserProfile = () => {
 
       const fetchUserComments = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/comments/user/${id}`);
+          const response = await axios.get(`${API_BASE_URL}/api/comments/user/${id}`);
           setComments(response.data);
         } catch (error) {
           console.error("Kullanıcı yorumları alınırken bir hata oluştu:", error);

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuests, terms, reservationTags }) => {
   const [fullName, setName] = useState('');
   const [date, setDate] = useState('');
@@ -38,11 +40,11 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
     }
   
     try {
-      const authResponse = await axios.get('http://localhost:8080/api/auth/check');
+      const authResponse = await axios.get(`${API_BASE_URL}/api/auth/check`);
       const isAuthenticated = authResponse.data.isAuthenticated;
   
       if (!isAuthenticated) {
-        navigate('/login', { state: { from: `http://localhost:8080/reservation/${restaurantId}` } });
+        navigate('/login', { state: { from: `${API_BASE_URL}/reservation/${restaurantId}` } });
         return;
       }
   
@@ -55,7 +57,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
         reservationTag: selectedTag,
       };
   
-      await axios.post('http://localhost:8080/api/reservations', reservationData);
+      await axios.post(`${API_BASE_URL}/api/reservations`, reservationData);
 
       onReserve(reservationData);
       setName('');

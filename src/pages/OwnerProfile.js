@@ -8,6 +8,8 @@ const OwnerProfile = () => {
   const id = localStorage.getItem('ownerId');
   const navigate = useNavigate();
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     if (!id) {
       setError('Restoran sayfasına giriş yapılmamış!');
@@ -16,7 +18,7 @@ const OwnerProfile = () => {
 
     const fetchOwnerData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}`);
         setOwnerData(response.data);
       } catch (error) {
         console.error("Profil verileri alınırken hata oluştu:", error);

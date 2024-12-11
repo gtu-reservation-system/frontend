@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const OwnerReservations = () => {
   const [reservations, setReservations] = useState([]);
   const [error, setError] = useState(null);
@@ -16,7 +18,7 @@ const OwnerReservations = () => {
 
     const fetchReservations = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/reservations/restaurant/${restaurantId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/reservations/restaurant/${restaurantId}`);
         setReservations(response.data);
       } catch (error) {
         console.error("Rezervasyonlar alınırken hata oluştu:", error);
@@ -33,7 +35,7 @@ const OwnerReservations = () => {
 
   const handleReservationAction = async (reservationId, action) => {
     try {
-      await axios.post(`http://localhost:8080/api/reservations/${reservationId}/${action}`);
+      await axios.post(`${API_BASE_URL}/api/reservations/${reservationId}/${action}`);
       alert(`Rezervasyon ${action === 'approve' ? 'onaylandı' : 'reddedildi'}. Kullanıcıya bildirim gönderildi.`);
       setReservations(prev => prev.filter(res => res.id !== reservationId));
     } catch (error) {

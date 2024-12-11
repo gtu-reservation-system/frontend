@@ -3,6 +3,8 @@ import axios from 'axios';
 import EditOwnerProfileForm from '../components/EditOwnerProfileForm';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const EditOwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
   const [error, setError] = useState(null);
@@ -17,7 +19,7 @@ const EditOwnerProfile = () => {
 
     const fetchOwnerData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}`);
         setOwnerData(response.data);
       } catch (error) {
         console.error("Profil verileri alınırken hata oluştu:", error);
@@ -84,7 +86,7 @@ const EditOwnerProfile = () => {
       const tagsArray = updatedData.tags.split(',').map(tag => tag.trim());
       formData.append('tags', JSON.stringify(tagsArray));
 
-      const response = await axios.put(`http://localhost:8080/api/restaurants/${id}`, formData, {
+      const response = await axios.put(`${API_BASE_URL}/api/restaurants/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

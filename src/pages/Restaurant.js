@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReservationForm from '../components/ReservationForm';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const Restaurant = () => {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState(null);
@@ -15,7 +17,7 @@ const Restaurant = () => {
     const fetchRestaurantData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8080/api/restaurants/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}`);
         setRestaurant(response.data);
       } catch (err) {
         setError(err.response ? err.response.data.message : 'Restoran verileri alınamadı.');
@@ -29,7 +31,7 @@ const Restaurant = () => {
 
   const handleReserve = async (data) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/reservations', data);
+      const response = await axios.post(`${API_BASE_URL}/api/reservations`, data);
       console.log('Reservation successful:', response.data);
       alert('Rezervasyon başarılı!');
     } catch (error) {

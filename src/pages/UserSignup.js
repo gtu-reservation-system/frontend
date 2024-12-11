@@ -4,12 +4,14 @@ import axios from 'axios';
 import UserSignupForm from '../components/UserSignupForm';
 import './UserSignup.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const UserSignup = () => {
   const navigate = useNavigate();
 
   const handleUserSignup = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/users', formData);
+      const response = await axios.post(`${API_BASE_URL}/api/users`, formData);
 
       if (response.status === 200) {
         alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginForm from '../components/LoginForm';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -10,9 +12,7 @@ const LoginPage = () => {
 
     console.log (formData);
     try {
-      const response = await axios.post('http://localhost:8080/api/restaurants/login', formData);
-
-      // api/restaurants/login
+      const response = await axios.post(`${API_BASE_URL}/api/login`, formData);
 
       if (response.status === 200) {
         const { id, role } = response.data; 
