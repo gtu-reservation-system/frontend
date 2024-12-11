@@ -42,7 +42,7 @@ const LoginForm = ({ onSubmit }) => {
       {error && <p className="error-message">{error}</p>} 
 
       <div className="input-group">
-        <label htmlFor="email">E-posta veya telefon numarası</label>
+        <label htmlFor="email">E-posta</label>
         <input
           type="text"
           id="email"

@@ -19,7 +19,7 @@ import EditUserProfile from './pages/EditUserProfile';
 import UserReservations from './pages/UserReservations';
 import OwnerProfile from './pages/OwnerProfile';
 import ChangePassword from './pages/ChangePassword';
-import EditProfile from './pages/EditOwnerProfile';
+import EditOwnerProfile from './pages/EditOwnerProfile';
 import OwnerReservations from './pages/OwnerReservations';
 
 const App = () => {
@@ -107,7 +107,7 @@ const App = () => {
         <Route path="/edit-userProfile" element={<EditUserProfile />} />
         <Route path="/user-reservations" element={<UserReservations /> } />
         <Route path="/ownerProfile" element={<><WrappedNavbar7 /><OwnerProfile ownerData={ownerData} /></> } />
-        <Route path="/edit-ownerProfile" element={<EditProfile /> } />
+        <Route path="/edit-ownerProfile" element={<EditOwnerProfile /> } />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/owner-reservations" element={<OwnerReservations />} />
       </Routes>
