@@ -77,7 +77,7 @@ const RestaurantNavbar = () => {
             <button>Kayıt Ol</button>
             {showDropdown && (
               <div className="dropdown">
-                <button onClick={() => navigate('/signup/owner')}>Restoran Sahibi</button>
+                <button onClick={() => navigate('/signup/owner')}>Restoran</button>
                 <button onClick={() => navigate('/signup/user')}>Kullanıcı</button>
               </div>
             )}

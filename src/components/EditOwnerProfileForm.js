@@ -6,6 +6,18 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
   setSpecialDays, setTags, setPhotos, setLogo, onSubmit }) => {
   const [formError, setFormError] = useState('');
 
+  const availableSpecialDays = ['Doğum Günü', 'İş Yemeği', 'Yıldönümü', 'Evlilik Teklifi'];
+
+  const handleSpecialDayChange = (e) => {
+    const selectedDay = e.target.value;
+    if (e.target.checked) {
+      setSpecialDays([...specialDays, selectedDay]);
+    } else {
+      setSpecialDays(specialDays.filter((day) => day !== selectedDay));
+    }
+  };
+
+
   const isPhoneNumberValid = (phone) => {
     const phoneRegex = /^[0-9]{5,15}$/;
     return phoneRegex.test(phone);
@@ -121,8 +133,12 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="twoPersonTables"
-          value={twoPersonTables}
-          onChange={(e) => setTwoPersonTables(e.target.value)}
+          value={twoPersonTables || ''}
+          min="1"
+          onChange={(e) => {
+            const value = e.target.value === '' ? '' : Number(e.target.value);
+            setTwoPersonTables(value);
+          }}
         />
       </div>
 
@@ -131,8 +147,12 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="fourPersonTables"
-          value={fourPersonTables}
-          onChange={(e) => setFourPersonTables(e.target.value)}
+          value={fourPersonTables || ''}
+          min="1"
+          onChange={(e) => {
+            const value = e.target.value === '' ? '' : Number(e.target.value);
+            setFourPersonTables(value);
+          }}
         />
       </div>
 
@@ -141,8 +161,12 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="sixPersonTables"
-          value={sixPersonTables}
-          onChange={(e) => setSixPersonTables(e.target.value)}
+          value={sixPersonTables || ''}
+          min="1"
+          onChange={(e) => {
+            const value = e.target.value === '' ? '' : Number(e.target.value);
+            setSixPersonTables(value);
+          }}
         />
       </div>
 
@@ -167,7 +191,7 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
       </div>
 
       <div className="input-group">
-        <label>Şartlarınızı Kabul Ediyor Musunuz?</label>
+        <label>Şartlarınız var mı?</label>
         <div>
           <label>
             <input
@@ -205,13 +229,20 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
       )}
 
       <div className="input-group">
-        <label htmlFor="specialDays">Özel Günler</label>
-        <input
-          type="text"
-          id="specialDays"
-          value={specialDays.join(', ')}
-          onChange={(e) => setSpecialDays(e.target.value.split(', '))}
-        />
+        <label>Özel Günler</label>
+        <div>
+          {availableSpecialDays.map((day) => (
+            <label key={day}>
+              <input
+                type="checkbox"
+                value={day}
+                checked={specialDays.includes(day)}
+                onChange={handleSpecialDayChange}
+              />
+              {day}
+            </label>
+          ))}
+        </div>
       </div>
 
       <div className="input-group">

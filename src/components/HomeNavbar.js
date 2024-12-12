@@ -101,7 +101,7 @@ const HomeNavbar = () => {
             {showDropdown && (
               <div className="dropdown">
                 <button onClick={() => navigate('/signup/owner')} className="dropdown-item">
-                  Restoran Sahibi
+                  Restoran
                 </button>
                 <button onClick={() => navigate('/signup/user')} className="dropdown-item">
                   Kullanıcı

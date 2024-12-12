@@ -43,12 +43,12 @@ const App = () => {
       setIsLoggedIn(savedIsLoggedIn);
       setRole(savedRole);
 
-      if (savedRole === 'owner') {
-        const savedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
-        setOwnerData(savedOwnerData);
-      } else if (savedRole === 'user') {
+      if (savedRole === 'user') {
         const savedUserData = JSON.parse(localStorage.getItem('userData'));
         setUserData(savedUserData);
+      } else {
+        const savedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
+        setOwnerData(savedOwnerData);
       }
     }
   }, []);

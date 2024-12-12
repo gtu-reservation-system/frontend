@@ -32,7 +32,7 @@ const LoginNavbar = () => {
           <button className="signup-button">Kayıt Ol</button>
           {showDropdown && (
             <div className="dropdown">
-              <button className="dropdown-item" onClick={() => navigate('/signup/owner')}>Restoran Sahibi</button>
+              <button className="dropdown-item" onClick={() => navigate('/signup/owner')}>Restoran</button>
               <button className="dropdown-item" onClick={() => navigate('/signup/user')}>Kullanıcı</button>
             </div>
           )}

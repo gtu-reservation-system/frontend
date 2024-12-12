@@ -13,7 +13,7 @@ const UserSignupNavbar = () => {
       </div>
       <button onClick={() => navigate('/home')}>Ana Sayfa</button>
       <div>
-        <button onClick={() => navigate('/signup/owner')}>Restoran Sahibi Kaydı</button>
+        <button onClick={() => navigate('/signup/owner')}>Restoran Kaydı</button>
         <button onClick={() => navigate('/login')}>Giriş Yap</button>
       </div>
     </nav>

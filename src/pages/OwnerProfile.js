@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const OwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
   const [error, setError] = useState(null);
   const id = localStorage.getItem('ownerId');
   const navigate = useNavigate();
-
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     if (!id) {
