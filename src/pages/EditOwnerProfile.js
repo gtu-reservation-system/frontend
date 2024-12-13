@@ -56,12 +56,21 @@ const EditOwnerProfile = () => {
     navigate('/ownerProfile');
   };
 
-  const handleFormSubmit = (e) => {
-
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const response = axios.put(`${API_BASE_URL}/api/restaurants/${id}`, ownerData);
+  
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/restaurants/${id}`, ownerData);
+      if (response.status === 200) {
+        console.log('Profil başarıyla güncellendi:', response.data);
+        navigate('/ownerProfile'); 
+      }
+    } catch (error) {
+      console.error('Profil güncelleme sırasında bir hata oluştu:', error);
+      alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
-
+  
   return (
     <div className="owner-profile">
       <h1>Restoran Profili Güncelle</h1>

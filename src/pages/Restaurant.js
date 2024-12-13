@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import ReservationForm from '../components/ReservationForm';
+import '../components/ReservationForm.js';
+import ReservationForm from '../components/ReservationForm.js';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -12,6 +13,11 @@ const Restaurant = () => {
   const [error, setError] = useState(null);
 
   const ownerId = localStorage.getItem('ownerId');
+
+  const handleReservation = (reservationData) => {
+    console.log('Reservation confirmed:', reservationData);
+    alert('Rezervasyonunuz başarıyla oluşturuldu!');
+  };
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -29,16 +35,7 @@ const Restaurant = () => {
     fetchRestaurantData();
   }, [id]);
 
-  const handleReserve = async (data) => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/reservations`, data);
-      console.log('Reservation successful:', response.data);
-      alert('Rezervasyon başarılı!');
-    } catch (error) {
-      console.error("Error submitting reservation:", error);
-      alert('Rezervasyon sırasında bir hata oluştu. Lütfen tekrar deneyin.');
-    }
-  };
+
 
   if (loading) {
     return <h2>Yükleniyor...</h2>;
@@ -54,19 +51,39 @@ const Restaurant = () => {
 
   return (
     <div>
-      <h1>{restaurant.name}</h1>
-      <p>{restaurant.description}</p>
 
-      <ReservationForm
-        onReserve={handleReserve}
-        restaurantId={restaurant.id}
-        availableTimeSlots={restaurant.availableTimeSlots}
-        maxGuests={restaurant.maxGuests}
-        terms={restaurant.terms}
-        reservationTags={restaurant.reservationTags} 
-        ownerId={ownerId}
+      <p><img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" /> <h1>{restaurant.name}</h1></p> 
+      <div>
+          <p><strong>Fotoğraflar:</strong></p>
+          {restaurant.photos && restaurant.photos.length > 0 ? (
+            <div className="photo-gallery">
+              {restaurant.photos.map((photo, index) => (
+                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
+              ))}
+            </div>
+          ) : (
+            <p>Fotoğraflar bulunmamaktadır</p>
+          )}
+        </div>
+      <strong>Adres:</strong> <p>{restaurant.address}</p>
+      <strong>Etiketler:</strong> <p> {restaurant.tags?.join(', ')}</p>
+      <strong>Çalışma Saatleri:</strong> <p>{restaurant.operatingHours}</p>
+      <strong>Web Sitesi:</strong> <p> <a href={restaurant.websiteLink} target="_blank" rel="noopener noreferrer">{restaurant.websiteLink}</a> </p>
+
+      <ReservationForm 
+        onReserve={handleReservation} 
+        restaurantId={id}
+        availableTimeSlots={restaurant.availableTimeSlots || []} 
+        terms={restaurant.additionalCondition} 
+        reservationTags={[
+          restaurant.birthdayParty && 'Doğum Günü',
+          restaurant.anniversary && 'Yıldönümü',
+          restaurant.jobMeeting && 'İş Yemeği',
+          restaurant.proposal && 'Evlilik Teklifi',
+        ].filter(Boolean)}
       />
     </div>
+
   );
 };
 

@@ -10,7 +10,6 @@ const LoginPage = () => {
 
   const handleLogin = async (formData) => {
 
-    console.log (formData);
     try {
       const response = await axios.post(`${API_BASE_URL}/api/login`, formData);
 
