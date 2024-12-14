@@ -10,7 +10,7 @@ const UserReservations = () => {
   const [pendingReservations, setPendingReservations] = useState([]);
   const [upcomingReservations, setUpcomingReservations] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -26,11 +26,11 @@ const UserReservations = () => {
         const upcoming = [];
 
         reservations.forEach(reservation => {
-          const reservationTime = moment(reservation.reservationTime);
+          const reservationTime = moment(reservation.reservationStartTime);
 
           if (reservationTime.isBefore(now)) {
             past.push(reservation);
-          } else if (!reservation.confirmed) { 
+          } else if (!reservation.confirmed) {
             pending.push(reservation);
           } else {
             upcoming.push(reservation);
@@ -50,10 +50,32 @@ const UserReservations = () => {
     fetchReservations();
   }, []);
 
-  const renderReservations = (reservations) => (
+  const handleCancel = async (reservationId, type) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/api/reservations/${reservationId}`);
+      if (type === 'pending') {
+        setPendingReservations(prev => prev.filter(res => res.id !== reservationId));
+      } else if (type === 'upcoming') {
+        setUpcomingReservations(prev => prev.filter(res => res.id !== reservationId));
+      }
+    } catch (error) {
+      console.error("Error cancelling reservation:", error);
+      alert('Rezervasyon iptal edilemedi.');
+    }
+  };
+
+  const renderReservations = (reservations, type) => (
     reservations.map(res => (
       <li key={res.id}>
-        {res.restaurant.name} - {moment(res.reservationTime).format("YYYY-MM-DD HH:mm")}
+        {res.restaurant.name} - {moment(res.reservationStartTime).format("YYYY-MM-DD HH:mm")}
+        {(type === 'pending' || type === 'upcoming') && (
+          <button
+            onClick={() => handleCancel(res.id, type)}
+            style={{ marginLeft: '10px' }}
+          >
+            İptal Et
+          </button>
+        )}
       </li>
     ))
   );
@@ -63,7 +85,7 @@ const UserReservations = () => {
       <h2>Rezervasyonlarım</h2>
       {error && <p className="error-message">{error}</p>}
 
-      <button onClick={() => navigate('/userProfile')}>Profilim</button> 
+      <button onClick={() => navigate('/userProfile')}>Profilim</button>
 
       <section>
         <h3>Geçmiş</h3>
@@ -72,16 +94,15 @@ const UserReservations = () => {
 
       <section>
         <h3>Onay Bekleyen</h3>
-        <ul>{renderReservations(pendingReservations)}</ul>
+        <ul>{renderReservations(pendingReservations, 'pending')}</ul>
       </section>
 
       <section>
         <h3>Yaklaşan</h3>
-        <ul>{renderReservations(upcomingReservations)}</ul>
+        <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
       </section>
     </div>
   );
 };
 
 export default UserReservations;
-

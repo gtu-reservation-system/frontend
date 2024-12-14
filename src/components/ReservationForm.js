@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reservationTags }) => {
-  const [fullName, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [guests, setGuests] = useState(1);
@@ -13,7 +12,7 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!fullName || !date || !time || !guests) {
+    if (!date || !time || !guests) {
       alert("Lütfen tüm alanları doldurun.");
       return;
     }
@@ -34,7 +33,6 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
     }
 
     const reservationData = {
-      fullName,
       date,
       time,
       guests,
@@ -44,7 +42,6 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
     };
 
     onSubmit(reservationData);
-    setName('');
     setDate('');
     setTime('');
     setGuests(1);
@@ -57,10 +54,6 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
   return (
     <form onSubmit={handleSubmit}>
       <h2>Rezervasyon Yap</h2>
-      <div>
-        <label>İsim-Soyisim:</label>
-        <input type="text" value={fullName} onChange={(e) => setName(e.target.value)} required />
-      </div>
       <div>
         <label>Tarih:</label>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
