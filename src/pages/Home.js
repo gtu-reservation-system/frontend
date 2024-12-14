@@ -23,12 +23,6 @@ const Home = () => {
     }
   }, []);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', !isDarkMode);
-  };
-
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => 
       (prevIndex + 1) % carouselImages.length

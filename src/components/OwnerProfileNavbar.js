@@ -4,7 +4,6 @@ import './Navbar.css';
 
 const UserProfileNavbar = () => {
   const navigate = useNavigate();
-  const role = localStorage.getItem('role');
 
   const handleLogout = () => {
     localStorage.removeItem('userId');
@@ -15,8 +14,9 @@ const UserProfileNavbar = () => {
   return (
     <div className="home-navbar">
       <div className="logo" onClick={() => navigate('/ownerProfile')}>
-      <img src="/icon.png" alt="Logo" />
-        Rezerve</div>
+        <img src="/icon.png" alt="Logo" />
+        Rezerve
+      </div>
       <nav>
         <button onClick={handleLogout}>Çıkış Yap</button>
       </nav>
@@ -25,6 +25,3 @@ const UserProfileNavbar = () => {
 };
 
 export default UserProfileNavbar;
-
-
-

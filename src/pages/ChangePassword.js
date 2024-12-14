@@ -54,19 +54,19 @@ const ChangePassword = () => {
               className="sidebar-item"
               onClick={handleProfileRedirect}
             >
-              Profile
+              Profil
             </button>
             <button
               className="sidebar-item"
               onClick={handleReservationsRedirect}
             >
-              My Reservations
+              Rezervasyonlarım
             </button>
             <button
               className="sidebar-item sidebar-item-active"
               onClick={() => {}}
             >
-              Change password
+              Şifre Değiştir
             </button>
           </div>
         </div>

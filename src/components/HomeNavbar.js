@@ -4,7 +4,6 @@ import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-
 const HomeNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -67,7 +66,10 @@ const HomeNavbar = () => {
   return (
     <div className="home-navbar">
       <div className="logo" onClick={() => navigate('/')}>
-        <img src={isDarkMode ? "/dark-icon.png" : "/icon.png"} />
+        <img
+          src={isDarkMode ? "/dark-icon.png" : "/icon.png"}
+          alt="Rezerve logo"
+        />
         Rezerve
       </div>
       <nav className="navbar">

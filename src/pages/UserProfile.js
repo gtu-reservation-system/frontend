@@ -8,9 +8,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const UserProfile = () => {
   const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
   const [comments, setComments] = useState([]);
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -20,10 +18,9 @@ const UserProfile = () => {
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
-      setError('Kullanıcı giriş yapmamış!');
-      return;
+      navigate('/login'); // Redirect to login if the user is not logged in
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (id) {
@@ -32,11 +29,9 @@ const UserProfile = () => {
           const response = await axios.get(`${API_BASE_URL}/api/users/${id}`);
           const data = response.data;
           setName(data.name);
-          setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
         } catch (error) {
-          console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
-          setError('Kullanıcı verileri yüklenemedi.');
+          console.error("Error fetching user data:", error);
         }
       };
 
@@ -45,7 +40,7 @@ const UserProfile = () => {
           const response = await axios.get(`${API_BASE_URL}/api/comments/user/${id}`);
           setComments(response.data);
         } catch (error) {
-          console.error("Kullanıcı yorumları alınırken bir hata oluştu:", error);
+          console.error("Error fetching user comments:", error);
         }
       };
 
@@ -53,11 +48,6 @@ const UserProfile = () => {
       fetchUserComments();
     }
   }, [id]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('userId');
-    navigate('/login');
-  };
 
   const handleEditProfileRedirect = () => {
     navigate('/edit-userProfile');
@@ -84,21 +74,21 @@ const UserProfile = () => {
           <div className="sidebar-menu">
             <button 
               className="sidebar-item sidebar-item-active" 
-              onClick={() => navigate()} /* NEEDS TO BE HANDLED */
+              onClick={() => navigate()} /* This should navigate to the profile */
             >
-              Profile
+              Profil
             </button>
             <button 
               className="sidebar-item" 
               onClick={handleReservationsRedirect}
             >
-              My Reservations
+              Rezervasyonlarım
             </button>
             <button 
               className="sidebar-item" 
               onClick={handlePasswordChangeRedirect}
             >
-              Change password
+              Şifre Değiştir
             </button>
           </div>
         </div>
@@ -128,22 +118,26 @@ const UserProfile = () => {
 
           <div className="comments-header">Comments</div>
 
-          {comments.map((comment, index) => (
-            <div key={index} className="comment-item">
-              <div className="comment-details">
-                <img 
-                  src="https://via.placeholder.com/56" 
-                  alt="Restaurant" 
-                  className="comment-image" 
-                />
-                <div className="comment-text">
-                  <div className="comment-restaurant">{comment.restaurantName}</div>
-                  <div className="comment-date">{comment.date}</div>
+          {comments.length > 0 ? (
+            comments.map((comment, index) => (
+              <div key={index} className="comment-item">
+                <div className="comment-details">
+                  <img 
+                    src="https://via.placeholder.com/56" 
+                    alt="Restaurant" 
+                    className="comment-image" 
+                  />
+                  <div className="comment-text">
+                    <div className="comment-restaurant">{comment.restaurantName}</div>
+                    <div className="comment-date">{comment.date}</div>
+                  </div>
                 </div>
+                <div className="comment-rating">{comment.rating}/5</div>
               </div>
-              <div className="comment-rating">{comment.rating}/5</div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>No comments yet.</div>
+          )}
         </div>
       </div>
     </div>

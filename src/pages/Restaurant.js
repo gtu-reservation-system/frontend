@@ -1,22 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../components/ReservationForm.js';
 import ReservationForm from '../components/ReservationForm.js';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Restaurant = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const ownerId = localStorage.getItem('ownerId');
+  const handleReservation = async (reservationData) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        navigate('/login', { state: { from: `/restaurant/${id}` } });
+        return;
+      }
 
-  const handleReservation = (reservationData) => {
-    console.log('Reservation confirmed:', reservationData);
-    alert('Rezervasyonunuz başarıyla oluşturuldu!');
+      const reservationPayload = {
+        restaurantId: id,
+        userId,
+        reservationTime: `${reservationData.date}T${reservationData.time}`,
+        guests: reservationData.guests,
+        reservationTag: reservationData.selectedTag,
+        allergens: reservationData.hasAllergies ? reservationData.allergens : null,
+      };
+
+      await axios.post(`${API_BASE_URL}/api/reservations`, reservationPayload);
+      alert('Rezervasyonunuz başarıyla oluşturuldu!');
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
 
   useEffect(() => {
@@ -35,8 +53,6 @@ const Restaurant = () => {
     fetchRestaurantData();
   }, [id]);
 
-
-
   if (loading) {
     return <h2>Yükleniyor...</h2>;
   }
@@ -51,30 +67,37 @@ const Restaurant = () => {
 
   return (
     <div>
-
-      <p><img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" /> <h1>{restaurant.name}</h1></p> 
+      <p>
+        <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />{' '}
+        <h1>{restaurant.name}</h1>
+      </p>
       <div>
-          <p><strong>Fotoğraflar:</strong></p>
-          {restaurant.photos && restaurant.photos.length > 0 ? (
-            <div className="photo-gallery">
-              {restaurant.photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
-              ))}
-            </div>
-          ) : (
-            <p>Fotoğraflar bulunmamaktadır</p>
-          )}
-        </div>
+        <p><strong>Fotoğraflar:</strong></p>
+        {restaurant.photos && restaurant.photos.length > 0 ? (
+          <div className="photo-gallery">
+            {restaurant.photos.map((photo, index) => (
+              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
+            ))}
+          </div>
+        ) : (
+          <p>Fotoğraflar bulunmamaktadır</p>
+        )}
+      </div>
       <strong>Adres:</strong> <p>{restaurant.address}</p>
-      <strong>Etiketler:</strong> <p> {restaurant.tags?.join(', ')}</p>
+      <strong>Etiketler:</strong> <p>{restaurant.tags?.join(', ')}</p>
       <strong>Çalışma Saatleri:</strong> <p>{restaurant.operatingHours}</p>
-      <strong>Web Sitesi:</strong> <p> <a href={restaurant.websiteLink} target="_blank" rel="noopener noreferrer">{restaurant.websiteLink}</a> </p>
+      <strong>Web Sitesi:</strong>{' '}
+      <p>
+        <a href={restaurant.websiteLink} target="_blank" rel="noopener noreferrer">
+          {restaurant.websiteLink}
+        </a>
+      </p>
 
-      <ReservationForm 
-        onReserve={handleReservation} 
-        restaurantId={id}
-        availableTimeSlots={restaurant.availableTimeSlots || []} 
-        terms={restaurant.additionalCondition} 
+      <ReservationForm
+        onSubmit={handleReservation}
+        availableTimeSlots={restaurant.availableTimeSlots || []}
+        maxGuests={restaurant.maxGuests}
+        terms={restaurant.additionalCondition}
         reservationTags={[
           restaurant.birthdayParty && 'Doğum Günü',
           restaurant.anniversary && 'Yıldönümü',
@@ -83,10 +106,7 @@ const Restaurant = () => {
         ].filter(Boolean)}
       />
     </div>
-
   );
 };
 
 export default Restaurant;
-
-

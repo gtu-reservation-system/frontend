@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const RestaurantNavbar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false); 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
@@ -20,18 +19,6 @@ const RestaurantNavbar = () => {
       setRole(userRole);   
     }
   }, []);
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/restaurants?search=${searchQuery}`);
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch(); 
-    }
-  };
 
   const handleMouseEnter = () => {
     setShowDropdown(true);
@@ -56,15 +43,6 @@ const RestaurantNavbar = () => {
       <img src="/icon.png" alt="Logo" />
         Rezerve</div>
       <nav>
-        <input
-          type="text"
-          placeholder="Restoran ara"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}  
-          onKeyPress={handleKeyPress}  
-          aria-label="Restaurant search" 
-        />
-        <button onClick={handleSearch} disabled={!searchQuery.trim()}>Ara</button> 
         <button onClick={() => navigate('/home')}>Ana Sayfa</button> 
         <button onClick={() => navigate('/restaurants')}>Restoranlar</button> 
 

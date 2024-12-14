@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuests, terms, reservationTags }) => {
+const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reservationTags }) => {
   const [fullName, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -14,66 +10,48 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
   const [selectedTag, setSelectedTag] = useState('');
   const [agreed, setAgreed] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!fullName || !date || !time || !guests) {
       alert("Lütfen tüm alanları doldurun.");
       return;
     }
-  
+
     if (guests > maxGuests) {
       alert(`${maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.`);
       return;
     }
-  
+
     if (hasAllergies && !allergens) {
       alert("Lütfen alerji bilginizi girin.");
       return;
     }
-  
-    if (terms && !agreed) { 
+
+    if (terms && !agreed) {
       alert("Lütfen şartları kabul edin.");
       return;
     }
-  
-    try {
-      const authResponse = await axios.get(`${API_BASE_URL}/api/auth/check`);
-      const isAuthenticated = authResponse.data.isAuthenticated;
-  
-      if (!isAuthenticated) {
-        navigate('/login', { state: { from: `${API_BASE_URL}/reservation/${restaurantId}` } });
-        return;
-      }
-  
-      const userId = authResponse.data.user.id;
-  
-      const reservationData = {
-        restaurantId,
-        userId,
-        reservationTime: `${date}T${time}`,
-        reservationTag: selectedTag,
-      };
-  
-      await axios.post(`${API_BASE_URL}/api/reservations`, reservationData);
 
-      onReserve(reservationData);
-      setName('');
-      setDate('');
-      setTime('');
-      setGuests(1);
-      setHasAllergies(false);
-      setAllergens('');
-      setSelectedTag('');
-      setAgreed(false);
-  
-      alert("Rezervasyon başarılı!");
-    } catch (error) {
-      console.error("Error creating reservation:", error);
-      alert("Bir hata oluştu. Lütfen tekrar deneyin.");
-    }
+    const reservationData = {
+      fullName,
+      date,
+      time,
+      guests,
+      hasAllergies,
+      allergens,
+      selectedTag,
+    };
+
+    onSubmit(reservationData);
+    setName('');
+    setDate('');
+    setTime('');
+    setGuests(1);
+    setHasAllergies(false);
+    setAllergens('');
+    setSelectedTag('');
+    setAgreed(false);
   };
 
   return (
@@ -98,7 +76,14 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
       </div>
       <div>
         <label>Kişi Sayısı:</label>
-        <input type="number" value={guests} onChange={(e) => setGuests(Number(e.target.value))} min="1" max={maxGuests} required />
+        <input
+          type="number"
+          value={guests}
+          onChange={(e) => setGuests(Number(e.target.value))}
+          min="1"
+          max={maxGuests}
+          required
+        />
         {guests > maxGuests && (
           <p style={{ color: 'red' }}>
             {maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.
@@ -109,11 +94,11 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
         <label>Herhangi bir alerjiniz var mı?</label>
         <div>
           <label>
-            <input type="radio" name="hasAllergies" value="yes" checked={hasAllergies === true} onChange={() => setHasAllergies(true)} />
+            <input type="radio" name="hasAllergies" value="yes" checked={hasAllergies} onChange={() => setHasAllergies(true)} />
             Evet
           </label>
           <label>
-            <input type="radio" name="hasAllergies" value="no" checked={hasAllergies === false} onChange={() => setHasAllergies(false)} />
+            <input type="radio" name="hasAllergies" value="no" checked={!hasAllergies} onChange={() => setHasAllergies(false)} />
             Hayır
           </label>
         </div>
@@ -137,7 +122,7 @@ const ReservationForm = ({ onReserve, restaurantId, availableTimeSlots, maxGuest
           </div>
         </div>
       )}
-      {terms && ( 
+      {terms && (
         <div>
           <label>
             <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} />

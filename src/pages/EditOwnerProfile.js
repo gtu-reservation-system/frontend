@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import EditOwnerProfileForm from '../components/EditOwnerProfileForm';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const EditOwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({
     name: '',
@@ -25,8 +27,6 @@ const EditOwnerProfile = () => {
   const [error, setError] = useState(null);
   const id = localStorage.getItem('ownerId');
   const navigate = useNavigate();
-
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     if (!id) {

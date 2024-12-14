@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/HomeNavbar';
 import Navbar2 from './components/ListNavbar';
 import Navbar3 from './components/LoginNavbar';
@@ -24,49 +24,15 @@ import EditOwnerProfile from './pages/EditOwnerProfile';
 import OwnerReservations from './pages/OwnerReservations';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [ownerData, setOwnerData] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const savedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const savedRole = localStorage.getItem('role');
     const storedDarkMode = localStorage.getItem('darkMode');
     if (storedDarkMode === 'true') {
       setIsDarkMode(true);
       document.body.classList.add('dark-mode');
     }
-
-    if (savedIsLoggedIn) {
-      setIsLoggedIn(savedIsLoggedIn);
-      setRole(savedRole);
-
-      if (savedRole === 'user') {
-        const savedUserData = JSON.parse(localStorage.getItem('userData'));
-        setUserData(savedUserData);
-      } else {
-        const savedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
-        setOwnerData(savedOwnerData);
-      }
-    }
   }, []);
-
-  const handleLogin = (data) => {
-    setIsLoggedIn(true);
-    setRole(data.role);
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('role', data.role);
-
-    if (data.role === 'user') {
-      setUserData(data.userData);
-      localStorage.setItem('userData', JSON.stringify(data.userData));
-    } else {
-      setOwnerData(data.ownerData);
-      localStorage.setItem('ownerData', JSON.stringify(data.ownerData));
-    }
-  };
 
   const toggleDarkMode = () => {
     const newDarkMode = !isDarkMode;
@@ -101,14 +67,14 @@ const App = () => {
         <Route path="/home" element={<><WrappedNavbar /><Home /></>} />
         <Route path="/restaurants" element={<><WrappedNavbar2 /><Restaurants /></>} />
         <Route path="/restaurants/:id" element={<><WrappedNavbar4 /><Restaurant /></>} />
-        <Route path="/login" element={<><WrappedNavbar3 /><Login handleLogin={handleLogin} /></>} />
+        <Route path="/login" element={<><WrappedNavbar3 /><Login /></>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup/owner" element={<><WrappedNavbar5 /><OwnerSignup /></>} />
         <Route path="/signup/user" element={<><WrappedNavbar6 /><UserSignup /></>} />
-        <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile userData={userData} /></>} />
+        <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile/></>} />
         <Route path="/edit-userProfile" element={<EditUserProfile />} />
         <Route path="/user-reservations" element={<UserReservations /> } />
-        <Route path="/ownerProfile" element={<><WrappedNavbar8 /><OwnerProfile ownerData={ownerData} /></> } />
+        <Route path="/ownerProfile" element={<><WrappedNavbar8 /><OwnerProfile/></> } />
         <Route path="/edit-ownerProfile" element={<EditOwnerProfile /> } />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/owner-reservations" element={<OwnerReservations />} />
