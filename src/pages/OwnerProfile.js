@@ -37,6 +37,10 @@ const OwnerProfile = () => {
     navigate('/owner-reservations');
   };
 
+  const handlePasswordChange = () => {
+    navigate('/owner-change-password');
+  };
+
   const tableCounts = ownerData.tables?.reduce(
     (counts, table) => {
       counts[table.capacity] = (counts[table.capacity] || 0) + 1;
@@ -102,6 +106,7 @@ const OwnerProfile = () => {
 
         <button onClick={handleEditProfile}>Profili Düzenle</button>
         <button onClick={handleReservationsRedirect}>Rezervasyonlar</button>
+        <button onClick={handlePasswordChange}>Şifre Değiştir</button>
       </div>
     </div>
   );

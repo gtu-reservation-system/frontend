@@ -27,7 +27,7 @@ const ChangePasswordForm = ({ onSubmit }) => {
     }
 
     if (!isPasswordValid(newPassword)) {
-      setError('Yeni şifre en az 8 karakter olmalı ve bir büyük harf, bir küçük harf ve bir rakam içermelidir.');
+      setError('Yeni şifre 8 ile 12 karakter arasında olmalıdır. Bir büyük harf, bir küçük harf ve bir rakam içermelidir.');
       return false;
     }
 

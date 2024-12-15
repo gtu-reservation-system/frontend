@@ -2,25 +2,41 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ChangePasswordForm from '../components/ChangePasswordForm';
-import '../components/UserSignupForm.css'
-import UserProfileNavbar from '../components/UserProfileNavbar';
+import '../components/UserSignupForm.css';
+import UserProfileNavbar from '../components/OwnerProfileNavbar';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const ChangePassword = () => {
+const OwnerChangePassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handlePasswordChange = async (formData) => {
+    const { currentPassword, newPassword } = formData;
+    const ownerId = localStorage.getItem('ownerId'); 
+
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/change-password`, formData);
-      if (response.status === 200) {
-        setMessage('Şifreniz başarıyla değiştirildi!');
+      const response = await axios.get(`${API_BASE_URL}/api/restaurants/${ownerId}`);
+      const ownerData = response.data;
+
+      if (ownerData.password !== currentPassword) {
+        setError('Mevcut şifre yanlış. Lütfen doğru şifreyi girin.');
+        return;
       }
-    } catch (error) {
-      console.error("Password change failed:", error);
+
+      const updatedData = { ...ownerData, password: newPassword };
+
+      const updateResponse = await axios.put(`${API_BASE_URL}/api/restaurants/${ownerId}`, updatedData);
+
+      if (updateResponse.status === 200) {
+        setMessage('Şifreniz başarıyla değiştirildi!');
+        setError('');
+      }
+    } catch (err) {
+      console.error('Password change failed:', err);
       setError('Şifre değiştirirken bir hata oluştu. Lütfen tekrar deneyin.');
+      setMessage('');
     }
   };
 
@@ -31,41 +47,31 @@ const ChangePassword = () => {
     textAlign: 'center',
     marginBottom: '20px',
     fontFamily: "'Be Vietnam Pro', 'sans-serif'",
-    padding: '20px'
+    padding: '20px',
   };
 
   const handleProfileRedirect = () => {
-    navigate('/UserProfile');
+    navigate('/ownerProfile');
   };
 
   const handleReservationsRedirect = () => {
-    navigate('/user-reservations');
+    navigate('/owner-reservations');
   };
 
   return (
     <div className="page-container">
-      {/* Add HomeNavbar here */}
       <UserProfileNavbar />
-      
+
       <div style={{ display: 'flex' }}>
         <div className="sidebar">
           <div className="sidebar-menu">
-            <button
-              className="sidebar-item"
-              onClick={handleProfileRedirect}
-            >
+            <button className="sidebar-item" onClick={handleProfileRedirect}>
               Profil
             </button>
-            <button
-              className="sidebar-item"
-              onClick={handleReservationsRedirect}
-            >
-              Rezervasyonlarım
+            <button className="sidebar-item" onClick={handleReservationsRedirect}>
+              Rezervasyonlar
             </button>
-            <button
-              className="sidebar-item sidebar-item-active"
-              onClick={() => {}}
-            >
+            <button className="sidebar-item sidebar-item-active" onClick={() => {}}>
               Şifre Değiştir
             </button>
           </div>
@@ -83,4 +89,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default OwnerChangePassword;

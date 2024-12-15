@@ -62,7 +62,8 @@ const OwnerSignup = () => {
         localStorage.setItem('ownerId', response.data.id);
         localStorage.setItem('role', response.data.role);
   
-        navigate('/login');
+        alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');
+        setTimeout(() => navigate('/login'), 1000);
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {

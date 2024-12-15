@@ -18,7 +18,7 @@ const UserProfile = () => {
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
-      navigate('/login'); // Redirect to login if the user is not logged in
+      navigate('/login');
     }
   }, [navigate]);
 
@@ -54,7 +54,7 @@ const UserProfile = () => {
   };
 
   const handlePasswordChangeRedirect = () => {
-    navigate('/change-password');
+    navigate('/user-change-password');
   };
 
   const handleReservationsRedirect = () => {
