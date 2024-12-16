@@ -24,6 +24,7 @@ import OwnerChangePassword from './pages/OwnerChangePassword';
 import EditOwnerProfile from './pages/EditOwnerProfile';
 import OwnerReservations from './pages/OwnerReservations';
 import ResetPassword from './pages/ResetPassword';
+import PopularDishes from './pages/PopularDishes';
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -82,6 +83,7 @@ const App = () => {
         <Route path="/owner-change-password" element={<OwnerChangePassword />} />
         <Route path="/owner-reservations" element={<OwnerReservations />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/popular-dishes" element={<PopularDishes />} />
       </Routes>
     </Router>
   );

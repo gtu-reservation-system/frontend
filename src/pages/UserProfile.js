@@ -61,11 +61,22 @@ const UserProfile = () => {
     navigate('/user-reservations');
   };
 
+  const handleDeleteAccount = async () => {
+    if (window.confirm('Hesabınızı silmek istediğinizden emin misiniz?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/api/users/${id}`);
+        localStorage.removeItem('userId'); 
+        navigate('/login');  
+      } catch (error) {
+        console.error('Hesap silinirken hata oluştu:', error);
+      }
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="header">
         <div className="header-content">
-          {/* Navigation elements here */}
         </div>
       </div>
       
@@ -74,7 +85,7 @@ const UserProfile = () => {
           <div className="sidebar-menu">
             <button 
               className="sidebar-item sidebar-item-active" 
-              onClick={() => navigate()} /* This should navigate to the profile */
+              onClick={() => navigate()}
             >
               Profil
             </button>
@@ -111,7 +122,14 @@ const UserProfile = () => {
                 className="edit-profile-btn" 
                 onClick={handleEditProfileRedirect}
               >
-                Edit profile
+                Profili Düzenle
+              </button>
+              <button 
+                className="delete-account-btn" 
+                onClick={handleDeleteAccount}
+                style={{ backgroundColor: 'red', color: 'white' }}
+              >
+                Hesabı Sil
               </button>
             </div>
           </div>

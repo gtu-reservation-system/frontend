@@ -41,6 +41,23 @@ const OwnerProfile = () => {
     navigate('/owner-change-password');
   };
 
+  const handleDishesRedirect = () => {
+    navigate('/popular-dishes');
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm('Hesabınızı silmek istediğinizden emin misiniz?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/api/restaurants/${id}`);
+        localStorage.removeItem('ownerId');
+        navigate('/'); 
+      } catch (error) {
+        console.error('Hesap silinirken hata oluştu:', error);
+        setError('Hesap silinemedi');
+      }
+    }
+  };
+
   const tableCounts = ownerData.tables?.reduce(
     (counts, table) => {
       counts[table.capacity] = (counts[table.capacity] || 0) + 1;
@@ -106,7 +123,11 @@ const OwnerProfile = () => {
 
         <button onClick={handleEditProfile}>Profili Düzenle</button>
         <button onClick={handleReservationsRedirect}>Rezervasyonlar</button>
+        <button onClick={handleDishesRedirect}>Popüler Yemekler</button>
         <button onClick={handlePasswordChange}>Şifre Değiştir</button>
+        <button onClick={handleDeleteAccount} style={{ backgroundColor: 'red', color: 'white' }}>
+          Hesabı Sil
+        </button>
       </div>
     </div>
   );
