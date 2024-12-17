@@ -11,6 +11,8 @@ const Restaurant = () => {
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
@@ -63,10 +65,32 @@ const Restaurant = () => {
       }
     };
 
+    const fetchMenuItems = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}/menu-items`);
+        setMenuItems(response.data);
+      } catch (error) {
+        console.error("Popüler yemekler alınırken hata oluştu:", error);
+        setError("Popüler yemekler yüklenemedi");
+      }
+    };
+
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/comments/restaurant/${id}`);
+        setComments(response.data);
+      } catch (error) {
+        console.error("Yorumlar yüklenirken hata oluştu:", error);
+        setError('Yorumlar yüklenemedi');
+      }
+    };
+
     const userId = sessionStorage.getItem('userId');
     setIsLoggedIn(!!userId);
 
+    fetchMenuItems();
     fetchRestaurantData();
+    fetchComments();
   }, [id]);
 
   const getAvailableTimeSlots = (operatingHours) => {
@@ -109,7 +133,7 @@ const Restaurant = () => {
         {restaurant.photos && restaurant.photos.length > 0 ? (
           <div className="photo-gallery">
             {restaurant.photos.map((photo, index) => (
-              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
+              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`}  className="restaurant-photo" />
             ))}
           </div>
         ) : (
@@ -125,7 +149,51 @@ const Restaurant = () => {
           {restaurant.websiteLink}
         </a>
       </p>
+      <div className="popular-dishes">
+      <h1>Popüler Yemekler</h1>
+      {error && <p className="error-message">{error}</p>}
 
+      <div>
+        {menuItems.length > 0 ? (
+          <ul>
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <h3>{item.name}</h3>
+                <p>
+                  <strong>Açıklama:</strong> {item.description}
+                </p>
+                <p>
+                  <strong>Fiyat:</strong> {item.price} ₺
+                </p>
+                <p>
+                  <strong>Etiketler:</strong>{" "}
+                  {item.tags?.join(", ") || "Yok"}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Yemekler bulunmamaktadır.</p>
+        )}
+      </div>
+        </div>
+      <div className="comments-section">
+        <h2>Yorumlar</h2>
+        {comments.length > 0 ? (
+          <ul>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <p><strong>Kullanıcı:</strong> {comment.user?.name || 'Bilinmeyen Kullanıcı'}</p>
+                <p><strong>Yorum:</strong> {comment.comment}</p>
+                <p><strong>Puan:</strong> {comment.rating} / 5</p>
+                <p><strong>Tarih:</strong> {new Date(comment.createdAt).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Yorum bulunmamaktadır.</p>
+        )}
+      </div>
       {isLoggedIn && (
         <button
           className="favorite-button"
