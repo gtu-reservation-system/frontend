@@ -1,137 +1,177 @@
-.user-reservations {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
+/* General styles */
+:root {
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --accent-color: #e63946;
+    --hover-color: #d62828;
+    --button-bg: #e63946;
+    --button-hover-bg: #d62828;
+    --error-color: #e63946;
+  }
+  
+  .dark-mode {
+    --bg-color: #181a1b;
+    --text-color: #f1f1f1;
+    --accent-color: #fdd38d;
+    --hover-color: #e8a229;
+    --button-bg: #e8a229;
+    --button-hover-bg: #b88a3e;
+    --error-color: #fdd38d;
+  }
+  
+  body {
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
   }
   
-  .user-reservations h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: var(--accent-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    animation: textGlow 3s ease-in-out infinite alternate;
-  }
-  
-  .user-reservations section {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .user-reservations section:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .user-reservations section h3 {
+  /* Main content */
+  h2 {
+    font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: var(--accent-color);
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 0.5rem;
   }
   
-  .user-reservations ul {
-    list-style-type: none;
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  section {
+    margin-bottom: 2rem;
+  }
+  
+  ul {
+    list-style: none;
     padding: 0;
   }
   
-  .user-reservations li {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    padding: 1rem;
+  li {
+    background-color: white;
+    border: 1px solid #ddd;
     margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    justify-content: space-between;
+    align-items: center;
   }
   
-  .user-reservations li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-3px);
+  .dark-mode li {
+    background-color: #2a2d2e;
+    border-color: #444;
   }
   
-  .user-reservations button {
-    background-color: var(--accent-color);
+  button {
+    background-color: var(--button-bg);
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 0.5rem;
+    font-size: 1rem;
     transition: background-color 0.3s ease, transform 0.2s;
   }
   
-  .user-reservations button:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 80%, white);
+  button:hover {
+    background-color: var(--button-hover-bg);
     transform: scale(1.05);
   }
   
-  .user-reservations textarea {
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    resize: vertical;
-  }
-  
-  .user-reservations select {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    margin-left: 0.5rem;
-  }
-  
   .error-message {
-    color: #ff4444;
-    text-align: center;
+    color: var(--error-color);
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+  
+  /* Comment Modal */
+  .comment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .comment-modal-content {
+    background-color: var(--bg-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    width: 90%;
+    max-width: 500px;
+    color: var(--text-color);
+  }
+  
+  .comment-modal h3 {
     margin-bottom: 1rem;
   }
   
-  /* Dark mode adjustments */
-  .dark-mode .user-reservations section {
-    background-color: rgba(0, 0, 0, 0.2);
+  .comment-modal textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    resize: none;
   }
   
-  .dark-mode .user-reservations li {
-    background-color: rgba(0, 0, 0, 0.1);
+  .comment-modal .rating-container {
+    margin-bottom: 1rem;
   }
   
-  .dark-mode .user-reservations li:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+  .comment-modal-actions {
+    display: flex;
+    justify-content: space-between;
   }
   
   /* Responsive Design */
-  @media screen and (max-width: 600px) {
-    .user-reservations {
-      padding: 1rem;
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      display: none;
     }
   
-    .user-reservations h2 {
-      font-size: 1.5rem;
+    .header {
+      font-size: 1.2rem;
     }
   
-    .user-reservations section {
-      padding: 1rem;
-    }
-  
-    .user-reservations li {
-      padding: 0.75rem;
+    .comment-modal-content {
+      padding: 1.5rem;
     }
   }
   
-  /* Animations (matching the hero section animations) */
-  @keyframes textGlow {
-    0%, 100% {
-      text-shadow: 0 0 5px var(--text-glow-color-start)
-    }
-    50% {
-      text-shadow: 0 0 15px var(--text-glow-color-end)
-    }
+
+  /* Star Rating */
+.star-rating {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: start;
+    font-size: 1.5rem;
   }
+  
+  .star-rating input {
+    display: none; /* Hide radio inputs */
+  }
+  
+  .star-rating label {
+    color: #ccc; /* Default color for stars */
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: var(--accent-color); /* Highlight stars */
+  }
+  

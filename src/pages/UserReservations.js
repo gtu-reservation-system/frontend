@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import './UserReservations.css'; // Import the new CSS file
+import './UserReservations.css'; 
+import './Home.css'; // Import Home.css for consistent styling
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -136,7 +137,7 @@ const UserReservations = () => {
 
   const renderCommentModal = () => {
     if (!selectedReservationId) return null;
-
+  
     return (
       <div className="comment-modal">
         <div className="comment-modal-content">
@@ -149,11 +150,21 @@ const UserReservations = () => {
           />
           <div className="rating-container">
             <label>Rating: </label>
-            <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-              {[1, 2, 3, 4, 5].map(r => (
-                <option key={r} value={r}>{r} Yıldız</option>
+            <div className="star-rating">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <React.Fragment key={star}>
+                  <input
+                    type="radio"
+                    id={`star${star}`}
+                    name="rating"
+                    value={star}
+                    checked={rating === star}
+                    onChange={() => setRating(star)}
+                  />
+                  <label htmlFor={`star${star}`}>&#9733;</label>
+                </React.Fragment>
               ))}
-            </select>
+            </div>
           </div>
           <div className="comment-modal-actions">
             <button onClick={handleAddComment}>Gönder</button>
@@ -163,30 +174,79 @@ const UserReservations = () => {
       </div>
     );
   };
+  
+
+  const handleProfileRedirect = () => {
+    navigate('/userProfile');
+  };
+
+  const handleFavoritesRedirect = () => {
+    navigate('/favorites');
+  };
+
+  const handlePasswordChangeRedirect = () => {
+    navigate('/user-change-password');
+  };
 
   return (
-    <div className="user-reservations">
-      <h2>Rezervasyonlarım</h2>
-      {error && <p className="error-message">{error}</p>}
+    <div className="page-container">
+      <div className="header">
+        <div className="header-content">
+          {/* You can add header content here if needed */}
+        </div>
+      </div>
+      
+      <div style={{ display: 'flex' }}>
+        <div className="sidebar">
+          <div className="sidebar-menu">
+            <button 
+              className="sidebar-item" 
+              onClick={handleProfileRedirect}
+            >
+              Profil
+            </button>
+            <button 
+              className="sidebar-item sidebar-item-active"
+            >
+              Rezervasyonlarım
+            </button>
+            <button 
+              className="sidebar-item" 
+              onClick={handleFavoritesRedirect}
+            >
+              Favorilerim
+            </button>
+            <button 
+              className="sidebar-item" 
+              onClick={handlePasswordChangeRedirect}
+            >
+              Şifre Değiştir
+            </button>
+          </div>
+        </div>
 
-      <button onClick={() => navigate('/userProfile')}>Profilim</button>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <h2>Rezervasyonlarım</h2>
+          {error && <p className="error-message">{error}</p>}
 
-      <section>
-        <h3>Geçmiş Rezervasyonlar</h3>
-        <ul>{renderReservations(pastReservations, 'past')}</ul>
-      </section>
+          <section>
+            <h3>Geçmiş Rezervasyonlar</h3>
+            <ul>{renderReservations(pastReservations, 'past')}</ul>
+          </section>
 
-      <section>
-        <h3>Onay Bekleyen Rezervasyonlar</h3>
-        <ul>{renderReservations(pendingReservations, 'pending')}</ul>
-      </section>
+          <section>
+            <h3>Onay Bekleyen Rezervasyonlar</h3>
+            <ul>{renderReservations(pendingReservations, 'pending')}</ul>
+          </section>
 
-      <section>
-        <h3>Yaklaşan Rezervasyonlar</h3>
-        <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
-      </section>
+          <section>
+            <h3>Yaklaşan Rezervasyonlar</h3>
+            <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
+          </section>
 
-      {renderCommentModal()}
+          {renderCommentModal()}
+        </div>
+      </div>
     </div>
   );
 };
