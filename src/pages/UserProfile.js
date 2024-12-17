@@ -144,33 +144,33 @@ const UserProfile = () => {
           <div className="comments-header">Yorumlar</div>
 
           {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <div key={index} className="comment-item">
-                <div className="comment-details">
-                  <img 
-                    src="https://via.placeholder.com/56" 
-                    alt="Restaurant" 
-                    className="comment-image" 
-                  />
-                  <div className="comment-text">
-                    <div className="comment-restaurant">{comment.restaurantName}</div>
-                    <div className="comment-comment">{comment.comment}</div>
-                    <div className="comment-date">{new Date(comment.createdAt).toLocaleDateString()}</div>
-                  </div>
-                </div>
-                <div className="comment-rating">{comment.rating}/5</div>
-                <button 
-                  className="delete-comment-btn" 
-                  onClick={() => handleDeleteComment(comment.id)} 
-                  style={{ backgroundColor: 'red', color: 'white' }}
-                >
-                  Yorum Sil
-                </button>
-              </div>
-            ))
-          ) : (
-            <div>Henüz yorum yapılmamış.</div>
-          )}
+  <div className="comments-section">
+    {comments.map((comment, index) => (
+      <div key={index} className="comment-item">
+        <div className="comment-details">
+          <div className="comment-text">
+            <div className="comment-restaurant">{comment.restaurant.name}</div>
+            <div className="comment-comment">{comment.comment}</div>
+          </div>
+        </div>
+        <div className="comment-meta">
+          <div className="comment-date">
+            {new Date(comment.createdAt).toLocaleDateString()}
+          </div>
+          <div className="comment-rating">{comment.rating}/5</div>
+          <button 
+            className="delete-comment-btn" 
+            onClick={() => handleDeleteComment(comment.id)}
+          >
+            Yorum Sil
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+) : (
+  <div className="no-comments">Henüz yorum yapılmamış.</div>
+)}
         </div>
       </div>
     </div>

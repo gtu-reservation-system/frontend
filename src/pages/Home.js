@@ -80,7 +80,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="red-panel"> </div>
+      <div className="white-panel"> </div>
       
     </div>
   );

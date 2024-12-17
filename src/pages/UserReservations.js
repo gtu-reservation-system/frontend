@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import './UserReservations.css'; // Import the new CSS file
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -12,7 +13,7 @@ const UserReservations = () => {
   const [error, setError] = useState('');
   const [comment, setComment] = useState(''); 
   const [rating, setRating] = useState(5); 
-  const [restaurantId, setRestaurantId] = useState(null); 
+  const [selectedReservationId, setSelectedReservationId] = useState(null);
   const [userId, setUserId] = useState(null); 
   const navigate = useNavigate();
 
@@ -21,13 +22,9 @@ const UserReservations = () => {
       const storedUserId = sessionStorage.getItem('userId');
       if (storedUserId) {
         setUserId(Number(storedUserId));
-      }
-
-      if (storedUserId) {
         try {
           const response = await axios.get(`${API_BASE_URL}/api/reservations/user/${storedUserId}`);
           const reservations = response.data;
-          setRestaurantId(reservations[0]?.restaurant?.id);
           const now = moment();
 
           const past = [];
@@ -81,7 +78,7 @@ const UserReservations = () => {
     }
   };
   
-  const handleAddComment = async (reservationId) => {
+  const handleAddComment = async () => {
     if (!comment.trim()) {
       alert("Lütfen bir yorum girin.");
       return;
@@ -91,7 +88,7 @@ const UserReservations = () => {
       if (userId) {
         const newComment = {
           userId, 
-          restaurantId, 
+          restaurantId: pastReservations.find(r => r.id === selectedReservationId)?.restaurant?.id, 
           comment, 
           rating 
         };
@@ -100,12 +97,15 @@ const UserReservations = () => {
 
         setPastReservations(prevReservations => 
           prevReservations.map(reservation => 
-            reservation.id === reservationId ? { ...reservation, comment: comment, rating: rating } : reservation
+            reservation.id === selectedReservationId 
+              ? { ...reservation, comment: comment, rating: rating } 
+              : reservation
           )
         );
 
         setComment('');
         setRating(5);
+        setSelectedReservationId(null);
         alert('Yorum başarıyla eklendi.');
       }
     } catch (error) {
@@ -117,44 +117,52 @@ const UserReservations = () => {
   const renderReservations = (reservations, type) => (
     reservations.map(res => (
       <li key={res.id}>
-        {res.restaurant.name} - {moment(res.reservationStartTime).format("YYYY-MM-DD HH:mm")}
+        <div className="reservation-details">
+          {res.restaurant.name} - {moment(res.reservationStartTime).format("YYYY-MM-DD HH:mm")}
+        </div>
         {(type === 'pending' || type === 'upcoming') && (
-        <button
-        onClick={() => handleCancel(res.id, type, res.reservationStartTime)}
-        style={{ marginLeft: '10px' }}
-      >
-        İptal Et
-      </button>
-
+          <button onClick={() => handleCancel(res.id, type, res.reservationStartTime)}>
+            İptal Et
+          </button>
         )}
         {type === 'past' && (
-          <div>
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Yorumunuzu buraya yazın"
-              rows="4"
-              style={{ width: '100%', marginTop: '10px' }}
-            />
-            <div style={{ marginTop: '10px' }}>
-              <label>Rating: </label>
-              <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                {[1, 2, 3, 4, 5].map(r => (
-                  <option key={r} value={r}>{r} Yıldız</option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={() => handleAddComment(res.id)}
-              style={{ marginTop: '10px' }}
-            >
-              Yorum Ekle
-            </button>
-          </div>
+          <button onClick={() => setSelectedReservationId(res.id)}>
+            Yorum Ekle
+          </button>
         )}
       </li>
     ))
   );
+
+  const renderCommentModal = () => {
+    if (!selectedReservationId) return null;
+
+    return (
+      <div className="comment-modal">
+        <div className="comment-modal-content">
+          <h3>Yorum Ekle</h3>
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Yorumunuzu buraya yazın"
+            rows="4"
+          />
+          <div className="rating-container">
+            <label>Rating: </label>
+            <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+              {[1, 2, 3, 4, 5].map(r => (
+                <option key={r} value={r}>{r} Yıldız</option>
+              ))}
+            </select>
+          </div>
+          <div className="comment-modal-actions">
+            <button onClick={handleAddComment}>Gönder</button>
+            <button onClick={() => setSelectedReservationId(null)}>İptal</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="user-reservations">
@@ -164,19 +172,21 @@ const UserReservations = () => {
       <button onClick={() => navigate('/userProfile')}>Profilim</button>
 
       <section>
-        <h3>Geçmiş</h3>
+        <h3>Geçmiş Rezervasyonlar</h3>
         <ul>{renderReservations(pastReservations, 'past')}</ul>
       </section>
 
       <section>
-        <h3>Onay Bekleyen</h3>
+        <h3>Onay Bekleyen Rezervasyonlar</h3>
         <ul>{renderReservations(pendingReservations, 'pending')}</ul>
       </section>
 
       <section>
-        <h3>Yaklaşan</h3>
+        <h3>Yaklaşan Rezervasyonlar</h3>
         <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
       </section>
+
+      {renderCommentModal()}
     </div>
   );
 };

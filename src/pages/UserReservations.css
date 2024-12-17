@@ -1,0 +1,137 @@
+.user-reservations {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .user-reservations h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--accent-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: textGlow 3s ease-in-out infinite alternate;
+  }
+  
+  .user-reservations section {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .user-reservations section:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .user-reservations section h3 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .user-reservations ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .user-reservations li {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .user-reservations li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+  }
+  
+  .user-reservations button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+  
+  .user-reservations button:hover {
+    background-color: color-mix(in srgb, var(--accent-color) 80%, white);
+    transform: scale(1.05);
+  }
+  
+  .user-reservations textarea {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    resize: vertical;
+  }
+  
+  .user-reservations select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-left: 0.5rem;
+  }
+  
+  .error-message {
+    color: #ff4444;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  /* Dark mode adjustments */
+  .dark-mode .user-reservations section {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark-mode .user-reservations li {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark-mode .user-reservations li:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 600px) {
+    .user-reservations {
+      padding: 1rem;
+    }
+  
+    .user-reservations h2 {
+      font-size: 1.5rem;
+    }
+  
+    .user-reservations section {
+      padding: 1rem;
+    }
+  
+    .user-reservations li {
+      padding: 0.75rem;
+    }
+  }
+  
+  /* Animations (matching the hero section animations) */
+  @keyframes textGlow {
+    0%, 100% {
+      text-shadow: 0 0 5px var(--text-glow-color-start)
+    }
+    50% {
+      text-shadow: 0 0 15px var(--text-glow-color-end)
+    }
+  }
