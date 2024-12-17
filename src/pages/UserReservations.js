@@ -59,7 +59,15 @@ const UserReservations = () => {
     fetchUserIdAndReservations();
   }, []);
 
-  const handleCancel = async (reservationId, type) => {
+  const handleCancel = async (reservationId, type, reservationStartTime) => {
+    const now = moment();
+    const reservationTime = moment(reservationStartTime);
+  
+    if (reservationTime.diff(now, 'hours') < 24) {
+      alert('Rezervasyon saatine 24 saatten az kaldığı için iptal edilemez.');
+      return;
+    }
+  
     try {
       await axios.delete(`${API_BASE_URL}/api/reservations/${reservationId}`);
       if (type === 'pending') {
@@ -72,7 +80,7 @@ const UserReservations = () => {
       alert('Rezervasyon iptal edilemedi.');
     }
   };
-
+  
   const handleAddComment = async (reservationId) => {
     if (!comment.trim()) {
       alert("Lütfen bir yorum girin.");
@@ -111,12 +119,13 @@ const UserReservations = () => {
       <li key={res.id}>
         {res.restaurant.name} - {moment(res.reservationStartTime).format("YYYY-MM-DD HH:mm")}
         {(type === 'pending' || type === 'upcoming') && (
-          <button
-            onClick={() => handleCancel(res.id, type)}
-            style={{ marginLeft: '10px' }}
-          >
-            İptal Et
-          </button>
+        <button
+        onClick={() => handleCancel(res.id, type, res.reservationStartTime)}
+        style={{ marginLeft: '10px' }}
+      >
+        İptal Et
+      </button>
+
         )}
         {type === 'past' && (
           <div>

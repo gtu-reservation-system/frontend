@@ -36,8 +36,9 @@ const Restaurant = () => {
       };
 
       const response = await axios.post(`${API_BASE_URL}/api/reservations`, reservationPayload);
-      console.log('Response:', response.data);  
-      alert('Rezervasyonunuz başarıyla oluşturuldu!');
+      if (response.status === 201) {
+        alert('Rezervasyonunuz başarıyla oluşturuldu!');
+      }
     } catch (error) {
       console.error('Error creating reservation:', error.response ? error.response.data : error.message);
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
