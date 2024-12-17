@@ -25,7 +25,7 @@ const EditOwnerProfile = () => {
     logo: null,
   });
   const [error, setError] = useState(null);
-  const id = localStorage.getItem('ownerId');
+  const id = sessionStorage.getItem('ownerId');
   const navigate = useNavigate();
 
   useEffect(() => {

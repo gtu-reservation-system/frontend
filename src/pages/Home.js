@@ -16,7 +16,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const storedDarkMode = localStorage.getItem('darkMode');
+    const storedDarkMode = sessionStorage.getItem('darkMode');
     if (storedDarkMode === 'true') {
       setIsDarkMode(true);
       document.body.classList.add('dark-mode');

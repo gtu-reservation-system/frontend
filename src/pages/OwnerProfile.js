@@ -6,8 +6,9 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const OwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
+  const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
-  const id = localStorage.getItem('ownerId');
+  const id = sessionStorage.getItem('ownerId');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,31 +27,31 @@ const OwnerProfile = () => {
       }
     };
 
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/comments/restaurant/${id}`);
+        setComments(response.data);
+      } catch (error) {
+        console.error("Yorumlar yüklenirken hata oluştu:", error);
+        setError('Yorumlar yüklenemedi');
+      }
+    };
+
     fetchOwnerData();
+    fetchComments();
   }, [id]);
 
-  const handleEditProfile = () => {
-    navigate('/edit-ownerProfile');
-  };
-
-  const handleReservationsRedirect = () => {
-    navigate('/owner-reservations');
-  };
-
-  const handlePasswordChange = () => {
-    navigate('/owner-change-password');
-  };
-
-  const handleDishesRedirect = () => {
-    navigate('/popular-dishes');
-  };
+  const handleEditProfile = () => navigate('/edit-ownerProfile');
+  const handleReservationsRedirect = () => navigate('/owner-reservations');
+  const handlePasswordChange = () => navigate('/owner-change-password');
+  const handleDishesRedirect = () => navigate('/popular-dishes');
 
   const handleDeleteAccount = async () => {
     if (window.confirm('Hesabınızı silmek istediğinizden emin misiniz?')) {
       try {
         await axios.delete(`${API_BASE_URL}/api/restaurants/${id}`);
-        localStorage.removeItem('ownerId');
-        navigate('/'); 
+        sessionStorage.removeItem('ownerId');
+        navigate('/');
       } catch (error) {
         console.error('Hesap silinirken hata oluştu:', error);
         setError('Hesap silinemedi');
@@ -120,16 +121,33 @@ const OwnerProfile = () => {
             <p>Fotoğraflar bulunmamaktadır</p>
           )}
         </div>
-
-        <button onClick={handleEditProfile}>Profili Düzenle</button>
+      </div>
+      <div className="comments-section">
+        <h2>Yorumlar</h2>
+        {comments.length > 0 ? (
+          <ul>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <p><strong>Kullanıcı:</strong> {comment.user?.name || 'Bilinmeyen Kullanıcı'}</p>
+                <p><strong>Yorum:</strong> {comment.comment}</p>
+                <p><strong>Puan:</strong> {comment.rating} / 5</p>
+                <p><strong>Tarih:</strong> {new Date(comment.createdAt).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Yorum bulunmamaktadır.</p>
+        )}
+      </div>
+      <button onClick={handleEditProfile}>Profili Düzenle</button>
         <button onClick={handleReservationsRedirect}>Rezervasyonlar</button>
         <button onClick={handleDishesRedirect}>Popüler Yemekler</button>
         <button onClick={handlePasswordChange}>Şifre Değiştir</button>
         <button onClick={handleDeleteAccount} style={{ backgroundColor: 'red', color: 'white' }}>
           Hesabı Sil
         </button>
-      </div>
     </div>
+    
   );
 };
 

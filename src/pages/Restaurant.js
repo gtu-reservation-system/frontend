@@ -12,19 +12,20 @@ const Restaurant = () => {
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   const handleReservation = async (reservationData) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const userId = sessionStorage.getItem('userId');
       if (!userId) {
         navigate('/login', { state: { from: `/restaurant/${id}` } });
         return;
       }
-  
+
       const restaurantId = Number(id);
       const numberOfPeople = Number(reservationData.guests);
       const reservationStartTime = `${reservationData.date}T${reservationData.time}:00`;
-  
+
       const reservationPayload = {
         restaurantId,
         userId: Number(userId),
@@ -33,7 +34,7 @@ const Restaurant = () => {
         allergy: reservationData.hasAllergies ? reservationData.allergens : null,
         tag: reservationData.selectedTag || null,
       };
-  
+
       const response = await axios.post(`${API_BASE_URL}/api/reservations`, reservationPayload);
       console.log('Response:', response.data);  
       alert('Rezervasyonunuz başarıyla oluşturuldu!');
@@ -42,7 +43,6 @@ const Restaurant = () => {
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     }
   };
-  
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -52,7 +52,7 @@ const Restaurant = () => {
         const fetchedRestaurant = response.data;
 
         const availableSlots = getAvailableTimeSlots(fetchedRestaurant.operatingHours);
-  
+
         setRestaurant(fetchedRestaurant);
         setAvailableTimeSlots(availableSlots);
       } catch (err) {
@@ -61,10 +61,13 @@ const Restaurant = () => {
         setLoading(false);
       }
     };
-  
+
+    const userId = sessionStorage.getItem('userId');
+    setIsLoggedIn(!!userId);
+
     fetchRestaurantData();
   }, [id]);
-  
+
   const getAvailableTimeSlots = (operatingHours) => {
     const slots = [];
     if (operatingHours) {
@@ -80,8 +83,6 @@ const Restaurant = () => {
     }
     return slots;
   };
-  
-  
 
   if (loading) {
     return <h2>Yükleniyor...</h2>;
@@ -97,10 +98,10 @@ const Restaurant = () => {
 
   return (
     <div>
-<div>
-  <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />
-  <h1>{restaurant.name}</h1>
-</div>
+      <div>
+        <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />
+        <h1>{restaurant.name}</h1>
+      </div>
 
       <div>
         <p><strong>Fotoğraflar:</strong></p>
@@ -124,6 +125,15 @@ const Restaurant = () => {
         </a>
       </p>
 
+      {isLoggedIn && (
+        <button
+          className="favorite-button"
+          onClick={() => alert('Favorilere eklendi!')}
+        >
+          Favorilere Ekle
+        </button>
+      )}
+
       <ReservationForm
         onSubmit={handleReservation}
         availableTimeSlots={availableTimeSlots || []} 
@@ -136,7 +146,6 @@ const Restaurant = () => {
           restaurant.proposal && 'Evlilik Teklifi',
         ].filter(Boolean)}
       />
-
     </div>
   );
 };

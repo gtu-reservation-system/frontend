@@ -13,9 +13,9 @@ const HomeNavbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    const userRole = localStorage.getItem('role');
-    const storedDarkMode = localStorage.getItem('darkMode');
+    const userId = sessionStorage.getItem('userId');
+    const userRole = sessionStorage.getItem('role');
+    const storedDarkMode = sessionStorage.getItem('darkMode');
 
     if (userId) {
       setIsLoggedIn(true);
@@ -32,7 +32,7 @@ const HomeNavbar = () => {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
     document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', newDarkMode);
+    sessionStorage.setItem('darkMode', newDarkMode);
   };
 
   const handleSearch = () => {
@@ -56,8 +56,8 @@ const HomeNavbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('role');
     setIsLoggedIn(false);
     setRole('');
     navigate('/');

@@ -25,12 +25,12 @@ import EditOwnerProfile from './pages/EditOwnerProfile';
 import OwnerReservations from './pages/OwnerReservations';
 import ResetPassword from './pages/ResetPassword';
 import PopularDishes from './pages/PopularDishes';
-
+import Favorites from './pages/Favorites';
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const storedDarkMode = localStorage.getItem('darkMode');
+    const storedDarkMode = sessionStorage.getItem('darkMode');
     if (storedDarkMode === 'true') {
       setIsDarkMode(true);
       document.body.classList.add('dark-mode');
@@ -41,7 +41,7 @@ const App = () => {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
     document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', newDarkMode);
+    sessionStorage.setItem('darkMode', newDarkMode);
   };
 
   const withDarkMode = (NavbarComponent) => {
@@ -84,6 +84,7 @@ const App = () => {
         <Route path="/owner-reservations" element={<OwnerReservations />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/popular-dishes" element={<PopularDishes />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </Router>
   );

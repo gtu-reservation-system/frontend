@@ -14,7 +14,7 @@ const OwnerChangePassword = () => {
 
   const handlePasswordChange = async (formData) => {
     const { currentPassword, newPassword } = formData;
-    const ownerId = localStorage.getItem('ownerId'); 
+    const ownerId = sessionStorage.getItem('ownerId'); 
 
     try {
       const response = await axios.get(`${API_BASE_URL}/api/restaurants/${ownerId}`);

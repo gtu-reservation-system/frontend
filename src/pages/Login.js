@@ -16,13 +16,13 @@ const LoginPage = () => {
       if (response.status === 200) {
         const { id, role } = response.data; 
 
-        localStorage.setItem('role', role); 
+        sessionStorage.setItem('role', role); 
 
         if (role === 'user') {
-          localStorage.setItem('userId', id);
+          sessionStorage.setItem('userId', id);
           navigate('/userProfile');
         } else {
-          localStorage.setItem('ownerId', id);
+          sessionStorage.setItem('ownerId', id);
           navigate('/ownerProfile');
         }
       }

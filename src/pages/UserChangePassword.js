@@ -14,7 +14,7 @@ const UserChangePassword = () => {
 
   const handlePasswordChange = async (formData) => {
     const { currentPassword, newPassword } = formData;
-    const userId = localStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId'); 
 
     try {
       const response = await axios.get(`${API_BASE_URL}/api/users/${userId}`);
@@ -61,32 +61,43 @@ const UserChangePassword = () => {
     navigate('/user-reservations');
   };
 
+  const handleFavoritesRedirect = () => {
+    navigate('/favorites');
+  };
+  
   return (
     <div className="page-container">
       <UserProfileNavbar />
 
       <div style={{ display: 'flex' }}>
         <div className="sidebar">
-          <div className="sidebar-menu">
-            <button
-              className="sidebar-item"
-              onClick={handleProfileRedirect}
-            >
-              Profil
-            </button>
-            <button
-              className="sidebar-item"
-              onClick={handleReservationsRedirect}
-            >
-              Rezervasyonlarım
-            </button>
-            <button
-              className="sidebar-item sidebar-item-active"
-              onClick={() => {}}
-            >
-              Şifre Değiştir
-            </button>
-          </div>
+        <div className="sidebar-menu">
+        <button
+          className="sidebar-item"
+          onClick={handleProfileRedirect}
+        >
+          Profil
+        </button>
+        <button
+          className="sidebar-item"
+          onClick={handleReservationsRedirect}
+        >
+          Rezervasyonlarım
+        </button>
+        <button
+          className="sidebar-item"
+          onClick={handleFavoritesRedirect}
+        >
+          Favorilerim
+        </button>
+        <button
+          className="sidebar-item sidebar-item-active"
+          onClick={() => {}}
+        >
+          Şifre Değiştir
+        </button>
+      </div>
+
         </div>
         <div style={{ flex: 1 }}>
           <div className="change-password-page">

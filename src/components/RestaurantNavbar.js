@@ -11,8 +11,8 @@ const RestaurantNavbar = () => {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId') || localStorage.getItem('ownerId');
-    const userRole = localStorage.getItem('role');
+    const userId = sessionStorage.getItem('userId') || sessionStorage.getItem('ownerId');
+    const userRole = sessionStorage.getItem('role');
 
     if (userId && userRole) {
       setIsLoggedIn(true);  
@@ -29,9 +29,9 @@ const RestaurantNavbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('ownerId');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('ownerId');
+    sessionStorage.removeItem('role');
     setIsLoggedIn(false);
     setRole('');
     navigate('/'); 

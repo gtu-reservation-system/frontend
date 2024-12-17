@@ -7,7 +7,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const OwnerReservations = () => {
   const [reservations, setReservations] = useState([]);
   const [error, setError] = useState(null);
-  const restaurantId = localStorage.getItem('ownerId');
+  const restaurantId = sessionStorage.getItem('ownerId');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const OwnerReservations = () => {
       <h1>Restoran Rezervasyonları</h1>
       {error && <p className="error-message">{error}</p>}
 
-      <button onClick={() => navigate('/ownerProfile')}>Profilim</button>
+      <button onClick={() => navigate('/ownerProfile')}>Profil</button>
 
       <section>
         <h2>Geçmiş</h2>

@@ -6,8 +6,8 @@ const UserProfileNavbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('role');
     navigate('/home');  
   };
 

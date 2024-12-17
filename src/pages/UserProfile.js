@@ -14,7 +14,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
+    const storedUserId = sessionStorage.getItem('userId');
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
@@ -61,14 +61,29 @@ const UserProfile = () => {
     navigate('/user-reservations');
   };
 
+  const handleFavoritesRedirect = () => {
+    navigate('/favorites');
+  };
+
   const handleDeleteAccount = async () => {
     if (window.confirm('Hesabınızı silmek istediğinizden emin misiniz?')) {
       try {
         await axios.delete(`${API_BASE_URL}/api/users/${id}`);
-        localStorage.removeItem('userId'); 
+        sessionStorage.removeItem('userId'); 
         navigate('/login');  
       } catch (error) {
         console.error('Hesap silinirken hata oluştu:', error);
+      }
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    if (window.confirm('Bu yorumu silmek istediğinizden emin misiniz?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/api/comments/${commentId}`);
+        setComments(comments.filter(comment => comment.id !== commentId));
+      } catch (error) {
+        console.error('Yorum silinirken hata oluştu:', error);
       }
     }
   };
@@ -83,22 +98,14 @@ const UserProfile = () => {
       <div style={{ display: 'flex' }}>
         <div className="sidebar">
           <div className="sidebar-menu">
-            <button 
-              className="sidebar-item sidebar-item-active" 
-              onClick={() => navigate()}
-            >
-              Profil
-            </button>
-            <button 
-              className="sidebar-item" 
-              onClick={handleReservationsRedirect}
-            >
+            <button className="sidebar-item sidebar-item-active">Profil</button>
+            <button className="sidebar-item" onClick={handleReservationsRedirect}>
               Rezervasyonlarım
             </button>
-            <button 
-              className="sidebar-item" 
-              onClick={handlePasswordChangeRedirect}
-            >
+            <button className="sidebar-item" onClick={handleFavoritesRedirect}>
+              Favorilerim
+            </button>
+            <button className="sidebar-item" onClick={handlePasswordChangeRedirect}>
               Şifre Değiştir
             </button>
           </div>
@@ -134,7 +141,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="comments-header">Comments</div>
+          <div className="comments-header">Yorumlar</div>
 
           {comments.length > 0 ? (
             comments.map((comment, index) => (
@@ -147,14 +154,22 @@ const UserProfile = () => {
                   />
                   <div className="comment-text">
                     <div className="comment-restaurant">{comment.restaurantName}</div>
-                    <div className="comment-date">{comment.date}</div>
+                    <div className="comment-comment">{comment.comment}</div>
+                    <div className="comment-date">{new Date(comment.createdAt).toLocaleDateString()}</div>
                   </div>
                 </div>
                 <div className="comment-rating">{comment.rating}/5</div>
+                <button 
+                  className="delete-comment-btn" 
+                  onClick={() => handleDeleteComment(comment.id)} 
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Yorum Sil
+                </button>
               </div>
             ))
           ) : (
-            <div>No comments yet.</div>
+            <div>Henüz yorum yapılmamış.</div>
           )}
         </div>
       </div>
