@@ -13,7 +13,7 @@ const UserProfileNavbar = () => {
 
   return (
     <div className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')}>
+      <div className="logo" onClick={() => navigate('/home')}>
         <img src="/icon.png" alt="Logo" />
         Rezerve
       </div>

@@ -77,13 +77,13 @@ const App = () => {
         <Route path="/userProfile" element={<><WrappedNavbar7 /><UserProfile/></>} />
         <Route path="/edit-userProfile" element={<EditUserProfile />} />
         <Route path="/user-reservations" element={<><WrappedNavbar7 /><UserReservations /> </>} />
-        <Route path="/ownerProfile" element={<><WrappedNavbar8 /><OwnerProfile/></> } />
+        <Route path="/ownerProfile" element={<><WrappedNavbar7 /><OwnerProfile/></> } />
         <Route path="/edit-ownerProfile" element={<EditOwnerProfile /> } />
         <Route path="/user-change-password" element={<UserChangePassword />} />
         <Route path="/owner-change-password" element={<OwnerChangePassword />} />
-        <Route path="/owner-reservations" element={<OwnerReservations />} />
+        <Route path="/owner-reservations" element={<><WrappedNavbar7 /><OwnerReservations /> </>} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/popular-dishes" element={<PopularDishes />} />
+        <Route path="/popular-dishes" element={<><WrappedNavbar7 /><PopularDishes /></>} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </Router>

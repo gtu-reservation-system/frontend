@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import "./UserReservations.css";
+import './Home.css';  // Added to ensure sidebar styles are imported
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -29,6 +31,12 @@ const OwnerReservations = () => {
     fetchReservations();
   }, [restaurantId]);
 
+  // Handlers for navigation
+  const handlePasswordChange = () => navigate('/owner-change-password');
+  const handleDishesRedirect = () => navigate('/popular-dishes');
+  const handleProfileRedirect = () => navigate('/ownerProfile');
+
+  // Reservation categories
   const pastReservations = reservations.filter(reservation => new Date(reservation.reservationTime) < new Date());
   const pendingReservations = reservations.filter(reservation => reservation.status === 'pending');
   const upcomingReservations = reservations.filter(reservation => reservation.status === 'confirmed' && new Date(reservation.reservationTime) >= new Date());
@@ -45,67 +53,107 @@ const OwnerReservations = () => {
   };
 
   return (
-    <div className="owner-reservations">
-      <h1>Restoran Rezervasyonları</h1>
-      {error && <p className="error-message">{error}</p>}
+    <div className="page-container">
+      <div className="header">
+        <div className="header-content">
+        </div>
+      </div>
 
-      <button onClick={() => navigate('/ownerProfile')}>Profil</button>
+      <div style={{ display: 'flex' }}>
+        {/* Sidebar */}
+        <div className="sidebar">
+          <div className="sidebar-menu">
+            <button className="sidebar-item" onClick={handleProfileRedirect}>
+              Restoran Profil
+            </button>
+            <button className="sidebar-item sidebar-item-active">
+              Rezervasyonlar
+            </button>
+            <button className="sidebar-item" onClick={handleDishesRedirect}>
+              Popüler Yemekler
+            </button>
+            <button className="sidebar-item" onClick={handlePasswordChange}>
+              Şifre Değiştir
+            </button>
+          </div>
+        </div>
 
-      <section>
-        <h2>Geçmiş</h2>
-        {pastReservations.length > 0 ? (
-          <ul>
-            {pastReservations.map((reservation) => (
-              <li key={reservation.id}>
-                <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
-                <p><strong>Masası:</strong> {reservation.table.name}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Geçmiş rezervasyon bulunmamaktadır.</p>
-        )}
-      </section>
+        {/* Main Content */}
+        <div style={{ flex: 1 }}>
+          <div className="owner-reservations">
+            <h1>Restoran Rezervasyonları</h1>
+            {error && <p className="error-message">{error}</p>}
 
-      <section>
-        <h2>Onay Bekleyen</h2>
-        {pendingReservations.length > 0 ? (
-          <ul>
-            {pendingReservations.map((reservation) => (
-              <li key={reservation.id}>
-                <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
-                <p><strong>Masası:</strong> {reservation.table.name}</p>
-                <button onClick={() => handleReservationAction(reservation.id, 'approve')}>Onayla</button>
-                <button onClick={() => handleReservationAction(reservation.id, 'reject')}>Reddet</button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Onay bekleyen rezervasyon bulunmamaktadır.</p>
-        )}
-      </section>
+            <div className="reservations-container">
+              {/* Past Reservations */}
+              <section className="reservations-column">
+                <h3>Geçmiş Rezervasyonlar</h3>
+                {pastReservations.length > 0 ? (
+                  <ul>
+                    {pastReservations.map((reservation) => (
+                      <li key={reservation.id}>
+                        <div>
+                          <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Masası:</strong> {reservation.table.name}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Geçmiş rezervasyon bulunmamaktadır.</p>
+                )}
+              </section>
 
-      <section>
-        <h2>Yaklaşan</h2>
-        {upcomingReservations.length > 0 ? (
-          <ul>
-            {upcomingReservations.map((reservation) => (
-              <li key={reservation.id}>
-                <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
-                <p><strong>Masası:</strong> {reservation.table.name}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Yaklaşan rezervasyon bulunmamaktadır.</p>
-        )}
-      </section>
+              {/* Pending Reservations */}
+              <section className="reservations-column">
+                <h3>Onay Bekleyen Rezervasyonlar</h3>
+                {pendingReservations.length > 0 ? (
+                  <ul>
+                    {pendingReservations.map((reservation) => (
+                      <li key={reservation.id}>
+                        <div>
+                          <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Masası:</strong> {reservation.table.name}</p>
+                        </div>
+                        <div>
+                          <button onClick={() => handleReservationAction(reservation.id, 'approve')}>Onayla</button>
+                          <button onClick={() => handleReservationAction(reservation.id, 'reject')}>Reddet</button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Onay bekleyen rezervasyon bulunmamaktadır.</p>
+                )}
+              </section>
+
+              {/* Upcoming Reservations */}
+              <section className="reservations-column">
+                <h3>Yaklaşan Rezervasyonlar</h3>
+                {upcomingReservations.length > 0 ? (
+                  <ul>
+                    {upcomingReservations.map((reservation) => (
+                      <li key={reservation.id}>
+                        <div>
+                          <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Masası:</strong> {reservation.table.name}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Yaklaşan rezervasyon bulunmamaktadır.</p>
+                )}
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default OwnerReservations;
-

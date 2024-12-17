@@ -1,0 +1,116 @@
+/* Modal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .menu-items-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .menu-items-section li {
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  
+  .menu-items-section li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    border-color: rgba(226, 37, 53, 0.2);
+    background: linear-gradient(to right, #fff, #fff1f3);
+  }
+  
+  .menu-items-section h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .menu-items-section p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .menu-items-section button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #e22535;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-items-section button:hover {
+    background-color: #b71c2c;
+  }
+  
+
+  .modal-content {
+    position: relative;
+    background-color: white;
+    position: fixed;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90%;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .add-dish-btn {
+    display: block;
+    width: 10%;
+    padding: 12px;
+    background-color: #FF3B30;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .add-dish-btn:hover {
+    background-color: #D32F2F;
+  }
+  
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .modal-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }

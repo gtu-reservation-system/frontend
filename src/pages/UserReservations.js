@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import './UserReservations.css'; 
+import './UserReservations.css';
 import './Home.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -12,10 +12,10 @@ const UserReservations = () => {
   const [pendingReservations, setPendingReservations] = useState([]);
   const [upcomingReservations, setUpcomingReservations] = useState([]);
   const [error, setError] = useState('');
-  const [comment, setComment] = useState(''); 
-  const [rating, setRating] = useState(5); 
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(5);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
-  const [userId, setUserId] = useState(null); 
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,9 @@ const UserReservations = () => {
       if (storedUserId) {
         setUserId(Number(storedUserId));
         try {
-          const response = await axios.get(`${API_BASE_URL}/api/reservations/user/${storedUserId}`);
+          const response = await axios.get(
+            `${API_BASE_URL}/api/reservations/user/${storedUserId}`
+          );
           const reservations = response.data;
           const now = moment();
 
@@ -32,7 +34,7 @@ const UserReservations = () => {
           const pending = [];
           const upcoming = [];
 
-          reservations.forEach(reservation => {
+          reservations.forEach((reservation) => {
             const reservationTime = moment(reservation.reservationStartTime);
 
             if (reservationTime.isBefore(now)) {
@@ -48,7 +50,7 @@ const UserReservations = () => {
           setPendingReservations(pending);
           setUpcomingReservations(upcoming);
         } catch (error) {
-          console.error("Error fetching reservations:", error);
+          console.error('Error fetching reservations:', error);
           setError('Rezervasyonlar yüklenemedi.');
         }
       }
@@ -60,46 +62,52 @@ const UserReservations = () => {
   const handleCancel = async (reservationId, type, reservationStartTime) => {
     const now = moment();
     const reservationTime = moment(reservationStartTime);
-  
+
     if (reservationTime.diff(now, 'hours') < 24) {
       alert('Rezervasyon saatine 24 saatten az kaldığı için iptal edilemez.');
       return;
     }
-  
+
     try {
       await axios.delete(`${API_BASE_URL}/api/reservations/${reservationId}`);
       if (type === 'pending') {
-        setPendingReservations(prev => prev.filter(res => res.id !== reservationId));
+        setPendingReservations((prev) =>
+          prev.filter((res) => res.id !== reservationId)
+        );
       } else if (type === 'upcoming') {
-        setUpcomingReservations(prev => prev.filter(res => res.id !== reservationId));
+        setUpcomingReservations((prev) =>
+          prev.filter((res) => res.id !== reservationId)
+        );
       }
     } catch (error) {
-      console.error("Error cancelling reservation:", error);
+      console.error('Error cancelling reservation:', error);
       alert('Rezervasyon iptal edilemedi.');
     }
   };
-  
+
   const handleAddComment = async () => {
     if (!comment.trim()) {
-      alert("Lütfen bir yorum girin.");
+      alert('Lütfen bir yorum girin.');
       return;
     }
 
     try {
       if (userId) {
         const newComment = {
-          userId, 
-          restaurantId: pastReservations.find(r => r.id === selectedReservationId)?.restaurant?.id, 
-          comment, 
-          rating 
+          userId,
+          restaurantId: pastReservations.find(
+            (r) => r.id === selectedReservationId
+          )?.restaurant?.id,
+          comment,
+          rating,
         };
-    
+
         await axios.post(`${API_BASE_URL}/api/comments`, newComment);
 
-        setPastReservations(prevReservations => 
-          prevReservations.map(reservation => 
-            reservation.id === selectedReservationId 
-              ? { ...reservation, comment: comment, rating: rating } 
+        setPastReservations((prevReservations) =>
+          prevReservations.map((reservation) =>
+            reservation.id === selectedReservationId
+              ? { ...reservation, comment: comment, rating: rating }
               : reservation
           )
         );
@@ -110,19 +118,24 @@ const UserReservations = () => {
         alert('Yorum başarıyla eklendi.');
       }
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error('Error adding comment:', error);
       alert('Yorum eklenemedi.');
     }
   };
 
-  const renderReservations = (reservations, type) => (
-    reservations.map(res => (
+  const renderReservations = (reservations, type) =>
+    reservations.map((res) => (
       <li key={res.id}>
         <div className="reservation-details">
-          {res.restaurant.name} - {moment(res.reservationStartTime).format("YYYY-MM-DD HH:mm")}
+          {res.restaurant.name} -{' '}
+          {moment(res.reservationStartTime).format('YYYY-MM-DD HH:mm')}
         </div>
         {(type === 'pending' || type === 'upcoming') && (
-          <button onClick={() => handleCancel(res.id, type, res.reservationStartTime)}>
+          <button
+            onClick={() =>
+              handleCancel(res.id, type, res.reservationStartTime)
+            }
+          >
             İptal Et
           </button>
         )}
@@ -132,12 +145,11 @@ const UserReservations = () => {
           </button>
         )}
       </li>
-    ))
-  );
+    ));
 
   const renderCommentModal = () => {
     if (!selectedReservationId) return null;
-  
+
     return (
       <div className="comment-modal">
         <div className="comment-modal-content">
@@ -168,62 +180,46 @@ const UserReservations = () => {
           </div>
           <div className="comment-modal-actions">
             <button onClick={handleAddComment}>Gönder</button>
-            <button onClick={() => setSelectedReservationId(null)}>İptal</button>
+            <button onClick={() => setSelectedReservationId(null)}>
+              İptal
+            </button>
           </div>
         </div>
       </div>
     );
   };
-  
-  const handleProfileRedirect = () => {
-    navigate('/userProfile');
-  };
-
-  const handleFavoritesRedirect = () => {
-    navigate('/favorites');
-  };
-
-  const handlePasswordChangeRedirect = () => {
-    navigate('/user-change-password');
-  };
 
   return (
     <div className="page-container">
-      <div className="header">
-        <div className="header-content">
-          {/* You can add header content here if needed */}
+      {/* Navbar */}
+      <div className="navbar">
+        <div className="navbar-content">
         </div>
       </div>
-      
+
       <div style={{ display: 'flex' }}>
+        {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-menu">
-            <button 
-              className="sidebar-item" 
-              onClick={handleProfileRedirect}
-            >
+            <button className="sidebar-item" onClick={() => navigate('/userProfile')}>
               Profil
             </button>
-            <button 
-              className="sidebar-item sidebar-item-active"
-            >
+            <button className="sidebar-item sidebar-item-active">
               Rezervasyonlarım
             </button>
-            <button 
-              className="sidebar-item" 
-              onClick={handleFavoritesRedirect}
-            >
+            <button className="sidebar-item" onClick={() => navigate('/favorites')}>
               Favorilerim
             </button>
-            <button 
-              className="sidebar-item" 
-              onClick={handlePasswordChangeRedirect}
+            <button
+              className="sidebar-item"
+              onClick={() => navigate('/user-change-password')}
             >
               Şifre Değiştir
             </button>
           </div>
         </div>
 
+        {/* Main Content */}
         <div style={{ flex: 1, padding: '20px' }}>
           <h2>Rezervasyonlarım</h2>
           {error && <p className="error-message">{error}</p>}
