@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import UserProfileForm from '../components/EditUserProfileForm'; 
+import UserProfileForm from '../components/EditUserProfileForm';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -47,19 +47,22 @@ const EditUserProfile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-  
+
     if (!name || !phoneNumber || !email) {
       setError('Lütfen tüm alanları doldurun.');
       return;
     }
-  
+
     setError('');
-  
+
     try {
       const response = await axios.put(`${API_BASE_URL}/api/users/${id}`, {
-        name, phoneNumber, password, email
+        name,
+        phoneNumber,
+        password,
+        email,
       });
-  
+
       if (response.status === 200) {
         navigate('/userProfile');
       }
@@ -80,12 +83,28 @@ const EditUserProfile = () => {
     textAlign: 'center',
     marginBottom: '20px',
     fontFamily: "'Be Vietnam Pro', 'sans-serif'",
-    padding: '20px'
+    padding: '20px',
   };
 
   return (
     <div className="edit-user-profile">
-      <h2 style ={titleStyle}>Profilimi Düzenle</h2>
+      <h2 style={titleStyle}>Profilimi Düzenle</h2>
+      <button
+        onClick={handleBackToProfile}
+        className="back-button"
+        style={{
+          background: 'none',
+          border: 'none',
+          fontSize: '24px',
+          cursor: 'pointer',
+          display: 'block',
+          marginBottom: '10px',
+          color: 'black',
+          fontWeight: 'bold',
+        }}
+      >
+        &#8592; {/* Left Arrow Symbol */}
+      </button>
       <UserProfileForm
         name={name}
         phoneNumber={phoneNumber}
@@ -96,12 +115,8 @@ const EditUserProfile = () => {
         error={error}
         onSubmit={handleUpdate}
       />
-      <button onClick={handleBackToProfile} className="back-button">
-        Profili Görüntüle
-      </button>
     </div>
   );
 };
 
 export default EditUserProfile;
-

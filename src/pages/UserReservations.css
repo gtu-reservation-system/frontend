@@ -175,3 +175,62 @@
     color: var(--accent-color); /* Highlight stars */
   }
   
+
+/* Existing styles remain the same */
+
+/* New container for reservation columns */
+.reservations-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .reservations-column {
+    flex: 1;
+    background-color: rgba(230, 57, 70, 0.05); /* Light red background */
+    border-radius: 12px;
+    padding: 1rem;
+    min-height: 300px;
+  }
+  
+  .reservations-column:nth-child(1) {
+    background-color: rgba(230, 57, 70, 0.05); /* Light red background */
+  }
+  
+  .reservations-column:nth-child(2) {
+    background-color: rgba(253, 211, 141, 0.1); /* Light yellow background */
+  }
+  
+  .reservations-column:nth-child(3) {
+    background-color: rgba(54, 209, 54, 0.05); /* Light green background */
+  }
+  
+  .reservations-column h3 {
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+  
+  .reservations-column:nth-child(1) h3 {
+    border-bottom: 2px solid rgba(230, 57, 70, 0.5); /* Red border */
+  }
+  
+  .reservations-column:nth-child(2) h3 {
+    border-bottom: 2px solid rgba(253, 211, 141, 0.5); /* Yellow border */
+  }
+  
+  .reservations-column:nth-child(3) h3 {
+    border-bottom: 2px solid rgba(54, 209, 54, 0.5); /* Green border */
+  }
+  
+  .reservations-column ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .reservations-container {
+      flex-direction: column;
+    }
+  }

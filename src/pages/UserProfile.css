@@ -291,6 +291,7 @@
 
 .delete-comment-btn {
     padding: 8px 16px;
+    margin-left:auto;
     background-color: #ED3812;
     color: white;
     border: none;

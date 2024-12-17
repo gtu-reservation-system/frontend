@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import './UserReservations.css'; 
-import './Home.css'; // Import Home.css for consistent styling
+import './Home.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -175,7 +175,6 @@ const UserReservations = () => {
     );
   };
   
-
   const handleProfileRedirect = () => {
     navigate('/userProfile');
   };
@@ -229,20 +228,22 @@ const UserReservations = () => {
           <h2>Rezervasyonlarım</h2>
           {error && <p className="error-message">{error}</p>}
 
-          <section>
-            <h3>Geçmiş Rezervasyonlar</h3>
-            <ul>{renderReservations(pastReservations, 'past')}</ul>
-          </section>
+          <div className="reservations-container">
+            <div className="reservations-column">
+              <h3>Geçmiş Rezervasyonlar</h3>
+              <ul>{renderReservations(pastReservations, 'past')}</ul>
+            </div>
 
-          <section>
-            <h3>Onay Bekleyen Rezervasyonlar</h3>
-            <ul>{renderReservations(pendingReservations, 'pending')}</ul>
-          </section>
+            <div className="reservations-column">
+              <h3>Onay Bekleyen Rezervasyonlar</h3>
+              <ul>{renderReservations(pendingReservations, 'pending')}</ul>
+            </div>
 
-          <section>
-            <h3>Yaklaşan Rezervasyonlar</h3>
-            <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
-          </section>
+            <div className="reservations-column">
+              <h3>Yaklaşan Rezervasyonlar</h3>
+              <ul>{renderReservations(upcomingReservations, 'upcoming')}</ul>
+            </div>
+          </div>
 
           {renderCommentModal()}
         </div>

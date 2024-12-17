@@ -1,0 +1,13 @@
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 10px;
+  color: black;
+  font-weight: bold;
+}
+.back-button:hover {
+  color: #555; /* Slight hover effect */
+}
