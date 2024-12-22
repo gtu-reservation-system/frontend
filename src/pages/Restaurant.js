@@ -15,10 +15,13 @@ const Restaurant = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false); 
+
+  const userId = sessionStorage.getItem('userId');
 
   const handleReservation = async (reservationData) => {
     try {
-      const userId = sessionStorage.getItem('userId');
       if (!userId) {
         navigate('/login', { state: { from: `/restaurant/${id}` } });
         return;
@@ -46,6 +49,38 @@ const Restaurant = () => {
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     }
   };
+
+  const toggleFavorite = async () => {
+    try {
+      setIsUpdatingFavorite(true);
+  
+      const favoritePayload = {
+        userId: Number(userId),
+        restaurantId: Number(id),
+      };
+  
+      if (isFavorite) {
+        const response = await axios.delete(`${API_BASE_URL}/api/favorites/${userId}/${id}`);
+        if (response.status === 200) {
+          setIsFavorite(false);
+          alert('Favorilerden kaldırıldı!');
+        }
+      } else {
+        const response = await axios.post(`${API_BASE_URL}/api/favorites`, favoritePayload);
+        if (response.status === 201) {
+          setIsFavorite(true); 
+          alert('Favorilere eklendi!');
+        }
+      }
+    } catch (error) {
+      console.error('Favori durumu güncellenirken hata:', error.response ? error.response.data : error.message);
+      alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setIsUpdatingFavorite(false);
+    }
+  };
+  
+  
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -85,13 +120,28 @@ const Restaurant = () => {
       }
     };
 
-    const userId = sessionStorage.getItem('userId');
-    setIsLoggedIn(!!userId);
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/favorites/${userId}`);
+        const favoriteRestaurantIds = response.data.map((favorite) => favorite.restaurant.id);
+        setIsFavorite(favoriteRestaurantIds.includes(Number(id)));
+      } catch (error) {
+        console.error('Favoriler alınamadı:', error.response ? error.response.data.message : error.message);
+      }
+    };
 
+    const checkLoginStatus = () => {
+      setIsLoggedIn(!!userId);
+    };
+
+    checkLoginStatus();
     fetchMenuItems();
     fetchRestaurantData();
     fetchComments();
-  }, [id]);
+    if (userId) {
+      fetchFavorites();
+    }
+  }, [id, userId]);
 
   const getAvailableTimeSlots = (operatingHours) => {
     const slots = [];
@@ -113,27 +163,23 @@ const Restaurant = () => {
     return <h2>Yükleniyor...</h2>;
   }
 
-  if (error) {
-    return <h2>Hata: {error}</h2>;
-  }
-
-  if (!restaurant) {
-    return <h2>Restoran verisi bulunamadı.</h2>;
-  }
-
   return (
     <div>
       <div>
         <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />
         <h1>{restaurant.name}</h1>
       </div>
+      <button className="favorite-button" onClick={toggleFavorite} disabled={isUpdatingFavorite}>
+      {isFavorite ? '⭐ Favorilerden Kaldır' : '☆ Favorilere Ekle'}
+    </button>
+
 
       <div>
         <p><strong>Fotoğraflar:</strong></p>
         {restaurant.photos && restaurant.photos.length > 0 ? (
           <div className="photo-gallery">
             {restaurant.photos.map((photo, index) => (
-              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`}  className="restaurant-photo" />
+              <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="restaurant-photo" />
             ))}
           </div>
         ) : (
@@ -150,33 +196,25 @@ const Restaurant = () => {
         </a>
       </p>
       <div className="popular-dishes">
-      <h1>Popüler Yemekler</h1>
-      {error && <p className="error-message">{error}</p>}
-
-      <div>
-        {menuItems.length > 0 ? (
-          <ul>
-            {menuItems.map((item) => (
-              <li key={item.id}>
-                <h3>{item.name}</h3>
-                <p>
-                  <strong>Açıklama:</strong> {item.description}
-                </p>
-                <p>
-                  <strong>Fiyat:</strong> {item.price} ₺
-                </p>
-                <p>
-                  <strong>Etiketler:</strong>{" "}
-                  {item.tags?.join(", ") || "Yok"}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Yemekler bulunmamaktadır.</p>
-        )}
-      </div>
+        <h1>Popüler Yemekler</h1>
+        {error && <p className="error-message">{error}</p>}
+        <div>
+          {menuItems.length > 0 ? (
+            <ul>
+              {menuItems.map((item) => (
+                <li key={item.id}>
+                  <h3>{item.name}</h3>
+                  <p><strong>Açıklama:</strong> {item.description}</p>
+                  <p><strong>Fiyat:</strong> {item.price} ₺</p>
+                  <p><strong>Etiketler:</strong> {item.tags?.join(", ") || "Yok"}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Yemekler bulunmamaktadır.</p>
+          )}
         </div>
+      </div>
       <div className="comments-section">
         <h2>Yorumlar</h2>
         {comments.length > 0 ? (
@@ -194,18 +232,10 @@ const Restaurant = () => {
           <p>Yorum bulunmamaktadır.</p>
         )}
       </div>
-      {isLoggedIn && (
-        <button
-          className="favorite-button"
-          onClick={() => alert('Favorilere eklendi!')}
-        >
-          Favorilere Ekle
-        </button>
-      )}
 
       <ReservationForm
         onSubmit={handleReservation}
-        availableTimeSlots={availableTimeSlots || []} 
+        availableTimeSlots={availableTimeSlots || []}
         maxGuests={restaurant.maxGuests}
         terms={restaurant.additionalCondition}
         reservationTags={[

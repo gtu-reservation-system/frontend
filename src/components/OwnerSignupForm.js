@@ -113,7 +113,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
 
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (websiteLink && !urlRegex.test(websiteLink)) {
-      setError('Geçerli bir website linki girin.');
+      setError('Geçerli bir website linki girin. Örnek: https://www.ornek.com');
       return;
     }
 
