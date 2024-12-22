@@ -101,16 +101,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
       setError('Geçerli bir çalışma saatleri formatı girin (ör. 09.00 - 22.00).');
       return;
     }
-
-    if (
-      parseInt(twoPersonTables) <= 0 ||
-      parseInt(fourPersonTables) <= 0 ||
-      parseInt(sixPersonTables) <= 0
-    ) {
-      setError('Masa sayısı sıfırdan küçük olamaz.');
-      return;
-    }
-
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (websiteLink && !urlRegex.test(websiteLink)) {
       setError('Geçerli bir website linki girin. Örnek: https://www.ornek.com');
@@ -198,7 +188,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="twoPersonTables"
           value={twoPersonTables}
-          min="1"
           onChange={(e) => setTwoPersonTables(e.target.value)}
         />
       </div>
@@ -209,7 +198,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="fourPersonTables"
           value={fourPersonTables}
-          min="1"
           onChange={(e) => setFourPersonTables(e.target.value)}
         />
       </div>
@@ -220,7 +208,6 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="sixPersonTables"
           value={sixPersonTables}
-          min="1"
           onChange={(e) => setSixPersonTables(e.target.value)}
         />
       </div>

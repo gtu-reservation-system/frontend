@@ -9,13 +9,12 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const OwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
   const [comments, setComments] = useState([]);
-  const [error, setError] = useState(null);
   const id = sessionStorage.getItem('ownerId');
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
-      setError('Restoran sayfasına giriş yapılmamış!');
+      console.error('Restoran sayfasına giriş yapılmamış!');
       return;
     }
 
@@ -25,7 +24,7 @@ const OwnerProfile = () => {
         setOwnerData(response.data);
       } catch (error) {
         console.error("Profil verileri alınırken hata oluştu:", error);
-        setError('Profil verileri yüklenemedi');
+        console.error('Profil verileri yüklenemedi');
       }
     };
 
@@ -35,7 +34,7 @@ const OwnerProfile = () => {
         setComments(response.data);
       } catch (error) {
         console.error("Yorumlar yüklenirken hata oluştu:", error);
-        setError('Yorumlar yüklenemedi');
+        console.error('Yorumlar yüklenemedi');
       }
     };
 
@@ -56,7 +55,7 @@ const OwnerProfile = () => {
         navigate('/');
       } catch (error) {
         console.error('Hesap silinirken hata oluştu:', error);
-        setError('Hesap silinemedi');
+        console.error('Hesap silinemedi');
       }
     }
   };

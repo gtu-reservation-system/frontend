@@ -77,7 +77,10 @@ const Favorites = () => {
           {favorites.map((restaurant) => (
             <li key={restaurant.restaurant.id} className="favorite-item">
               <div>
-                <h3>{restaurant.restaurantName}</h3>
+                <h3
+                style={{ color: 'black', cursor: 'pointer' }}
+                onClick={() => navigate(`/restaurants/${restaurant.restaurant.id}`)}>
+                {restaurant.restaurantName}</h3>
               </div>
               <button onClick={() => handleRemoveFavorite(restaurant.restaurant.id)}>
                 Favorilerden Kaldır

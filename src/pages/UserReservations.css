@@ -151,13 +151,13 @@
   }
   
 
-  /* Star Rating */
-.star-rating {
+  .star-rating {
     display: flex;
     gap: 0.3rem;
-    justify-content: start;
+    justify-content: flex-start; 
     font-size: 1.5rem;
-  }
+}
+
   
   .star-rating input {
     display: none; /* Hide radio inputs */

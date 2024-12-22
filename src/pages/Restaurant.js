@@ -168,13 +168,16 @@ const Restaurant = () => {
       <div>
         <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />
         <h1>{restaurant.name}</h1>
-      </div>
-      <button className="favorite-button" onClick={toggleFavorite} disabled={isUpdatingFavorite}>
-      {isFavorite ? '⭐ Favorilerden Kaldır' : '☆ Favorilere Ekle'}
-    </button>
-
-
-      <div>
+    
+        {isLoggedIn && (
+          <button
+            className="favorite-button"
+            onClick={toggleFavorite}
+            disabled={isUpdatingFavorite}
+          >
+            {isFavorite ? '⭐ Favorilerden Kaldır' : '☆ Favorilere Ekle'}
+          </button>
+        )}
         <p><strong>Fotoğraflar:</strong></p>
         {restaurant.photos && restaurant.photos.length > 0 ? (
           <div className="photo-gallery">
