@@ -14,9 +14,11 @@ const Restaurant = () => {
   const [comments, setComments] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false); 
+  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Current page for comments
+  const commentsPerPage = 5; // Number of comments per page
 
   const userId = sessionStorage.getItem('userId');
 
@@ -53,12 +55,12 @@ const Restaurant = () => {
   const toggleFavorite = async () => {
     try {
       setIsUpdatingFavorite(true);
-  
+
       const favoritePayload = {
         userId: Number(userId),
         restaurantId: Number(id),
       };
-  
+
       if (isFavorite) {
         const response = await axios.delete(`${API_BASE_URL}/api/favorites/${userId}/${id}`);
         if (response.status === 200) {
@@ -68,7 +70,7 @@ const Restaurant = () => {
       } else {
         const response = await axios.post(`${API_BASE_URL}/api/favorites`, favoritePayload);
         if (response.status === 201) {
-          setIsFavorite(true); 
+          setIsFavorite(true);
           alert('Favorilere eklendi!');
         }
       }
@@ -79,8 +81,6 @@ const Restaurant = () => {
       setIsUpdatingFavorite(false);
     }
   };
-  
-  
 
   useEffect(() => {
     const fetchRestaurantData = async () => {
@@ -148,15 +148,34 @@ const Restaurant = () => {
     if (operatingHours) {
       const [startTime, endTime] = operatingHours.split('-');
       let currentTime = parseInt(startTime.split(':')[0], 10);
-      const endHour = parseInt(endTime.split(':')[0], 10); 
-    
+      const endHour = parseInt(endTime.split(':')[0], 10);
+
       while (currentTime < endHour) {
         const startHour = `${currentTime < 10 ? '0' : ''}${currentTime}:00`;
-        slots.push(startHour);  
+        slots.push(startHour);
         currentTime += 1;
       }
     }
     return slots;
+  };
+
+  // Pagination Logic
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+
+  const totalPages = Math.ceil(comments.length / commentsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   if (loading) {
@@ -168,7 +187,7 @@ const Restaurant = () => {
       <div>
         <img src={restaurant.logo} alt="Restoran Logo" className="restaurant-logo" />
         <h1>{restaurant.name}</h1>
-    
+
         {isLoggedIn && (
           <button
             className="favorite-button"
@@ -220,9 +239,9 @@ const Restaurant = () => {
       </div>
       <div className="comments-section">
         <h2>Yorumlar</h2>
-        {comments.length > 0 ? (
+        {currentComments.length > 0 ? (
           <ul>
-            {comments.map((comment) => (
+            {currentComments.map((comment) => (
               <li key={comment.id}>
                 <p><strong>Kullanıcı:</strong> {comment.user?.name || 'Bilinmeyen Kullanıcı'}</p>
                 <p><strong>Yorum:</strong> {comment.comment}</p>
@@ -234,6 +253,25 @@ const Restaurant = () => {
         ) : (
           <p>Yorum bulunmamaktadır.</p>
         )}
+
+        {/* Pagination Controls */}
+        <div className="pagination-controls">
+          <button 
+            onClick={handlePreviousPage} 
+            disabled={currentPage === 1}
+          >
+            Önceki
+          </button>
+          <span>
+            Sayfa {currentPage} / {totalPages}
+          </span>
+          <button 
+            onClick={handleNextPage} 
+            disabled={currentPage === totalPages}
+          >
+            Sonraki
+          </button>
+        </div>
       </div>
 
       <ReservationForm

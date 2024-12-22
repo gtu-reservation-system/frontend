@@ -60,6 +60,12 @@ const PopularDishes = () => {
   }, [restaurantId]);
 
   const handleDelete = async (dishId) => {
+    const confirmDelete = window.confirm(
+      "Bu yemeği silmek istediğinize emin misiniz? İşlem geri alınamaz!"
+    );
+  
+    if (!confirmDelete) return;
+  
     try {
       await axios.delete(`${API_BASE_URL}/api/restaurants/menu-items/${dishId}`);
       setMenuItems(menuItems.filter((item) => item.id !== dishId));
@@ -68,6 +74,7 @@ const PopularDishes = () => {
       setError("Yemek silinemedi.");
     }
   };
+  
 
   const handleAddDish = async (e) => {
     e.preventDefault();

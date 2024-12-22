@@ -9,6 +9,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const OwnerProfile = () => {
   const [ownerData, setOwnerData] = useState({});
   const [comments, setComments] = useState([]);
+  const [visibleComments, setVisibleComments] = useState(5); // State to manage visible comments
   const id = sessionStorage.getItem('ownerId');
   const navigate = useNavigate();
 
@@ -24,7 +25,6 @@ const OwnerProfile = () => {
         setOwnerData(response.data);
       } catch (error) {
         console.error("Profil verileri alınırken hata oluştu:", error);
-        console.error('Profil verileri yüklenemedi');
       }
     };
 
@@ -34,13 +34,16 @@ const OwnerProfile = () => {
         setComments(response.data);
       } catch (error) {
         console.error("Yorumlar yüklenirken hata oluştu:", error);
-        console.error('Yorumlar yüklenemedi');
       }
     };
 
     fetchOwnerData();
     fetchComments();
   }, [id]);
+
+  const handleShowMoreComments = () => {
+    setVisibleComments((prev) => prev + 5);
+  };
 
   const handleEditProfile = () => navigate('/edit-ownerProfile');
   const handleReservationsRedirect = () => navigate('/owner-reservations');
@@ -55,7 +58,6 @@ const OwnerProfile = () => {
         navigate('/');
       } catch (error) {
         console.error('Hesap silinirken hata oluştu:', error);
-        console.error('Hesap silinemedi');
       }
     }
   };
@@ -78,8 +80,7 @@ const OwnerProfile = () => {
   return (
     <div className="page-container">
       <div className="header">
-        <div className="header-content">
-        </div>
+        <div className="header-content"></div>
       </div>
 
       <div style={{ display: 'flex' }}>
@@ -111,7 +112,7 @@ const OwnerProfile = () => {
                     className="profile-image" 
                   />
                 ) : (
-                  <div className="profile-image" style={{backgroundColor: '#f0f0f0', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <div className="profile-image" style={{ backgroundColor: '#f0f0f0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     Logo Yok
                   </div>
                 )}
@@ -121,16 +122,10 @@ const OwnerProfile = () => {
                 </div>
               </div>
               <div className="profile-actions">
-                <button 
-                  className="edit-profile-btn" 
-                  onClick={handleEditProfile}
-                >
+                <button className="edit-profile-btn" onClick={handleEditProfile}>
                   Profili Düzenle
                 </button>
-                <button 
-                  className="logout-btn" 
-                  onClick={handleDeleteAccount}
-                >
+                <button className="logout-btn" onClick={handleDeleteAccount}>
                   Hesabı Sil
                 </button>
               </div>
@@ -171,7 +166,7 @@ const OwnerProfile = () => {
             <div className="comments-section">
               <h2 className="comments-header">Yorumlar</h2>
               {comments.length > 0 ? (
-                comments.map((comment) => (
+                comments.slice(0, visibleComments).map((comment) => (
                   <div key={comment.id} className="comment-item">
                     <div className="comment-details">
                       <div className="comment-text">
@@ -193,6 +188,11 @@ const OwnerProfile = () => {
                 ))
               ) : (
                 <p>Yorum bulunmamaktadır.</p>
+              )}
+              {visibleComments < comments.length && (
+                <button className="show-more-btn" onClick={handleShowMoreComments}>
+                  Daha Fazla Yükle
+                </button>
               )}
             </div>
           </div>

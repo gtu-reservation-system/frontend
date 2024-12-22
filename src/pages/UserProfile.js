@@ -10,6 +10,7 @@ const UserProfile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [comments, setComments] = useState([]);
+  const [visibleComments, setVisibleComments] = useState(5); // State to control visible comments
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
 
@@ -48,6 +49,10 @@ const UserProfile = () => {
       fetchUserComments();
     }
   }, [id]);
+
+  const handleShowMoreComments = () => {
+    setVisibleComments((prev) => prev + 5);
+  };
 
   const handleEditProfileRedirect = () => {
     navigate('/edit-userProfile');
@@ -91,8 +96,7 @@ const UserProfile = () => {
   return (
     <div className="page-container">
       <div className="header">
-        <div className="header-content">
-        </div>
+        <div className="header-content"></div>
       </div>
       
       <div style={{ display: 'flex' }}>
@@ -144,33 +148,41 @@ const UserProfile = () => {
           <div className="comments-header">Yorumlar</div>
 
           {comments.length > 0 ? (
-  <div className="comments-section">
-    {comments.map((comment, index) => (
-      <div key={index} className="comment-item">
-        <div className="comment-details">
-          <div className="comment-text">
-            <div className="comment-restaurant">{comment.restaurant.name}</div>
-            <div className="comment-comment">{comment.comment}</div>
-          </div>
-        </div>
-        <div className="comment-meta">
-          <div className="comment-date">
-            {new Date(comment.createdAt).toLocaleDateString()}
-          </div>
-          <div className="comment-rating">{comment.rating}/5</div>
-          <button 
-            className="delete-comment-btn" 
-            onClick={() => handleDeleteComment(comment.id)}
-          >
-            Yorum Sil
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-) : (
-  <div className="no-comments">Henüz yorum yapılmamış.</div>
-)}
+            <div className="comments-section">
+              {comments.slice(0, visibleComments).map((comment, index) => (
+                <div key={index} className="comment-item">
+                  <div className="comment-details">
+                    <div className="comment-text">
+                      <div className="comment-restaurant">{comment.restaurant.name}</div>
+                      <div className="comment-comment">{comment.comment}</div>
+                    </div>
+                  </div>
+                  <div className="comment-meta">
+                    <div className="comment-date">
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className="comment-rating">{comment.rating}/5</div>
+                    <button 
+                      className="delete-comment-btn" 
+                      onClick={() => handleDeleteComment(comment.id)}
+                    >
+                      Yorum Sil
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {visibleComments < comments.length && (
+                <button 
+                  className="show-more-btn" 
+                  onClick={handleShowMoreComments}
+                >
+                  Daha Fazla Yükle
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="no-comments">Henüz yorum yapılmamış.</div>
+          )}
         </div>
       </div>
     </div>
