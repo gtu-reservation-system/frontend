@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getDominantColor, isLightColor } from '../utils/colorUtils';
 import './UserProfile.css'; 
 import './Home.css';
 
@@ -13,6 +14,7 @@ const UserProfile = () => {
   const [visibleComments, setVisibleComments] = useState(5); // State to control visible comments
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
+  const [dominantColor, setDominantColor] = useState(null);
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
@@ -49,6 +51,59 @@ const UserProfile = () => {
       fetchUserComments();
     }
   }, [id]);
+
+  useEffect(() => {
+    const analyzeBackgroundImage = async () => {
+        try {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            
+            // Create a promise to handle image loading
+            const imageLoadPromise = new Promise((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject(new Error('Failed to load image'));
+            });
+
+            img.src = '/prof-back1.jpg';
+
+            // Wait for image to load
+            await imageLoadPromise;
+            
+            const color = await getDominantColor(img);
+            setDominantColor(color);
+            
+            // Apply colors to CSS variables
+            document.documentElement.style.setProperty(
+                '--dominant-color', 
+                `rgb(${color.r}, ${color.g}, ${color.b})`
+            );
+            document.documentElement.style.setProperty(
+                '--dominant-color-alpha', 
+                `rgba(${color.r}, ${color.g}, ${color.b}, 0.85)`
+            );
+
+            // Add light/dark class to delete button
+            const deleteBtn = document.querySelector('.delete-account-btn');
+            if (deleteBtn) {
+                deleteBtn.classList.toggle(
+                    'light-bg', 
+                    isLightColor(color.r, color.g, color.b)
+                );
+            }
+        } catch (error) {
+            console.error('Error analyzing background image:', error);
+        }
+    };
+
+    analyzeBackgroundImage();
+    
+    // Cleanup function
+    return () => {
+        // Reset CSS variables to default when component unmounts
+        document.documentElement.style.removeProperty('--dominant-color');
+        document.documentElement.style.removeProperty('--dominant-color-alpha');
+    };
+}, []);
 
   const handleShowMoreComments = () => {
     setVisibleComments((prev) => prev + 5);
@@ -138,7 +193,6 @@ const UserProfile = () => {
               <button 
                 className="delete-account-btn" 
                 onClick={handleDeleteAccount}
-                style={{ backgroundColor: 'red', color: 'white' }}
               >
                 Hesabı Sil
               </button>

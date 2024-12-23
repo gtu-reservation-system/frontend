@@ -1,22 +1,26 @@
+:root {
+    --dominant-color: #ED3812; /* Default fallback color */
+    --dominant-color-alpha: rgba(237, 56, 18, 0.85);
+}
 
 .sidebar {
     width: 250px;
     background-color: #f5f5f5;
     min-height: calc(100vh - 64px);
     padding: 20px;
-  }
+}
   
-  .dark-mode .sidebar {
+.dark-mode .sidebar {
     background-color: #1a1a2e;
-  }
+}
   
-  .sidebar-menu {
+.sidebar-menu {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
+}
   
-  .sidebar-item {
+.sidebar-item {
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
@@ -26,24 +30,14 @@
     font-size: 1rem;
     transition: all 0.3s ease;
     color: var(--text-color);
-  }
-/*  
-  .sidebar-item:hover {
-    background-color: var(--accent-color);
-    color: white;
-  }
-  
-  .sidebar-item-active {
-    background-color: var(--accent-color);
-    color: white;
-  }
-*/
+}
+
 .sidebar-item:hover {
-  background-color: rgb(226, 37, 53);
+    background-color: rgb(226, 37, 53);
 }
 
 .sidebar-item-active {
-  background: #f6b3b3;
+    background: #f6b3b3;
 }
 
 .sidebar-item-text {
@@ -54,65 +48,108 @@
     line-height: 21px;
 }
 
+
 .profile-section {
     display: flex;
-    padding: 16px;
+    padding: 16px;  /* Reduced padding */
     justify-content: space-between;
     align-items: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/prof-back1.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    margin: 16px;  /* Reduced margin */
+    position: relative;
+    min-height: 170px;  /* Added minimum height */
 }
 
 .profile-info {
     display: flex;
-    gap: 16px;
+    gap: 12px;  /* Reduced gap */
     align-items: center;
 }
 
 .profile-image {
-    width: 128px;
-    height: 128px;
-    border-radius: 64px;
+    width: 96px;  /* Reduced from 128px */
+    height: 96px;  /* Reduced from 128px */
+    border-radius: 48px;  /* Half of width/height */
+    border: 3px solid rgba(255, 255, 255, 0.2);  /* Slightly reduced border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .profile-details {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;  /* Reduced gap */
 }
 
 .profile-name {
-    color: #1C0F0D;
-    font-size: 22px;
+    color: #ffffff;
+    font-size: 20px;  /* Reduced from 24px */
     font-family: 'Epilogue', sans-serif;
     font-weight: 700;
-    line-height: 28px;
+    line-height: 28px;  /* Reduced from 32px */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .profile-email {
-    color: #99594D;
-    font-size: 16px;
+    color: #f0f0f0;
+    font-size: 14px;  /* Reduced from 16px */
     font-family: 'Epilogue', sans-serif;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 20px;  /* Reduced from 24px */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .profile-actions {
     display: flex;
-    gap: 12px;
+    gap: 8px;  /* Reduced gap */
 }
 
 .edit-profile-btn {
     flex: 1;
-    height: 40px;
-    padding: 0 16px;
-    background: #F2E8E8;
-    border-radius: 12px;
+    height: 36px;  /* Reduced from 40px */
+    padding: 0 16px;  /* Reduced padding */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;  /* Reduced from 12px */
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #1C0F0D;
-    font-size: 14px;
+    color: #ffffff;
+    font-size: 13px;  /* Reduced from 14px */
     font-family: 'Epilogue', sans-serif;
     font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.delete-account-btn {
+    flex: 1;
+    height: 36px;  /* Reduced from 40px */
+    padding: 0 16px;  /* Reduced padding */
+    background: var(--dominant-color-alpha);
+    backdrop-filter: blur(8px);
+    border: none;
+    border-radius: 10px;  /* Reduced from 12px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 13px;  /* Reduced from 14px */
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.delete-account-btn:hover {
+    background: var(--dominant-color);
+    transform: translateY(-2px);
 }
 
 .logout-btn {
@@ -141,59 +178,6 @@
     line-height: 28px;
 }
 
-.comment-item {
-    align-self: stretch;
-    padding: 8px 16px;
-    background: white;
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.comment-details {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-.comment-image {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
-}
-
-.comment-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.comment-restaurant {
-    color: #1C0F0D;
-    font-size: 16px;
-    font-family: 'Epilogue', sans-serif;
-    font-weight: 500;
-    line-height: 24px;
-}
-
-.comment-date {
-    color: #99594D;
-    font-size: 14px;
-    font-family: 'Epilogue', sans-serif;
-    font-weight: 400;
-    line-height: 21px;
-}
-
-.comment-rating {
-    color: #1C0F0D;
-    font-size: 16px;
-    font-family: 'Epilogue', sans-serif;
-    font-weight: 400;
-    line-height: 24px;
-}
-
-
-/* -------------------------------------- COMMENTS ------------------------------------------------ */
 .comments-section {
     display: flex;
     flex-direction: column;
@@ -222,7 +206,7 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
     border-color: rgba(226, 37, 53, 0.2);
     background: linear-gradient(to right, #fff, #fff1f3);
-  }
+}
 
 .comment-details {
     display: flex;
@@ -291,7 +275,7 @@
 
 .delete-comment-btn {
     padding: 8px 16px;
-    margin-left:auto;
+    margin-left: auto;
     background-color: #ED3812;
     color: white;
     border: none;
@@ -302,7 +286,48 @@
     transition: background-color 0.3s ease;
 }
 
+.show-more-btn {
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 8px;
+    color: #1C0F0D;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 20px auto;
+}
+
+.show-more-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.no-comments {
+    text-align: center;
+    padding: 40px;
+    color: #99594D;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 16px;
+}
+
 @media (max-width: 768px) {
+    .profile-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 32px 16px;
+    }
+
+    .profile-info {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .profile-actions {
+        width: 100%;
+        margin-top: 24px;
+    }
+
     .comment-item {
         flex-direction: column;
         align-items: flex-start;
@@ -319,5 +344,4 @@
         align-items: flex-start;
         gap: 8px;
     }
-
 }

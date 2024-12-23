@@ -16,7 +16,7 @@
   /* Favorite Button */
   .favorite-button {
     padding: 0.5rem 1rem;
-    background-color: white;
+    background-color: #EB2930;
     border: 2px solid #edf2f7;
     border-radius: 8px;
     cursor: pointer;
@@ -26,7 +26,7 @@
   }
   
   .favorite-button:hover {
-    background-color: #f7fafc;
+    background-color: #ac1406;
     border-color: #e2e8f0;
   }
   
