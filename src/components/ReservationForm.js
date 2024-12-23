@@ -8,30 +8,44 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
   const [allergens, setAllergens] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
+    const today = new Date().toISOString().split("T")[0];
+  
     if (!date || !time || !guests) {
-      alert("Lütfen tüm alanları doldurun.");
+      setErrorMessage("Lütfen tüm alanları doldurun.");
       return;
     }
-
+  
+    if (date === today) {
+      setErrorMessage("Aynı gün içinde rezervasyon yapılamaz. Lütfen başka bir tarih seçin.");
+      return;
+    }
+  
     if (guests > maxGuests) {
-      alert(`${maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.`);
+      setErrorMessage(`${maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.`);
       return;
     }
-
+  
     if (hasAllergies && !allergens) {
-      alert("Lütfen alerji bilginizi girin.");
+      setErrorMessage("Lütfen alerji bilginizi girin.");
       return;
     }
-
+  
     if (terms && !agreed) {
-      alert("Lütfen şartları kabul edin.");
+      setErrorMessage("Lütfen şartları kabul edin.");
       return;
     }
-
+  
+    if (!availableTimeSlots.includes(time)) {
+      setErrorMessage("Bu saat diliminde uygun masa bulunmamaktadır. Lütfen başka bir saat seçin.");
+      return;
+    }
+  
+    setErrorMessage('');
     const reservationData = {
       date,
       time,
@@ -40,7 +54,7 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
       allergens,
       selectedTag,
     };
-
+  
     onSubmit(reservationData);
     setDate('');
     setTime('');
@@ -50,13 +64,21 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
     setSelectedTag('');
     setAgreed(false);
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <h2>Rezervasyon Yap</h2>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <div>
         <label>Tarih:</label>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+        <input 
+          type="date" 
+          value={date} 
+          onChange={(e) => setDate(e.target.value)} 
+          min={new Date().toISOString().split("T")[0]} 
+          max={new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0]} 
+          required 
+        />
       </div>
       <div>
         <label>Saat:</label>
@@ -106,15 +128,32 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
         <div>
           <label>Rezervasyon Etiketi:</label>
           <div>
+            <label>
+              <input 
+                type="radio" 
+                name="reservationTag" 
+                value="" 
+                checked={selectedTag === ''} 
+                onChange={() => setSelectedTag('')} 
+              />
+              Hiçbiri
+            </label>
             {reservationTags.map(tag => (
               <label key={tag}>
-                <input type="radio" name="reservationTag" value={tag} checked={selectedTag === tag} onChange={() => setSelectedTag(tag)} />
+                <input 
+                  type="radio" 
+                  name="reservationTag" 
+                  value={tag} 
+                  checked={selectedTag === tag} 
+                  onChange={() => setSelectedTag(tag)} 
+                />
                 {tag}
               </label>
             ))}
           </div>
         </div>
       )}
+
       {terms && (
         <div>
           <label>
@@ -123,7 +162,7 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
           </label>
         </div>
       )}
-      <button type="submit" disabled={!agreed && terms}>Rezervasyon Talebimi Gönder</button>
+      <button type="submit">Rezervasyon Talebimi Gönder</button>
     </form>
   );
 };
