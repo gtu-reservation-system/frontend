@@ -72,11 +72,11 @@ const Restaurants = () => {
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Search restaurants..."
+              placeholder="Restoran ara"
               className="search-input"
             />
             <button type="submit" className="search-button">
-              Search
+              Ara
             </button>
           </form>
         </div>
@@ -105,7 +105,7 @@ const Restaurants = () => {
               </Link>
             ))
           ) : (
-            <div className="no-results">No restaurants found matching your search.</div>
+            <div className="no-results">Restoran bulunamadı.</div>
           )}
         </div>
       </div>

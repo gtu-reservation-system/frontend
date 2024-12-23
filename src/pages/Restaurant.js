@@ -18,8 +18,8 @@ const Restaurant = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1); // Current page for comments
-  const commentsPerPage = 5; // Number of comments per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentsPerPage = 5;
 
   const userId = sessionStorage.getItem('userId');
 
@@ -29,29 +29,51 @@ const Restaurant = () => {
         navigate('/login', { state: { from: `/restaurant/${id}` } });
         return;
       }
-
+  
       const restaurantId = Number(id);
-      const numberOfPeople = Number(reservationData.guests);
       const reservationStartTime = `${reservationData.date}T${reservationData.time}:00`;
+  
+      const ReservationsResponse = await axios.get(
+        `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
+      );
+      const Reservations = ReservationsResponse.data;
+      console.log(ReservationsResponse.data);
+  
+      const sameRestaurantReservation = Reservations.find(
+        (res) => res.restaurant.id === restaurantId
+      );
+      if (sameRestaurantReservation) {
+        alert('Aynı restoranda aynı gün için zaten bir rezervasyonunuz var.');
+        return;
+      }
+  
+      const otherRestaurantReservation = Reservations.find(
+        (res) => res.restaurant.id !== restaurantId
+      );
+      if (otherRestaurantReservation) {
+        alert('Başka bir restoranda aynı gün için zaten bir rezervasyonunuz var.');
+        return;
+      }
 
       const reservationPayload = {
         restaurantId,
         userId: Number(userId),
-        numberOfPeople,
+        numberOfPeople: Number(reservationData.guests),
         reservationStartTime,
         allergy: reservationData.hasAllergies ? reservationData.allergens : null,
         tag: reservationData.selectedTag || null,
       };
-
+ 
       const response = await axios.post(`${API_BASE_URL}/api/reservations`, reservationPayload);
       if (response.status === 201) {
         alert('Rezervasyonunuz başarıyla oluşturuldu!');
       }
     } catch (error) {
-      console.error('Error creating reservation:', error.response ? error.response.data : error.message);
+      console.error('Rezervasyon oluşturulurken hata:', error.response ? error.response.data : error.message);
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     }
   };
+  
 
   const toggleFavorite = async () => {
     try {
