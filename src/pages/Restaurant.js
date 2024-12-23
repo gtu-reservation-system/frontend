@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReservationForm from '../components/ReservationForm.js';
+import './Restaurant.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 

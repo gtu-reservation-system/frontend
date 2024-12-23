@@ -79,9 +79,9 @@ const HomeNavbar = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="search-input"
+          className="home-search-input"
         />
-        <button onClick={handleSearch} disabled={!searchQuery.trim()} className="search-button">
+        <button onClick={handleSearch} disabled={!searchQuery.trim()} className="home-search-button">
           Ara
         </button>
         

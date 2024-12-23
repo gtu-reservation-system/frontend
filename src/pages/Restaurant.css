@@ -1,0 +1,259 @@
+/* Main Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  /* Restaurant Header Section */
+  .restaurant-logo {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  /* Favorite Button */
+  .favorite-button {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border: 2px solid #edf2f7;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+  }
+  
+  .favorite-button:hover {
+    background-color: #f7fafc;
+    border-color: #e2e8f0;
+  }
+  
+  .favorite-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Photo Gallery */
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .restaurant-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .restaurant-photo:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Restaurant Details */
+  a {
+    color: #4299e1;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Popular Dishes Section */
+  .popular-dishes {
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f7fafc;
+    border-radius: 8px;
+  }
+  
+  .popular-dishes h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .popular-dishes ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .popular-dishes li {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popular-dishes h3 {
+    margin: 0 0 0.5rem;
+    color: #2d3748;
+  }
+  
+  /* Comments Section */
+  .comments-section {
+    margin: 2rem 0;
+  }
+  
+  .comments-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .comments-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .comments-section li {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  /* Pagination Controls */
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .pagination-controls button {
+    padding: 0.5rem 1rem;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #3182ce;
+  }
+  
+  .pagination-controls button:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
+  }
+  
+  .pagination-controls span {
+    color: #4a5568;
+  }
+  
+  /* Error and Loading States */
+  .error-message {
+    color: #e53e3e;
+    padding: 1rem;
+    background-color: #fff5f5;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+  
+  .loading-message {
+    text-align: center;
+    padding: 2rem;
+    color: #4a5568;
+  }
+  
+  /* Reservation Form Styles */
+  .reservation-form {
+    background-color: #f7fafc;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    .photo-gallery {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  
+    .restaurant-photo {
+      height: 150px;
+    }
+  
+    .pagination-controls {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .pagination-controls button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    .photo-gallery {
+      grid-template-columns: 1fr;
+    }
+  
+    .restaurant-photo {
+      height: 200px;
+    }
+  
+    .comments-section li {
+      padding: 0.75rem;
+    }
+  }
+  
+  /* No Results Message */
+  .no-results-message {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+
+
+  
