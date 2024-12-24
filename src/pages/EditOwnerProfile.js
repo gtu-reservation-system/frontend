@@ -154,7 +154,7 @@ const EditOwnerProfile = () => {
         onSubmit={handleFormSubmit}
       />
 
-      <button onClick={handleOwnerProfile}>Profilim</button>
+      <button onClick={handleOwnerProfile}>Profil</button>
     </div>
   );
 };

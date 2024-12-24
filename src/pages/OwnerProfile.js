@@ -158,6 +158,7 @@ const OwnerProfile = () => {
                   <div className="comment-text">
                     <p><strong>Şartlar:</strong> {ownerData.additionalCondition || 'Şartlar belirtilmemiş'}</p>
                     <p><strong>Özel Günler:</strong> {specialDays.length > 0 ? specialDays.join(', ') : 'Özel günler belirtilmemiş'}</p>
+                    <p><strong>Etiketler:</strong> {ownerData.tags?.join(', ') || 'Etiket belirtilmemiş'}</p>
                   </div>
                 </div>
               </div>

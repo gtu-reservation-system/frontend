@@ -87,7 +87,7 @@ const EditUserProfile = () => {
 
   return (
     <div className="edit-user-profile">
-      <h2 style={titleStyle}>Profilimi Düzenle</h2>
+      <h2 style={titleStyle}>Profil Düzenle</h2>
       <button
         onClick={handleBackToProfile}
         className="back-button"

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 
+const availableTags = [
+  'Pizza', 'Kebap', 'Vegan', 'Deniz Ürünleri', 'Hamburger', 
+  'Izgara', 'Kahve', 'Tatlı', 'Çorba', 'Makarna', 
+  'Kahvaltı', 'Brunch', 'Vejetaryen', 'Fast Food', 'Şarap',
+];
+
 const OwnerSignupForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -17,7 +23,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
   const [acceptConditions, setAcceptConditions] = useState(null);
   const [specialDays, setSpecialDays] = useState([]);
   const [additionalCondition, setAdditionalCondition] = useState('');
-  const [tags, setTags] = useState(''); 
+  const [tags, setTags] = useState([]); 
   const [error, setError] = useState('');
 
   const isPasswordStrong = (password) => {
@@ -27,6 +33,12 @@ const OwnerSignupForm = ({ onSubmit }) => {
     const isCorrectLength = password.length >= 8 && password.length <= 12;
 
     return hasUpperCase && hasLowerCase && hasNumber && isCorrectLength;
+  };
+
+  const handleTagSelection = (tag) => {
+    setTags((prev) => 
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
   };
 
   const handlePhotosChange = (e) => {
@@ -68,6 +80,11 @@ const OwnerSignupForm = ({ onSubmit }) => {
       acceptConditions === null
     ) {
       setError('Lütfen tüm zorunlu alanları doldurun');
+      return;
+    }
+
+    if (tags.length === 0) {
+      setError('Lütfen en az bir etiket seçin.');
       return;
     }
 
@@ -188,6 +205,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="twoPersonTables"
           value={twoPersonTables}
+          min={0}
           onChange={(e) => setTwoPersonTables(e.target.value)}
         />
       </div>
@@ -198,6 +216,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="fourPersonTables"
           value={fourPersonTables}
+          min={0}
           onChange={(e) => setFourPersonTables(e.target.value)}
         />
       </div>
@@ -208,6 +227,7 @@ const OwnerSignupForm = ({ onSubmit }) => {
           type="number"
           id="sixPersonTables"
           value={sixPersonTables}
+          min={0}
           onChange={(e) => setSixPersonTables(e.target.value)}
         />
       </div>
@@ -328,14 +348,20 @@ const OwnerSignupForm = ({ onSubmit }) => {
       </div>
 
       <div className="input-group">
-        <label htmlFor="tags">Restoran etiketleri </label>
-        <input
-          type="text"
-          id="tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          placeholder="Virgülle ayırarak girin (örn. pizza, kebap)"
-        />
+        <label>Restoran Etiketleri</label>
+        <div className="tags-container">
+          {availableTags.map((tag) => (
+            <label key={tag} className="tag-option">
+              <input
+                type="checkbox"
+                value={tag}
+                checked={tags.includes(tag)}
+                onChange={() => handleTagSelection(tag)}
+              />
+              {tag}
+            </label>
+          ))}
+        </div>
       </div>
 
       <div className="input-group">

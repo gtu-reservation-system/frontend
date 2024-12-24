@@ -171,7 +171,9 @@ const UserProfile = () => {
         </div>
 
         <div style={{ flex: 1 }}>
-          <div className="profile-section">
+        <div className="profile-section" style={{
+          backgroundColor: dominantColor ? `rgb(${dominantColor.r}, ${dominantColor.g}, ${dominantColor.b})` : 'transparent'
+        }}>
             <div className="profile-info">
               <img 
                 src="wizard.jpg" 

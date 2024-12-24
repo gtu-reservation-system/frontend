@@ -11,7 +11,7 @@ const OwnerSignup = () => {
   const handleOwnerSignup = async (formData) => {
     try {
       const formDataToSend = new FormData();
-  
+
       const restaurantData = {
         name: formData.name,
         phoneNumber: formData.phoneNumber,
@@ -21,14 +21,14 @@ const OwnerSignup = () => {
         operatingHours: formData.operatingHours,
         websiteLink: formData.websiteLink,
         additionalCondition:
-        formData.acceptConditions === 'yes' ? formData.additionalCondition : '',
+          formData.acceptConditions === 'yes' ? formData.additionalCondition : '',
         birthdayParty: formData.specialDays.includes('doğum günü'),
         anniversary: formData.specialDays.includes('yıldönümü'),
         jobMeeting: formData.specialDays.includes('iş yemeği'),
         proposal: formData.specialDays.includes('evlilik teklifi'),
-        tags: formData.tags.split(',').map((tag) => tag.trim()),
+        tags: formData.tags,
       };
-  
+
       const tables = [];
       let tableIndex = 1;
       ['twoPersonTables', 'fourPersonTables', 'sixPersonTables'].forEach((type, index) => {
@@ -42,13 +42,13 @@ const OwnerSignup = () => {
         }
       });
       restaurantData.tables = tables;
-  
+
       formDataToSend.append('restaurant', JSON.stringify(restaurantData));
-  
+
       if (formData.logo) {
         formDataToSend.append('logoPhoto', formData.logo);
       }
-  
+
       formData.photos.forEach((photo) => {
         formDataToSend.append('photos', photo);
       });
@@ -57,11 +57,11 @@ const OwnerSignup = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-  
+
       if (response.status === 200) {
         sessionStorage.setItem('ownerId', response.data.id);
         sessionStorage.setItem('role', response.data.role);
-  
+
         alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');
         setTimeout(() => navigate('/login'), 1000);
       }
@@ -74,7 +74,7 @@ const OwnerSignup = () => {
       }
     }
   };
-  
+
   const titleStyle = {
     fontSize: '32px',
     fontWeight: 'bold',

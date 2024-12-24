@@ -41,7 +41,7 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !phoneNumber || !email || !address || !twoPersonTables || !fourPersonTables || !sixPersonTables || !operatingHours 
+    if (!name || !phoneNumber || !email || !address || !operatingHours 
       || !acceptConditions == null || photos.length < 3|| !logo) {
       setFormError('Lütfen tüm alanları doldurun.');
       return;
@@ -67,9 +67,9 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
     }
 
     if (
-      parseInt(twoPersonTables) <= 0 ||
-      parseInt(fourPersonTables) <= 0 ||
-      parseInt(sixPersonTables) <= 0
+      parseInt(twoPersonTables) < 0 ||
+      parseInt(fourPersonTables) < 0 ||
+      parseInt(sixPersonTables) < 0
     ) {
       setFormError('Masa sayısı sıfırdan küçük olamaz.');
       return;
@@ -133,8 +133,8 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="twoPersonTables"
-          value={twoPersonTables || ''}
-          min="1"
+          value={twoPersonTables}
+          min= {0}
           onChange={(e) => {
             const value = e.target.value === '' ? '' : Number(e.target.value);
             setTwoPersonTables(value);
@@ -147,8 +147,8 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="fourPersonTables"
-          value={fourPersonTables || ''}
-          min="1"
+          value={fourPersonTables}
+          min={0}
           onChange={(e) => {
             const value = e.target.value === '' ? '' : Number(e.target.value);
             setFourPersonTables(value);
@@ -161,8 +161,8 @@ const EditOwnerProfileForm = ({ name, address, phoneNumber, email, twoPersonTabl
         <input
           type="number"
           id="sixPersonTables"
-          value={sixPersonTables || ''}
-          min="1"
+          value={sixPersonTables}
+          min={0}
           onChange={(e) => {
             const value = e.target.value === '' ? '' : Number(e.target.value);
             setSixPersonTables(value);
