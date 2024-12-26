@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './LoginForm.css';
 
 const availableTags = [
-  'Pizza', 'Kebap', 'Vegan', 'Deniz Ürünleri', 'Hamburger', 
-  'Izgara', 'Kahve', 'Tatlı', 'Çorba', 'Makarna', 
-  'Kahvaltı', 'Brunch', 'Vejetaryen', 'Fast Food', 'Şarap',
+  'Pizza', 'Kebap', 'Vegan', 'Deniz Ürünleri', 'Hamburger', 'Steakhouse', 'Etnik', 'Casual Dining','Brasserie', 'Izgara', 
+  'Kahve', 'Tatlı', 'Çorba', 'Makarna', 'Sushi','Fine Dining', 'Fast Casual', 'Açık Büfe','Kahvaltı', 'Brunch', 'Vejetaryen', 
+  'Fast Food', 'Şarap', 'Bistro', 'Bar', 'Pub', 'Lounge', 'Kafe', 'Speakeasy','Gurme', 'Organik', 'Gluten Free', 'Balık', 
+  'Döner', 'Pide', 'Ramen', 'Noodle','Akdeniz', 'Asya', 'Avrupa', 'Orta Doğu', 'Güney Amerika', 'Kuzey Amerika', 'Uzak Doğu',
 ];
 
 const OwnerSignupForm = ({ onSubmit }) => {
