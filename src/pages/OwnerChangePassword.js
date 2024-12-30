@@ -54,6 +54,10 @@ const OwnerChangePassword = () => {
     navigate('/ownerProfile');
   };
 
+  const handleDishesRedirect = () => {
+    navigate('/popular-dishes');
+  };
+
   const handleReservationsRedirect = () => {
     navigate('/owner-reservations');
   };
@@ -66,10 +70,13 @@ const OwnerChangePassword = () => {
         <div className="sidebar">
           <div className="sidebar-menu">
             <button className="sidebar-item" onClick={handleProfileRedirect}>
-              Profil
+              Restoran Profil
             </button>
             <button className="sidebar-item" onClick={handleReservationsRedirect}>
               Rezervasyonlar
+            </button>
+            <button className="sidebar-item" onClick={handleDishesRedirect}>
+              Popüler Yemekler
             </button>
             <button className="sidebar-item sidebar-item-active" onClick={() => {}}>
               Şifre Değiştir
