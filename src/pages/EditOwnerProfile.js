@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import EditOwnerProfileForm from '../components/EditOwnerProfileForm';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -24,58 +24,90 @@ const EditOwnerProfile = () => {
     photos: [],
     logo: null,
   });
-  const [error, setError] = useState(null);
-  const id = sessionStorage.getItem('ownerId');
+  const [error, setError] = useState('');
+  const [id, setOwnerId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!id) {
+    const storedOwnerId = sessionStorage.getItem('ownerId');
+    if (storedOwnerId) {
+      setOwnerId(storedOwnerId);
+    } else {
       setError('Restoran sayfasına giriş yapılmamış!');
       return;
     }
+  }, []);
 
-    const fetchOwnerData = async () => {
-
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}`);
-        setOwnerData({
-          ...response.data,
-          acceptConditions: response.data.additionalCondition ? 'yes' : 'no',
-        });
-      } catch (error) {
-        console.error('Profil verileri alınırken hata oluştu:', error);
-        setError('Profil verileri yüklenemedi');
-      }
-    };
-
-    fetchOwnerData();
+  useEffect(() => {
+    if (id) {
+      const fetchOwnerData = async () => {
+        try {
+          const response = await axios.get(`${API_BASE_URL}/api/restaurants/${id}`);
+          setOwnerData({
+            ...response.data,
+            acceptConditions: response.data.additionalCondition ? 'yes' : 'no',
+          });
+        } catch (error) {
+          console.error('Profil verileri alınırken hata oluştu:', error);
+          setError('Profil verileri yüklenemedi');
+        }
+      };
+      fetchOwnerData();
+    }
   }, [id]);
 
-
-  const handleOwnerProfile = () => {
-    navigate('/ownerProfile');
-  };
-
-  const handleFormSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-  
+    if (!ownerData.name || !ownerData.phoneNumber || !ownerData.email) {
+      setError('Lütfen tüm zorunlu alanları doldurun.');
+      return;
+    }
+    setError('');
+
     try {
       const response = await axios.put(`${API_BASE_URL}/api/restaurants/${id}`, ownerData);
       if (response.status === 200) {
-        console.log('Profil başarıyla güncellendi:', response.data);
-        navigate('/ownerProfile'); 
+        navigate('/ownerProfile');
       }
     } catch (error) {
       console.error('Profil güncelleme sırasında bir hata oluştu:', error);
-      alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+      setError('Profil güncellenirken bir hata oluştu.');
     }
   };
-  
-  return (
-    <div className="owner-profile">
-      <h1>Restoran Profili Güncelle</h1>
-      {error && <p className="error-message">{error}</p>}
 
+  const handleBackToProfile = () => {
+    navigate('/ownerProfile');
+  };
+
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontFamily: "'Be Vietnam Pro', 'sans-serif'",
+    padding: '20px',
+  };
+
+  return (
+    <div className="edit-owner-profile">
+      <h2 style={titleStyle}>Restoran Profili Düzenle</h2>
+      <button
+        onClick={handleBackToProfile}
+        className="back-button"
+        style={{
+          background: 'none',
+          border: 'none',
+          fontSize: '24px',
+          cursor: 'pointer',
+          display: 'block',
+          marginBottom: '10px',
+          color: 'black',
+          fontWeight: 'bold',
+        }}
+      >
+        &#8592;
+      </button>
       <EditOwnerProfileForm
         name={ownerData.name}
         address={ownerData.address}
@@ -134,7 +166,6 @@ const EditOwnerProfile = () => {
             tables: [...prevData.tables.filter((table) => table.capacity !== 6), ...newTables],
           }));
         }}
-        
         setOperatingHours={(value) => setOwnerData({ ...ownerData, operatingHours: value })}
         setWebsiteLink={(value) => setOwnerData({ ...ownerData, websiteLink: value })}
         setAcceptConditions={(value) => setOwnerData({ ...ownerData, acceptConditions: value })}
@@ -151,10 +182,9 @@ const EditOwnerProfile = () => {
         setTags={(value) => setOwnerData({ ...ownerData, tags: value.split(', ') })}
         setPhotos={(files) => setOwnerData({ ...ownerData, photos: Array.from(files).map((file) => URL.createObjectURL(file)) })}
         setLogo={(file) => setOwnerData({ ...ownerData, logo: URL.createObjectURL(file) })}
-        onSubmit={handleFormSubmit}
+        error={error}
+        onSubmit={handleUpdate}
       />
-
-      <button onClick={handleOwnerProfile}>Profil</button>
     </div>
   );
 };

@@ -15,66 +15,140 @@
 
 .dark-mode {
   /* Dark mode colors */
-  --navbar-bg-color: #0e1026; /* Dark background */
+  --navbar-bg-color: #0e1026;
   --navbar-border-color: #e4a85b;
   --navbar-button-bg: #e8a229;
   --navbar-button-text: #F9FAFB;
   --signup-button-bg: #2d21d4;
+}
 
+/* Box sizing to ensure consistent layout */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .home-navbar {
+  position: relative;
+}
+
+.mobile-nav.open ~ .logo {
+  position: absolute;
+  top: 100%; /* Push the logo below the menu */
+  left: 0;
+  width: 100%;
+  background-color: var(--navbar-bg-color);
+  z-index: 998; /* Place below the menu */
+}
+
+.navbar-main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 40px;
-  border-bottom: 1px solid var(--navbar-border-color);
-  background-color: var(--navbar-bg-color);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  padding: 12px 20px;
+  flex-wrap: wrap; /* Wrap content if necessary */
+  max-width: 100%;
+  position: relative;
 }
-
-.dark-mode .home-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 40px;
-  border-bottom: 1px solid var(--navbar-border-color);
-  background-color: var(--navbar-bg-color);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--navbar-text-color);
   font-size: 18px;
   font-family: 'Be Vietnam Pro', sans-serif;
-  height: 30px;
-  width: auto;
   cursor: pointer;
   transition: color 0.3s;
+  margin-right: 200px;
+}
+
+.logo img {
+  height: 30px;
+  width: auto;
 }
 
 .dark-mode .logo {
   color: white;
 }
 
-.logo img {
-  filter: var(--logo-filter, none); /* Optional: adjust logo color in dark mode */
-}
-
 .dark-mode .logo img {
-  /* Optional: invert logo color in dark mode */
-   filter: invert(1) brightness(2); 
+  filter: invert(1) brightness(2);
 }
 
 .navbar {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px 12px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Mobile Navigation */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--navbar-text-color);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+  position: absolute; /* Position absolutely within navbar-main */
+  right: 10px; /* Align to the right with same padding as navbar */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect vertical centering */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.dark-mode .mobile-menu-button {
+  color: white;
+}
+
+/* Mobile Nav Menu */
+.mobile-nav {
+  display: none;
+  position: absolute; /* Absolute positioning for overlap */
+  top: 100%; /* Start right below the navbar */
+  left: 0;
+  width: 100%; /* Full-width for responsiveness */
+  padding: 16px;
+  background-color: var(--navbar-bg-color);
+  border-top: 1px solid var(--navbar-border-color);
+  z-index: 999; /* Ensure it stays above other elements */
+}
+
+.mobile-nav.open {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-search-container {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  flex-wrap: wrap; /* Ensure wrapping */
+  max-width: 100%;
 }
 
 .home-search-input {
   width: 300px;
+  max-width: 100%; /* Prevent overflow */
   padding: 8px;
   border: 1px solid var(--navbar-border-color);
   border-radius: 12px;
@@ -82,7 +156,6 @@
   color: var(--navbar-input-text);
   background-color: var(--navbar-input-bg);
   font-family: 'Be Vietnam Pro', sans-serif;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .home-search-button {
@@ -95,7 +168,6 @@
   background-color: var(--navbar-button-bg);
   border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .search-button:disabled {
@@ -113,7 +185,13 @@
   border-radius: 12px;
   background: var(--navbar-button-bg);
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap; /* Ensure responsiveness */
 }
 
 .signup-button {
@@ -126,46 +204,98 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  max-width: 100%; /* Prevent overflow */
 }
 
 .signup-container {
   position: relative;
-  display: inline-block;
+  z-index: 1000; /* Ensure the dropdown is above other elements */
 }
 
 .dropdown {
   position: absolute;
-  top: 100%;
+  top: 100%; /* Place dropdown below the button */
   left: 0;
   background-color: var(--dropdown-bg);
   border: 1px solid var(--navbar-border-color);
   border-radius: 8px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: background-color 0.3s, border-color 0.3s;
+  z-index: 1000;
+  min-width: 200px; /* Ensure dropdown has enough width */
 }
 
 .dropdown-item {
+  width: 100%;
   padding: 8px 16px;
   color: var(--navbar-text-color);
   font-size: 14px;
-  font-weight: 500;
   font-family: 'Be Vietnam Pro', sans-serif;
   cursor: pointer;
   background-color: var(--navbar-button-bg);
-  border: none;
   text-align: left;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .dropdown-item:hover {
   background-color: var(--dropdown-hover-bg);
+  color: white;
 }
 
-/* Dark mode specific hover states if needed */
-.dark-mode .nav-button:hover,
-.dark-mode .search-button:hover {
-  background-color: #4A5568; /* Slightly lighter background on hover */
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: none;
+    padding: 16px;
+    background-color: var(--navbar-bg-color);
+    border-top: 1px solid var(--navbar-border-color);
+    width: 100%; /* Ensure it fits the screen */
+  }
+
+  .mobile-nav.open {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nav-search-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .home-search-input {
+    width: 100%;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .auth-buttons button {
+    width: 100%;
+  }
+
+  .signup-container {
+    width: 100%;
+  }
+
+  .signup-button {
+    width: 100%;
+  }
+
+  .dropdown {
+    position: static;
+    margin-top: 8px;
+  }
+
+  .dark-mode-toggle {
+    width: 100%;
+  }
 }

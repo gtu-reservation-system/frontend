@@ -41,6 +41,15 @@ const OwnerProfile = () => {
     fetchComments();
   }, [id]);
 
+    // Add this new function for handling home navigation
+    const handleHomeNavigation = () => {
+      if (id) {
+        navigate('/home');
+      } else {
+        navigate('/login');
+      }
+    };
+
   const handleShowMoreComments = () => {
     setVisibleComments((prev) => prev + 5);
   };
@@ -104,7 +113,7 @@ const OwnerProfile = () => {
         <div style={{ flex: 1 }}>
           <div className="owner-profile">
             <div className="profile-section">
-              <div className="profile-info">
+            <div className="profile-info">
                 {ownerData.logo ? (
                   <img 
                     src={ownerData.logo} 
@@ -112,9 +121,11 @@ const OwnerProfile = () => {
                     className="profile-image" 
                   />
                 ) : (
-                  <div className="profile-image" style={{ backgroundColor: '#f0f0f0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    Logo Yok
-                  </div>
+                  <img 
+                    src="./castle.jpg" 
+                    alt="Default Profile" 
+                    className="profile-image" 
+                  />
                 )}
                 <div className="profile-details">
                   <h1 className="profile-name">{ownerData.name}</h1>

@@ -301,56 +301,126 @@ body {
 }
 
 /* Responsive Media Queries */
+/* Responsive Media Queries */
 @media screen and (max-width: 1024px) {
   .hero {
-      min-height: 400px;
-      padding: 2rem 0.5rem;
+    min-height: 400px;
+    padding: 1.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
-  
+
+  .hero-content {
+    padding: 1rem;
+    border-radius: 30px;
+    max-width: 90%;
+    width: auto;
+  }
+
   .hero h1 {
-      font-size: 2rem;
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
   
-  .hero p {
-      font-size: 1rem;
+  .red-panel-up {
+    padding: 3rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .white-panel {
+    padding: 4rem 1rem;
+    flex-direction: column;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel-image {
+    width: 90%;
+    max-width: 500px;
+    max-height: 250px;
+  }
+
+  .carousel-button {
+    margin: 1rem;
+    padding: 8px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .hero {
-      min-height: 350px;
-      padding: 1.5rem 0.5rem;
+    min-height: 300px;
+    padding: 1rem;
+    background-size: cover;
   }
-  
+
   .hero-content {
-      border-radius: 30px;
-      padding: 1rem;
-      width: 95%;
+    padding: 0.8rem;
+    border-radius: 20px;
   }
-  
+
   .hero h1 {
-      font-size: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .hero button {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
   }
   
-  .hero p {
-      font-size: 0.9rem;
+  .red-panel-up {
+    padding: 2rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .white-panel {
+    padding: 3rem 0.5rem;
+    flex-direction: column;
   }
 
   .carousel-container {
-    width: 95%;
-  }
-
-  .carousel-button {
-    padding: 5px;
+    flex-direction: column;
+    align-items: center;
   }
 
   .carousel-image {
-    max-width: 90%;
-    max-height: 300px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 200px;
+  }
+
+  .carousel-button {
+    margin: 0.5rem;
+    padding: 6px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero {
+    min-height: 250px;
+    padding: 0.5rem;
+    background-size: cover;
   }
 
   .hero-content {
-    animation: popIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    padding: 0.5rem;
+    border-radius: 15px;
   }
 
   .hero h1 {
@@ -358,36 +428,38 @@ body {
   }
 
   .hero p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
-}
-
-@media screen and (max-width: 480px) {
-  .hero {
-      min-height: 300px;
-      padding: 1rem 0.25rem;
-  }
-  
-  .hero h1 {
-      font-size: 1.3rem;
-  }
-  
-  .hero p {
-      font-size: 0.8rem;
-  }
-  
   .hero button {
-      padding: 0.6rem 1.2rem;
-      font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.7rem;
   }
- 
-  .carousel-button {
-    padding: 3px;
+
+  .red-panel-up {
+    padding: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .white-panel {
+    padding: 2rem 0.5rem;
+    flex-direction: column;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    align-items: center;
   }
 
   .carousel-image {
-    max-height: 200px;
+    width: 100%;
+    max-width: 300px;
+    max-height: 150px;
   }
 
+  .carousel-button {
+    margin: 0.3rem;
+    padding: 5px;
+  }
 }

@@ -1,32 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom'; 
+import { faUser, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const ListNavbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false); 
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = sessionStorage.getItem('userId') || sessionStorage.getItem('ownerId');
     const userRole = sessionStorage.getItem('role');
-
     if (userId && userRole) {
-      setIsLoggedIn(true); 
-      setRole(userRole);   
+      setIsLoggedIn(true);
+      setRole(userRole);
     }
   }, []);
-
-  const handleMouseEnter = () => {
-    setShowDropdown(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowDropdown(false);
-  };
 
   const handleLogout = () => {
     sessionStorage.removeItem('userId');
@@ -34,42 +26,100 @@ const ListNavbar = () => {
     sessionStorage.removeItem('role');
     setIsLoggedIn(false);
     setRole('');
-    navigate('/');  
+    setIsMobileMenuOpen(false);
+    navigate('/');
   };
+
+  const NavigationItems = () => (
+    <>
+      <button onClick={() => navigate('/home')} className="nav-button">
+        Ana Sayfa
+      </button>
+      {!isLoggedIn ? (
+        <div
+          onMouseEnter={() => setShowDropdown(true)}
+          onMouseLeave={() => setShowDropdown(false)}
+          className="signup-container"
+        >
+          <button className="signup-button">Kayıt Ol</button>
+          {showDropdown && (
+            <div className="dropdown">
+              <button
+                onClick={() => {
+                  navigate('/signup/owner');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="dropdown-item"
+              >
+                Restoran
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/signup/user');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="dropdown-item"
+              >
+                Kullanıcı
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <button
+          onClick={() => {
+            navigate(role === 'user' ? '/userProfile' : '/ownerProfile');
+            setIsMobileMenuOpen(false);
+          }}
+          className="nav-button"
+        >
+          <FontAwesomeIcon icon={faUser} />
+        </button>
+      )}
+      {!isLoggedIn ? (
+        <button
+          onClick={() => {
+            navigate('/login');
+            setIsMobileMenuOpen(false);
+          }}
+          className="nav-button"
+        >
+          Giriş Yap
+        </button>
+      ) : (
+        <button onClick={handleLogout} className="nav-button">
+          Çıkış Yap
+        </button>
+      )}
+    </>
+  );
 
   return (
     <div className="home-navbar">
-      <div className="logo" onClick={() => navigate('/')}>
-      <img src="/icon.png" alt="Logo" />
-        Rezerve</div>
-      <nav>
-        <button onClick={() => navigate('/home')}>Ana Sayfa</button>
+      <div className="navbar-main">
+        <div className="logo" onClick={() => navigate('/')}>
+          <img src="/icon.png" alt="Rezerve logo" />
+          Rezerve
+        </div>
 
-        {!isLoggedIn ? (
-          <div 
-            className="signup-container" 
-            onMouseEnter={handleMouseEnter} 
-            onMouseLeave={handleMouseLeave}
-          >
-            <button>Kayıt Ol</button>
-            {showDropdown && (
-              <div className="dropdown">
-                <button onClick={() => navigate('/signup/owner')}>Restoran</button>
-                <button onClick={() => navigate('/signup/user')}>Kullanıcı</button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <button onClick={() => navigate(role === 'user' ? '/userProfile' : '/ownerProfile')}>
-            <FontAwesomeIcon icon={faUser} />
-          </button>
-        )}
+        {/* Mobile menu toggle */}
+        <button
+          className="mobile-menu-button"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
+        </button>
+      </div>
 
-        {!isLoggedIn ? (
-          <button onClick={() => navigate('/login')}>Giriş Yap</button>
-        ) : (
-          <button onClick={handleLogout}>Çıkış Yap</button>
-        )}
+      {/* Desktop navigation */}
+      <nav className="navbar desktop-nav">
+        <NavigationItems />
+      </nav>
+
+      {/* Mobile navigation */}
+      <nav className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
+        <NavigationItems />
       </nav>
     </div>
   );

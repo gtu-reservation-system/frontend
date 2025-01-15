@@ -10,7 +10,6 @@ const EditUserProfile = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [profilePhoto, setProfilePhoto] = useState('/wizard.jpg');
   const [error, setError] = useState('');
   const [id, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -35,7 +34,6 @@ const EditUserProfile = () => {
           setPhoneNumber(data.phoneNumber);
           setEmail(data.email);
           setPassword(data.password);
-          setProfilePhoto(data.profilePhoto || '/wizard.jpg'); // Set initial profile photo
         } catch (error) {
           console.error("Kullanıcı verileri alınırken bir hata oluştu:", error);
           setError('Kullanıcı verileri yüklenemedi.');
@@ -59,7 +57,6 @@ const EditUserProfile = () => {
         phoneNumber,
         password,
         email,
-        profilePhoto, // Include profile photo in update
       });
 
       if (response.status === 200) {
@@ -108,11 +105,9 @@ const EditUserProfile = () => {
         name={name}
         phoneNumber={phoneNumber}
         email={email}
-        profilePhoto={profilePhoto} // Add profilePhoto prop
         setName={setName}
         setPhoneNumber={setPhoneNumber}
         setEmail={setEmail}
-        setProfilePhoto={setProfilePhoto} // Add setProfilePhoto prop
         error={error}
         onSubmit={handleUpdate}
       />

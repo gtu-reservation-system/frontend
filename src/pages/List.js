@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import './List.css'
+import './List.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -17,10 +17,12 @@ const Restaurants = () => {
       try {
         let url = `${API_BASE_URL}/api/restaurants`;
         const searchQuery = new URLSearchParams(location.search).get('search');
+        
         if (searchQuery) {
           url += `?search=${searchQuery}`;
           setSearchTerm(searchQuery);
         }
+        
         const response = await axios.get(url);
         setRestaurants(response.data);
       } catch (error) {
@@ -29,6 +31,7 @@ const Restaurants = () => {
         setLoading(false);
       }
     };
+
     fetchRestaurants();
   }, [location.search]);
 
@@ -39,11 +42,13 @@ const Restaurants = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const searchParams = new URLSearchParams(location.search);
+    
     if (searchTerm) {
       searchParams.set('search', searchTerm);
     } else {
       searchParams.delete('search');
     }
+    
     window.history.pushState({}, '', `?${searchParams.toString()}`);
     window.dispatchEvent(new Event('popstate'));
   };
@@ -59,12 +64,17 @@ const Restaurants = () => {
     <div className="main-container">
       {/* Hero Section */}
       <div className="hero-section">
-        {/* Map Background */}
-        <div className="map-background">
-          {/* You would integrate your actual map here */}
-          <div className="map-placeholder"></div>
+        {/* Static Image Background */}
+        <div className="hero-background">
+          <img 
+            src="/foods.jpg" 
+            alt="Restaurant background" 
+            className="hero-image"
+          />
+          {/* Overlay for better text visibility */}
+          <div className="hero-overlay"></div>
         </div>
-        
+
         {/* Search Container */}
         <div className="search-container">
           <form onSubmit={handleSearchSubmit} className="search-form">
