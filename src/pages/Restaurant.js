@@ -37,7 +37,6 @@ const Restaurant = () => {
         `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
       );
       const Reservations = ReservationsResponse.data;
-      console.log(ReservationsResponse.data);
   
       const sameRestaurantReservation = Reservations.find(
         (res) => res.restaurant.id === restaurantId

@@ -29,23 +29,36 @@ const UserReservations = () => {
           );
           const reservations = response.data;
           const now = moment();
-
+  
           const past = [];
           const pending = [];
           const upcoming = [];
-
+  
           reservations.forEach((reservation) => {
             const reservationTime = moment(reservation.reservationStartTime);
-
-            if (reservationTime.isBefore(now)) {
-              past.push(reservation);
-            } else if (!reservation.confirmed) {
-              pending.push(reservation);
+  
+            if (reservation.status === 'APPROVED') {
+              if (reservationTime.isBefore(now)) {
+                past.push(reservation);  // Approved and past date
+              } else {
+                upcoming.push(reservation);  // Approved but upcoming
+              }
+            } else if (reservation.status === 'PENDING') {
+              if (reservationTime.isBefore(now)) {
+                // Skip the reservation if it's past but still pending
+                return;
+              } else {
+                pending.push(reservation);  // Pending and upcoming
+              }
             } else {
-              upcoming.push(reservation);
+              if (reservationTime.isBefore(now)) {
+                // Skip the reservation if it's past
+                return;
+              }
+              upcoming.push(reservation);  // If no status, treat as upcoming
             }
           });
-
+  
           setPastReservations(past);
           setPendingReservations(pending);
           setUpcomingReservations(upcoming);
@@ -55,9 +68,10 @@ const UserReservations = () => {
         }
       }
     };
-
+  
     fetchUserIdAndReservations();
   }, []);
+  
 
   const handleCancel = async (reservationId, type, reservationStartTime) => {
     const now = moment();

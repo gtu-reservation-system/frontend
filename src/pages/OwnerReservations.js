@@ -6,6 +6,18 @@ import './Home.css';  // Added to ensure sidebar styles are imported
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+const formatDateTime = (dateTime) => {
+  const date = new Date(dateTime);
+  return `${date.toLocaleDateString('tr-TR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })} ${date.toLocaleTimeString('tr-TR', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })}`;
+};
+
 const OwnerReservations = () => {
   const [reservations, setReservations] = useState([]);
   const [error, setError] = useState(null);
@@ -17,40 +29,52 @@ const OwnerReservations = () => {
       setError('Restoran giriş yapılmamış!');
       return;
     }
-
+  
     const fetchReservations = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/reservations/restaurant/${restaurantId}`);
+        const response = await axios.get(
+          `${API_BASE_URL}/api/reservations/restaurant/${restaurantId}`
+        );
         setReservations(response.data);
       } catch (error) {
-        console.error("Rezervasyonlar alınırken hata oluştu:", error);
+        console.error('Rezervasyonlar alınırken hata oluştu:', error);
         setError('Rezervasyonlar yüklenemedi');
       }
     };
-
+  
     fetchReservations();
   }, [restaurantId]);
-
-  // Handlers for navigation
+  
   const handlePasswordChange = () => navigate('/owner-change-password');
   const handleDishesRedirect = () => navigate('/popular-dishes');
   const handleProfileRedirect = () => navigate('/ownerProfile');
 
-  // Reservation categories
-  const pastReservations = reservations.filter(reservation => new Date(reservation.reservationTime) < new Date());
-  const pendingReservations = reservations.filter(reservation => reservation.status === 'pending');
-  const upcomingReservations = reservations.filter(reservation => reservation.status === 'confirmed' && new Date(reservation.reservationTime) >= new Date());
+  const pastReservations = reservations.filter(reservation => new Date(reservation.reservationStartTime) < new Date());
+  const pendingReservations = reservations.filter(reservation => reservation.status === 'PENDING');
+  const upcomingReservations = reservations.filter(reservation => reservation.status === 'APPROVED' && new Date(reservation.reservationStartTime) >= new Date());
 
   const handleReservationAction = async (reservationId, action) => {
     try {
-      await axios.post(`${API_BASE_URL}/api/reservations/${reservationId}/${action}`);
-      alert(`Rezervasyon ${action === 'approve' ? 'onaylandı' : 'reddedildi'}. Kullanıcıya bildirim gönderildi.`);
-      setReservations(prev => prev.filter(res => res.id !== reservationId));
+        if (action === 'approve') {
+            await axios.patch(`${API_BASE_URL}/api/reservations/${reservationId}/status`, {
+                status: 'APPROVED'
+            });
+            alert('Rezervasyon onaylandı. Kullanıcıya bildirim gönderildi.');
+        } else if (action === 'reject') {
+            await axios.delete(`${API_BASE_URL}/api/reservations/${reservationId}`);
+            alert('Rezervasyon reddedildi. Kullanıcıya bildirim gönderildi.');
+        }
+
+        setReservations((prev) =>
+            prev.filter((res) => res.id !== reservationId)
+        );
     } catch (error) {
-      console.error(`Rezervasyon ${action} işleminde hata oluştu:`, error);
-      setError('Rezervasyon işleminde hata oluştu');
+        console.error(`Rezervasyon ${action} işleminde hata oluştu:`, error);
+        setError('Rezervasyon işleminde hata oluştu');
     }
-  };
+};
+
+  
 
   return (
     <div className="page-container">
@@ -94,7 +118,7 @@ const OwnerReservations = () => {
                       <li key={reservation.id}>
                         <div>
                           <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {formatDateTime(reservation.reservationStartTime)}</p>
                           <p><strong>Masası:</strong> {reservation.table.name}</p>
                         </div>
                       </li>
@@ -114,7 +138,7 @@ const OwnerReservations = () => {
                       <li key={reservation.id}>
                         <div>
                           <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {formatDateTime(reservation.reservationStartTime)}</p>
                           <p><strong>Masası:</strong> {reservation.table.name}</p>
                         </div>
                         <div>
@@ -138,7 +162,7 @@ const OwnerReservations = () => {
                       <li key={reservation.id}>
                         <div>
                           <p><strong>Kullanıcı Adı:</strong> {reservation.user.name}</p>
-                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationTime).toLocaleString()}</p>
+                          <p><strong>Rezervasyon Zamanı:</strong> {new Date(reservation.reservationStartTime).toLocaleString()}</p>
                           <p><strong>Masası:</strong> {reservation.table.name}</p>
                         </div>
                       </li>
