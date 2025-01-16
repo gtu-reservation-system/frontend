@@ -44,7 +44,7 @@ const EditOwnerProfileForm = ({
     e.preventDefault();
 
     if (!name || !phoneNumber || !email || !address || !operatingHours 
-        || !acceptConditions == null || !logo) {
+        || !acceptConditions == null) {
       setFormError('Lütfen tüm alanları doldurun.');
       return;
     }

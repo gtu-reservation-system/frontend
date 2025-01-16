@@ -41,15 +41,6 @@ const OwnerProfile = () => {
     fetchComments();
   }, [id]);
 
-    // Add this new function for handling home navigation
-    const handleHomeNavigation = () => {
-      if (id) {
-        navigate('/home');
-      } else {
-        navigate('/login');
-      }
-    };
-
   const handleShowMoreComments = () => {
     setVisibleComments((prev) => prev + 5);
   };
