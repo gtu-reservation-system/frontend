@@ -8,7 +8,7 @@ const UserProfileNavbar = () => {
 
   const handleLogoClick = () => {
     setIsMobileMenuOpen(false);
-    navigate('/home');
+    navigate('/ownerprofile');
   };
 
   const handleLogout = () => {
