@@ -33,27 +33,6 @@ const Restaurant = () => {
       const restaurantId = Number(id);
       const reservationStartTime = `${reservationData.date}T${reservationData.time}:00`;
   
-      const ReservationsResponse = await axios.get(
-        `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
-      );
-      const Reservations = ReservationsResponse.data;
-  
-      const sameRestaurantReservation = Reservations.find(
-        (res) => res.restaurant.id === restaurantId
-      );
-      if (sameRestaurantReservation) {
-        alert('Aynı restoranda aynı gün için zaten bir rezervasyonunuz var.');
-        return;
-      }
-  
-      const otherRestaurantReservation = Reservations.find(
-        (res) => res.restaurant.id !== restaurantId
-      );
-      if (otherRestaurantReservation) {
-        alert('Başka bir restoranda aynı gün için zaten bir rezervasyonunuz var.');
-        return;
-      }
-
       const reservationPayload = {
         restaurantId,
         userId: Number(userId),
