@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const ListNavbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
@@ -36,34 +35,27 @@ const ListNavbar = () => {
         Ana Sayfa
       </button>
       {!isLoggedIn ? (
-        <div
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
-          className="signup-container"
-        >
-          <button className="signup-button">Kayıt Ol</button>
-          {showDropdown && (
-            <div className="dropdown">
-              <button
-                onClick={() => {
+        <div>
+            <button 
+              className="signup-button"
+              onClick={() =>
+                {
                   navigate('/signup/owner');
                   setIsMobileMenuOpen(false);
                 }}
-                className="dropdown-item"
-              >
-                Restoran
-              </button>
-              <button
-                onClick={() => {
-                  navigate('/signup/user');
+            >
+              Restoran Kaydı
+            </button>
+            <button 
+              className="signup-button"
+              onClick={() =>
+                {
+                  navigate('/signup/owner');
                   setIsMobileMenuOpen(false);
                 }}
-                className="dropdown-item"
-              >
-                Kullanıcı
-              </button>
-            </div>
-          )}
+            >
+              Kullanıcı Kaydı
+            </button>
         </div>
       ) : (
         <button

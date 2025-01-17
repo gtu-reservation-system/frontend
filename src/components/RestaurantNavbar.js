@@ -6,7 +6,6 @@ import './Navbar.css';
 
 const RestaurantNavbar = () => {
   const navigate = useNavigate();
-  const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,34 +40,27 @@ const RestaurantNavbar = () => {
       </button>
       {!isLoggedIn ? (
         <div className="auth-buttons">
-          <div
-            className="signup-container"
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
-          >
-            <button className="nav-button">Kayıt Ol</button>
-            {showDropdown && (
-              <div className="dropdown">
-                <button
-                  onClick={() => {
-                    navigate('/signup/owner');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="dropdown-button"
-                >
-                  Restoran
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/signup/user');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="dropdown-button"
-                >
-                  Kullanıcı
-                </button>
-              </div>
-            )}
+          <div>
+            <button 
+              className="signup-button"
+              onClick={() =>
+                {
+                  navigate('/signup/owner');
+                  setIsMobileMenuOpen(false);
+                }}
+            >
+              Restoran Kaydı
+            </button>
+            <button 
+              className="signup-button"
+              onClick={() =>
+                {
+                  navigate('/signup/owner');
+                  setIsMobileMenuOpen(false);
+                }}
+            >
+              Kullanıcı Kaydı
+            </button>
           </div>
           <button
             onClick={() => {

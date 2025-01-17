@@ -5,7 +5,6 @@ import { faUser, faBars, faTimes, faMoon, faSun } from '@fortawesome/free-solid-
 
 const HomeNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -86,36 +85,26 @@ const HomeNavbar = () => {
 
       {!isLoggedIn ? (
         <div className="auth-buttons">
-          <div className="signup-container">
             <button 
               className="signup-button"
-              onClick={() => setShowDropdown(!showDropdown)}
+              onClick={() =>
+                {
+                  navigate('/signup/owner');
+                  setIsMobileMenuOpen(false);
+                }}
             >
-              Kayıt Ol
+              Restoran Kaydı
             </button>
-            {showDropdown && (
-              <div className="dropdown">
-                <button 
-                  onClick={() => {
-                    navigate('/signup/owner');
-                    setIsMobileMenuOpen(false);
-                  }} 
-                  className="dropdown-item"
-                >
-                  Restoran
-                </button>
-                <button 
-                  onClick={() => {
-                    navigate('/signup/user');
-                    setIsMobileMenuOpen(false);
-                  }} 
-                  className="dropdown-item"
-                >
-                  Kullanıcı
-                </button>
-              </div>
-            )}
-          </div>
+            <button 
+              className="signup-button"
+              onClick={() =>
+                {
+                  navigate('/signup/owner');
+                  setIsMobileMenuOpen(false);
+                }}
+            >
+              Kullanıcı Kaydı
+            </button>
           <button 
             onClick={() => {
               navigate('/login');
