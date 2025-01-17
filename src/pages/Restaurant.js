@@ -20,6 +20,8 @@ const Restaurant = () => {
   const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 1;
+  const [averageRating, setAverageRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
 
   const userId = sessionStorage.getItem('userId');
 
@@ -39,7 +41,7 @@ const Restaurant = () => {
         `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
       );
       const Reservations = ReservationsResponse.data;
-		const sameRestaurantReservation = Reservations.find((res) => {
+		  const sameRestaurantReservation = Reservations.find((res) => {
 			const existingStartTime = new Date(res.reservationStartTime);
 			const existingEndTime = new Date(res.reservationEndTime);
 			return (
@@ -152,7 +154,14 @@ const Restaurant = () => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/comments/restaurant/${id}`);
-        setComments(response.data);
+        const commentsData = response.data;
+        setComments(commentsData);
+        if (commentsData.length > 0) {
+          const totalRating = commentsData.reduce((sum, comment) => sum + comment.rating, 0);
+          setAverageRating((totalRating / commentsData.length).toFixed(1));
+          setTotalReviews(commentsData.length);
+        }
+
       } catch (error) {
         console.error("Yorumlar yüklenirken hata oluştu:", error);
         setError('Yorumlar yüklenemedi');
@@ -244,44 +253,67 @@ const Restaurant = () => {
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-8">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header Section with Logo */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex flex-col md:flex-row md:items-start gap-6">
-          {restaurant.logoPhotoPath && (
-              <div className="restaurant-logo-container">
-                <img 
-                  src={restaurant.logoPhotoPath} 
-                  alt={`${restaurant.name} logo`}
-                  className="restaurant-logo"
-                />
-              </div>
-            )}
-            <div className="flex-1 space-y-4">
-              <div className="flex justify-between items-start">
-                <h1 className="text-3xl font-bold">{restaurant.name}</h1>
-                {isLoggedIn && (
-                  <button
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                    onClick={toggleFavorite}
-                    disabled={isUpdatingFavorite}
-                  >
-                    {isFavorite ? '⭐ Favorilerden Kaldır' : '☆ Favorilere Ekle'}
-                  </button>
-                )}
-              </div>
-              <div className="space-y-2">
-                <p><strong>Adres:</strong> {restaurant.address}</p>
-                <p><strong>Etiketler:</strong> {restaurant.tags?.join(', ')}</p>
-                <p><strong>Çalışma Saatleri:</strong> {restaurant.operatingHours}</p>
-                <p>
-                  <strong>Web Sitesi:</strong>{' '}
-                  <a href={restaurant.websiteLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    {restaurant.websiteLink}
-                  </a>
-                </p>
+        <div className="restaurant-header-container bg-white rounded-lg shadow-sm">
+          <div className="restaurant-info-overlay">
+            <div className="flex flex-col md:flex-row md:items-start gap-6">
+              {restaurant.logoPhotoPath && (
+                <div className="restaurant-logo-container">
+                  <img 
+                    src={restaurant.logoPhotoPath} 
+                    alt={`${restaurant.name} logo`}
+                    className="restaurant-logo"
+                  />
+                </div>
+              )}
+              <div className="flex-1 space-y-4">
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                  <div className="space-y-2">
+                    <h1 className="text-3xl font-bold">{restaurant.name}</h1>
+                    {totalReviews > 0 && (
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, index) => (
+                            <span 
+                              key={index} 
+                              className="text-yellow-400 text-xl"
+                              style={{ color: index < Math.round(averageRating) ? '#FBBF24' : '#D1D5DB' }}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                        <span className="text-lg font-medium text-gray-700">
+                          {averageRating}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          ({totalReviews} değerlendirme)
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {isLoggedIn && (
+                    <button
+                      className="favorite-button"
+                      onClick={toggleFavorite}
+                      disabled={isUpdatingFavorite}
+                    >
+                      {isFavorite ? '⭐ Favorilerden Kaldır' : '☆ Favorilere Ekle'}
+                    </button>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <p><strong>Adres:</strong> {restaurant.address}</p>
+                  <p><strong>Etiketler:</strong> {restaurant.tags?.join(', ')}</p>
+                  <p><strong>Çalışma Saatleri:</strong> {restaurant.operatingHours}</p>
+                  <p>
+                    <strong>Web Sitesi:</strong>{' '}
+                    <a href={restaurant.websiteLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {restaurant.websiteLink}
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
-
           </div>
         </div>
 
