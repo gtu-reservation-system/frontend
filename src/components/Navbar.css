@@ -37,6 +37,7 @@ html, body {
 
 .home-navbar {
   position: relative;
+  z-index: 100;
 }
 
 .mobile-nav.open ~ .logo {
@@ -56,6 +57,11 @@ html, body {
   flex-wrap: wrap; /* Wrap content if necessary */
   max-width: 100%;
   position: relative;
+}
+
+.navbar-main {
+  position: relative;
+  z-index: 101;
 }
 
 .logo {
@@ -214,14 +220,15 @@ html, body {
 
 .dropdown {
   position: absolute;
-  top: 100%; /* Place dropdown below the button */
+  top: 100%;
   left: 0;
   background-color: var(--dropdown-bg);
   border: 1px solid var(--navbar-border-color);
   border-radius: 8px;
-  overflow: hidden;
-  z-index: 1000;
-  min-width: 200px; /* Ensure dropdown has enough width */
+  overflow: visible; /* Changed from hidden to visible */
+  z-index: 1001; /* Increased z-index */
+  min-width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for better visibility */
 }
 
 .dropdown-item {
@@ -291,8 +298,11 @@ html, body {
   }
 
   .dropdown {
-    position: static;
-    margin-top: 8px;
+    position: absolute; /* Keep it absolute even on mobile */
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 0; /* Remove margin */
   }
 
   .dark-mode-toggle {

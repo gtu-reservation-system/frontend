@@ -68,7 +68,6 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
   return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Rezervasyon Yap</h2>
         
         {errorMessage && (
           <div className="p-3 bg-red-50 border border-red-200 rounded-md">

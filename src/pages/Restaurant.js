@@ -19,7 +19,7 @@ const Restaurant = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const commentsPerPage = 5;
+  const commentsPerPage = 1;
 
   const userId = sessionStorage.getItem('userId');
 
@@ -206,9 +206,18 @@ const Restaurant = () => {
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-8">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header Section */}
+        {/* Header Section with Logo */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex flex-col md:flex-row md:items-start gap-6">
+            {restaurant.logoUrl && (
+              <div className="w-32 h-32 flex-shrink-0">
+                <img 
+                  src={restaurant.logoUrl} 
+                  alt={`${restaurant.name} logo`}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            )}
             <div className="flex-1 space-y-4">
               <div className="flex justify-between items-start">
                 <h1 className="text-3xl font-bold">{restaurant.name}</h1>
@@ -243,7 +252,12 @@ const Restaurant = () => {
           {restaurant.photos && restaurant.photos.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {restaurant.photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform" />
+                <img 
+                  key={index} 
+                  src={photo} 
+                  alt={`Restaurant fotoğrafı ${index + 1}`} 
+                  className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform"
+                />
               ))}
             </div>
           ) : (
@@ -287,63 +301,96 @@ const Restaurant = () => {
           )}
         </div>
 
-        {/* Comments Section */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-2xl font-bold mb-4">Yorumlar</h2>
-          {currentComments.length > 0 ? (
-            <div className="space-y-4">
-              {currentComments.map((comment) => (
-                <div key={comment.id} className="p-4 border rounded-lg">
-                  <p><strong>Kullanıcı:</strong> {comment.user?.name || 'Bilinmeyen Kullanıcı'}</p>
-                  <p><strong>Yorum:</strong> {comment.comment}</p>
-                  <p><strong>Puan:</strong> {comment.rating} / 5</p>
-                  <p><strong>Tarih:</strong> {new Date(comment.createdAt).toLocaleDateString()}</p>
-                </div>
+{/* Comments Section */}
+<div className="bg-white rounded-lg shadow-sm p-6">
+  <h2 className="text-2xl font-bold mb-6 text-gray-800">Yorumlar</h2>
+  {currentComments.length > 0 ? (
+    <div className="space-y-4">
+      <div className="p-8 border border-gray-100 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm">
+        <div className="flex items-center gap-4 mb-6 border-b border-gray-100 pb-4">
+          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
+            <span className="text-2xl font-bold text-white">
+              {currentComments[0].user?.name?.charAt(0).toUpperCase() || '?'}
+            </span>
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {currentComments[0].user?.name || 'Bilinmeyen Kullanıcı'}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {new Date(currentComments[0].createdAt).toLocaleDateString('tr-TR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+          </div>
+          <div className="flex flex-col items-end">
+            <div className="flex items-center mb-1">
+              {[...Array(5)].map((_, index) => (
+                <span key={index} className="text-yellow-400 text-xl">
+                  {index < currentComments[0].rating ? '★' : '☆'}
+                </span>
               ))}
             </div>
-          ) : (
-            <p>Yorum bulunmamaktadır.</p>
-          )}
-
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button 
-              onClick={handlePreviousPage} 
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:bg-gray-400 hover:bg-blue-700 transition-colors"
-            >
-              Önceki
-            </button>
-            <span className="text-gray-600">
-              Sayfa {currentPage} / {totalPages}
+            <span className="text-sm font-medium text-gray-600">
+              {currentComments[0].rating}/5 Puan
             </span>
-            <button 
-              onClick={handleNextPage} 
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:bg-gray-400 hover:bg-blue-700 transition-colors"
-            >
-              Sonraki
-            </button>
           </div>
         </div>
+        <div className="space-y-3">
+          <p className="text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-100 italic">
+            "{currentComments[0].comment}"
+          </p>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="text-center py-8">
+      <p className="text-gray-500 text-lg">Henüz yorum bulunmamaktadır.</p>
+    </div>
+  )}
+
+  {/* Updated Pagination Controls */}
+  {comments.length > 0 && (
+    <div className="flex items-center justify-center gap-4 mt-8">
+      <button 
+        onClick={handlePreviousPage} 
+        disabled={currentPage === 1}
+        className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-600 transition-colors flex items-center gap-2"
+      >
+        ← Önceki Yorum
+      </button>
+      
+      <span className="text-gray-700 font-medium margin:10px">
+        {currentPage} / {totalPages}
+      </span>
+      
+      <button 
+        onClick={handleNextPage} 
+        disabled={currentPage === totalPages}
+        className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-600 transition-colors flex items-center gap-2"
+      >
+        Sonraki Yorum →
+      </button>
+    </div>
+  )}
+</div>
 
         {/* Reservation Form */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center">Rezervasyon Yap</h2>
-            
-            <ReservationForm
-              onSubmit={handleReservation}
-              availableTimeSlots={availableTimeSlots || []}
-              maxGuests={restaurant.maxGuests}
-              terms={restaurant.additionalCondition}
-              reservationTags={[
-                restaurant.birthdayParty && 'Doğum Günü',
-                restaurant.anniversary && 'Yıldönümü',
-                restaurant.jobMeeting && 'İş Yemeği',
-                restaurant.proposal && 'Evlilik Teklifi',
-              ].filter(Boolean)}
-            />
-          </div>
+          <ReservationForm
+            onSubmit={handleReservation}
+            availableTimeSlots={availableTimeSlots || []}
+            maxGuests={restaurant.maxGuests}
+            terms={restaurant.additionalCondition}
+            reservationTags={[
+              restaurant.birthdayParty && 'Doğum Günü',
+              restaurant.anniversary && 'Yıldönümü',
+              restaurant.jobMeeting && 'İş Yemeği',
+              restaurant.proposal && 'Evlilik Teklifi',
+            ].filter(Boolean)}
+          />
         </div>
       </div>
     </div>
