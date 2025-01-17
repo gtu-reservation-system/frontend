@@ -191,6 +191,7 @@ html, body {
   border-radius: 12px;
   background: var(--navbar-button-bg);
   cursor: pointer;
+  margin: 5px;
 }
 
 .auth-buttons {
@@ -211,6 +212,7 @@ html, body {
   border-radius: 12px;
   cursor: pointer;
   max-width: 100%; /* Prevent overflow */
+  margin: 5px;
 }
 
 .signup-container {
