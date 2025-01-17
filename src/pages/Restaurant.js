@@ -247,12 +247,12 @@ const Restaurant = () => {
         {/* Header Section with Logo */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex flex-col md:flex-row md:items-start gap-6">
-            {restaurant.logoPhotoPath && (
-              <div className="w-32 h-32 flex-shrink-0">
+          {restaurant.logoPhotoPath && (
+              <div className="restaurant-logo-container">
                 <img 
                   src={restaurant.logoPhotoPath} 
                   alt={`${restaurant.name} logo`}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="restaurant-logo"
                 />
               </div>
             )}
