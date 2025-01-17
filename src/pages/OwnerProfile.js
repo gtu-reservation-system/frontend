@@ -107,13 +107,13 @@ const OwnerProfile = () => {
             <div className="profile-info">
                 {ownerData.logo ? (
                   <img 
-                    src={ownerData.logo} 
+                    src={ownerData.logoPhotoPath} 
                     alt="Restoran Logo" 
                     className="profile-image" 
                   />
                 ) : (
                   <img 
-                    src="./castle.jpg" 
+                    src={ownerData.logoPhotoPath}
                     alt="Default Profile" 
                     className="profile-image" 
                   />

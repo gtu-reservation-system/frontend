@@ -104,9 +104,7 @@ const Restaurants = () => {
               >
                 <div className="restaurant-image-wrapper">
                   <img
-                    src={`https://via.placeholder.com/300x200?text=${encodeURIComponent(
-                      restaurant.name
-                    )}`}
+                    src={restaurant.logoPhotoPath}
                     alt={restaurant.name}
                     className="restaurant-image"
                   />

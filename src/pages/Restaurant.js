@@ -31,8 +31,47 @@ const Restaurant = () => {
       }
   
       const restaurantId = Number(id);
-      const reservationStartTime = `${reservationData.date}T${reservationData.time}:00`;
+	  const reservationStartTime = `${reservationData.date}T${reservationData.time}:00`;
+	  const reservationEndTime = new Date(reservationStartTime);
+      reservationEndTime.setHours(reservationEndTime.getHours() + 1);
   
+      const ReservationsResponse = await axios.get(
+        `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
+      );
+      const Reservations = ReservationsResponse.data;
+      console.log(ReservationsResponse.data);
+	  //console.log(ReservationData.date);
+	  console.log("ikincisi reservationData.date");//as
+		const sameRestaurantReservation = Reservations.find((res) => {
+			const existingStartTime = new Date(res.reservationStartTime);
+			const existingEndTime = new Date(res.reservationEndTime);
+			// Check if the reservation times overlap
+			return (
+				res.restaurant.id === restaurantId &&
+					existingStartTime < reservationEndTime &&
+					existingEndTime > reservationStartTime
+			);
+		});
+      if (sameRestaurantReservation) {
+        alert('Aynı restoranda aynı gün için zaten bir rezervasyonunuz var.');
+        return;
+      }
+		
+      const otherRestaurantReservation = Reservations.find((res) => {
+        const existingStartTime = new Date(res.reservationStartTime);
+        const existingEndTime = new Date(res.reservationEndTime);
+        // Check if the reservation times overlap
+        return (
+          res.restaurant.id !== restaurantId &&
+          existingStartTime < reservationEndTime &&
+          existingEndTime > reservationStartTime
+        );
+      });
+      if (otherRestaurantReservation) {
+        alert('Başka bir restoranda aynı gün için zaten bir rezervasyonunuz var.');
+        return;
+      }
+
       const reservationPayload = {
         restaurantId,
         userId: Number(userId),
@@ -92,7 +131,11 @@ const Restaurant = () => {
 
         const availableSlots = getAvailableTimeSlots(fetchedRestaurant.operatingHours);
 
-        setRestaurant(fetchedRestaurant);
+          setRestaurant(fetchedRestaurant);
+		  console.log("fetched the restaurant\n");
+		  console.log(fetchedRestaurant.logo);
+		  console.log(fetchedRestaurant.logoPhoto);
+		  console.log(fetchedRestaurant.photos);
         setAvailableTimeSlots(availableSlots);
       } catch (err) {
         setError(err.response ? err.response.data.message : 'Restoran verileri alınamadı.');
@@ -209,10 +252,10 @@ const Restaurant = () => {
         {/* Header Section with Logo */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex flex-col md:flex-row md:items-start gap-6">
-            {restaurant.logoUrl && (
+            {restaurant.logoPhotoPath && (
               <div className="w-32 h-32 flex-shrink-0">
                 <img 
-                  src={restaurant.logoUrl} 
+                  src={restaurant.logoPhotoPath} 
                   alt={`${restaurant.name} logo`}
                   className="w-full h-full object-cover rounded-lg"
                 />
@@ -243,21 +286,17 @@ const Restaurant = () => {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
 
         {/* Photos Section */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-2xl font-bold mb-4">Fotoğraflar</h2>
-          {restaurant.photos && restaurant.photos.length > 0 ? (
+          {restaurant.photoPaths && restaurant.photoPaths.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {restaurant.photos.map((photo, index) => (
-                <img 
-                  key={index} 
-                  src={photo} 
-                  alt={`Restaurant fotoğrafı ${index + 1}`} 
-                  className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform"
-                />
+              {restaurant.photoPaths.map((photo, index) => (
+                <img key={index} src={photo} alt={`Restaurant fotoğrafı ${index + 1}`} className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform" />
               ))}
             </div>
           ) : (
@@ -397,5 +436,6 @@ const Restaurant = () => {
   );
 };
 
-
 export default Restaurant;
+
+
