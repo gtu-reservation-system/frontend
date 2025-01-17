@@ -39,13 +39,9 @@ const Restaurant = () => {
         `${API_BASE_URL}/api/reservations/user/${userId}?date=${reservationData.date}`
       );
       const Reservations = ReservationsResponse.data;
-      console.log(ReservationsResponse.data);
-	  //console.log(ReservationData.date);
-	  console.log("ikincisi reservationData.date");//as
 		const sameRestaurantReservation = Reservations.find((res) => {
 			const existingStartTime = new Date(res.reservationStartTime);
 			const existingEndTime = new Date(res.reservationEndTime);
-			// Check if the reservation times overlap
 			return (
 				res.restaurant.id === restaurantId &&
 					existingStartTime < reservationEndTime &&
@@ -60,7 +56,6 @@ const Restaurant = () => {
       const otherRestaurantReservation = Reservations.find((res) => {
         const existingStartTime = new Date(res.reservationStartTime);
         const existingEndTime = new Date(res.reservationEndTime);
-        // Check if the reservation times overlap
         return (
           res.restaurant.id !== restaurantId &&
           existingStartTime < reservationEndTime &&

@@ -51,7 +51,7 @@ const Home = () => {
 
       <section className="why-opentable">
         <h2>Neden Rezerve'den Rezervasyon Yapmalısınız?</h2>
-        <p>Rezerve ağı restoranları ve müşterileri buluşturur, doğru masayı bulup rezervasyon yapmanıza yardımcı olur ve restoranların kişiye özel hizmet sunarak müşterilerini memnun etmelerine destek olur.</p>
+        <p>Rezerve restoranları ve müşterileri buluşturur, doğru masayı bulup rezervasyon yapmanıza yardımcı olur ve restoranların kişiye özel hizmet sunarak müşterilerini memnun etmelerine destek olur.</p>
       </section>
 
       <div className="white-panel">

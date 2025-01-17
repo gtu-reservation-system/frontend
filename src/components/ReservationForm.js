@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './EditUserProfileForm.css'
 
-const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reservationTags }) => {
+const ReservationForm = ({ onSubmit, availableTimeSlots, terms, reservationTags }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [guests, setGuests] = useState(1);
@@ -25,8 +25,8 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
       return;
     }
 
-    if (guests > maxGuests) {
-      setErrorMessage(`${maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.`);
+    if (guests > 6) {
+      setErrorMessage(`6 kişiden fazla için lütfen restoranla iletişime geçin.`);
       return;
     }
 
@@ -121,13 +121,12 @@ const ReservationForm = ({ onSubmit, availableTimeSlots, maxGuests, terms, reser
               value={guests}
               onChange={(e) => setGuests(Number(e.target.value))}
               min="1"
-              max={maxGuests}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {guests > maxGuests && (
+            {guests > 6 && (
               <p className="mt-1 text-sm text-red-600">
-                {maxGuests} kişiden fazla için lütfen restoranla iletişime geçin.
+                6 kişiden fazla için lütfen restoranla iletişime geçin.
               </p>
             )}
           </div>
