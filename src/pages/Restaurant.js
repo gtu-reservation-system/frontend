@@ -374,11 +374,6 @@ const Restaurant = () => {
     <div className="space-y-4">
       <div className="p-8 border border-gray-100 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm">
         <div className="flex items-center gap-4 mb-6 border-b border-gray-100 pb-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
-            <span className="text-2xl font-bold text-white">
-              {currentComments[0].user?.name?.charAt(0).toUpperCase() || '?'}
-            </span>
-          </div>
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-gray-800">
               {currentComments[0].user?.name || 'Bilinmeyen Kullanıcı'}
